@@ -9,3 +9,4 @@ sudo usermod -G video www-data
 
 And then restart web server. (if you are trying to display this error on a php based webpage.
 
+Default port for "motion" web stream display is 8081
