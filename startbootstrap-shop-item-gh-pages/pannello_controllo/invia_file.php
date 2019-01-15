@@ -6,7 +6,7 @@ if (!isset($_FILES['userfile']) || !is_uploaded_file($_FILES['userfile']['tmp_na
 }
 
 //percorso della cartella dove mettere i file caricati dagli utenti
-$uploaddir = '/home/pi/Downloads/';
+$uploaddir = '/home/pi/Downloads/transferred_files';
 
 //Recupero il percorso temporaneo del file
 $userfile_tmp = $_FILES['userfile']['tmp_name'];
