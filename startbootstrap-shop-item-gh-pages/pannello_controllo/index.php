@@ -103,7 +103,7 @@
                     <a href="media_server.html" class="list-group-item">Media Server</a>
 					<a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8200" class="list-group-item">Media Server Status</a>
 					<a href="#" class="list-group-item">Database</a>
-					<a href="#" class="list-group-item">File Browser</a>
+					<a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:37961" class="list-group-item">File Browser</a>
 					<a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8081" class="list-group-item">Camera</a>
                 </div>
             </div>
