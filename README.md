@@ -34,12 +34,13 @@ reboot the machine directly).
 Il file \pannello-server\startbootstrap-shop-item-gh-pages\pannello_controllo\invia_file.php deve essere modificato per puntare alla cartella dove verranno caricati i file..
 ### DA NON FARE
 Per fare un test..
+```console
 mkdir transferred_files
 cd transferred_files
 touch test.mp3
 var_name=$(ls | sort -V | tail -n 1)
 [[ $var_name =~ "mp3"$ ]] && echo "Matches!" || echo "Doesn't match!"
-
+```
 ### Prerequisites
 
 Preparazione..
@@ -49,7 +50,7 @@ Copiare in /home/pi/Downloads/ transferred_files gli script..
 * inotify_check.sh
 Quando i file verrano copiati in questa cartella lo script inotify check consentirà ad inotify-tool di controllare l’inserimento di nuovi file e lanciare lo script file_conversion per la conversione dei file video o mp3 e la copia nelle rispettive cartelle.
 
-#### SCRIPT PER LA CONVERSIONE DEI FILE MVK – file_converion.sh (metterlo nella cartella transferred_files)
+### SCRIPT PER LA CONVERSIONE DEI FILE MVK – file_converion.sh (metterlo nella cartella transferred_files)
 N.B. RICHIEDE DI DEFINIRE PRIMA IL COMANDO update_minidlna tramite "alias"
 
 ```console
