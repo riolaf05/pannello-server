@@ -1,6 +1,0 @@
-<service>
-<parameter name="ServiceClass" locked="false">ciaoMondo.CiaoMondoService</parameter>
-<operation name="saluta">
-<messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
-</operation>
-</service>
