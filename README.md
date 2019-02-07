@@ -34,12 +34,13 @@ reboot the machine directly).
 Il file \pannello-server\startbootstrap-shop-item-gh-pages\pannello_controllo\invia_file.php deve essere modificato per puntare alla cartella dove verranno caricati i file..
 ### DA NON FARE
 Per fare un test..
+```console
 mkdir transferred_files
 cd transferred_files
 touch test.mp3
 var_name=$(ls | sort -V | tail -n 1)
 [[ $var_name =~ "mp3"$ ]] && echo "Matches!" || echo "Doesn't match!"
-
+```
 ### Prerequisites
 
 Preparazione..
