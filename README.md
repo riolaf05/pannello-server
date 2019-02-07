@@ -38,25 +38,25 @@ Installare Inotify-Tools
 Copiare in /home/pi/Downloads/ transferred_files gli script..
 -	file_conversion.sh
 -	inotify_check.sh
-Quando i file verrano copiati in questa cartella lo script inotify check consentir‡ ad inotify-tool di controllare líinserimento di nuovi file e lanciare lo script file_conversion per la conversione dei file video o mp3 e la copia nelle rispettive cartelle.
+Quando i file verrano copiati in questa cartella lo script inotify check consentir√† ad inotify-tool di controllare l‚Äôinserimento di nuovi file e lanciare lo script file_conversion per la conversione dei file video o mp3 e la copia nelle rispettive cartelle.
 
-######### SCRIPT PER LA CONVERSIONE DEI FILE MVK ñ file_converion.sh (metterlo nella cartella transferred_files)
+######### SCRIPT PER LA CONVERSIONE DEI FILE MVK ‚Äì file_converion.sh (metterlo nella cartella transferred_files)
 N.B. RICHIEDE DI DEFINIRE PRIMA IL COMANDO update_minidlna tramite "alias"
 
 #!/bin/bash
 if [[ $1 =~ "mp3"$ ]]; then
-        echo ìmp3 file foundî
+        echo ‚Äúmp3 file found‚Äù
         mv "$1" /media/pi/extHD/MUSICA/
 	update_minidlna
 elif [[ $1 =~ "mp4"$ ]]; then
-        echo ìmp4 file foundî
+        echo ‚Äúmp4 file found‚Äù
         extension=.mkv
         new_file_name=$1$extension
         ffmpeg -i $1 $new_file_name
         mv "$new_file_name" /media/pi/extHD/FILM/
 	update_minidlna
 elif [[ $1 =~ "mkv"$ ]]; then
-        echo ìmkv file foundî
+        echo ‚Äúmkv file found‚Äù
         extension=.mkv
         new_file_name=$1$extension
         ffmpeg -i $1 $new_file_name
@@ -76,5 +76,5 @@ bash file_conversion.sh "$(ls -1t | head -1)"
 
 nohup /home/pi/Downloads/transferred_files/inotify_check.sh &
 
-TODO: check upload di pi˘ file video contemporaneamente e vedere se le conversioni vengono fatte parallelamente!!
+TODO: check upload di pi√π file video contemporaneamente e vedere se le conversioni vengono fatte parallelamente!!
 
