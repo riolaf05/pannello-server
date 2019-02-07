@@ -30,14 +30,14 @@
 
 	<?php 
 		//Scrittura temperatura CPU (grazie all'applicazione acpi) e memoria restante
-		$comando=shell_exec('acpi -V > /tmp/temeratura.txt && df -h /dev/mapper/server--vg-root > /tmp/memoria.txt');
+		$comando=shell_exec('/opt/vc/bin/vcgencmd measure_temp > /tmp/temperatura.txt && df -h / > /tmp/memoria.txt');
 		
 		//Lettura temperatura CPU 
-		$fp = fopen('/tmp/temeratura.txt', r);
+		$fp = fopen('/tmp/temperatura.txt', r);
 		if(!$fp) {
 			$temperatura=0;
 			}
-		fseek($fp, 15, SEEK_SET); //Mi posiziono al 16° carattere
+		fseek($fp, 5, SEEK_SET); //Mi posiziono al 5° carattere
 		$temperatura = fread($fp, 4); //Leggo 4 caratteri partendo dalla posizione corrente
 		fclose($fp);
 		
@@ -47,11 +47,11 @@
 		if(!$fp) {
 			$memoria_percentuale=0;
 			}
-		fseek($fp, 91, SEEK_SET);
+		fseek($fp, 66, SEEK_SET);
 		$memoria_tot = fread($fp, 3);
-		fseek($fp, 98, SEEK_SET); 
-		$memoria_usata = fread($fp, 2);
-		fseek($fp, 109, SEEK_SET); 
+		fseek($fp, 71, SEEK_SET); 
+		$memoria_usata = fread($fp, 3);
+		fseek($fp, 82, SEEK_SET); 
 		$memoria_percentuale = fread($fp, 2);
 		fclose($fp);
 		
@@ -96,13 +96,15 @@
         <div class="row">
 
             <div class="col-md-3">
-                <p class="lead">Ubuntu Server</p>
+                <p class="lead">Home Server</p>
                 <div class="list-group">
                     <a href="#" class="list-group-item active">Dashboard</a>
                     <a href="carica_file.html" class="list-group-item">File Upload</a>
                     <a href="media_server.html" class="list-group-item">Media Server</a>
+					<a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8200" class="list-group-item">Media Server Status</a>
 					<a href="#" class="list-group-item">Database</a>
-					<a href="#" class="list-group-item">File Browser</a>
+					<a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:37961" class="list-group-item">File Browser</a>
+					<a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8081" class="list-group-item">Camera</a>
                 </div>
             </div>
 
