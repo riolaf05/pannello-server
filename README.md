@@ -89,3 +89,4 @@ nohup /home/pi/Downloads/transferred_files/inotify_check.sh &
 ```
 TODO: check upload di più file video contemporaneamente e vedere se le conversioni vengono fatte parallelamente!!
 
+
