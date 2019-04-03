@@ -19,6 +19,8 @@ docker run -d --restart untill-stopped --net=host -v /tmp/:/tmp/ web_server_pane
 ```
 ### Local installation
 
+NOTE: for the local installation must first uncomment the 33° row in index.php
+
 local installation: 
 
 * move the pannello_controllo/ folder under: /var/www/html
