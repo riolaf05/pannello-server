@@ -18,7 +18,13 @@ docker build -t web_server_panel .
 docker run -d --restart untill-stopped --p 80:80 -p 443:443 -v /tmp/:/tmp/ web_server_panel:latest
 ```
 
-TODO: disable non-https connections
+TODO: disable non-https connections 
+
+Use:
+```console
+openssl req -new -x509 -days 365 -nodes -out /etc/apache2/ssl/apache.pem -keyout /etc/apache2/ssl/apache.key
+```
+inside the container to create certificate and key.
 
 ### Local installation
 
