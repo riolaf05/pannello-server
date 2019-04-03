@@ -17,6 +17,9 @@ docker build -t web_server_panel .
 ```console
 docker run -d --restart untill-stopped --p 80:80 -p 443:443 -v /tmp/:/tmp/ web_server_panel:latest
 ```
+
+TODO: disable non-https connections
+
 ### Local installation
 
 NOTE: for the local installation must first uncomment the 33° row in index.php
