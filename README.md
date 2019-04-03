@@ -28,7 +28,7 @@ inside the container to create certificate and key when expired.
 
 ### Local installation
 
-NOTE: for the local installation must first uncomment the 33° row in index.php
+**NOTE: for the local installation must first uncomment the 33° row in index.php**
 
 local installation: 
 
