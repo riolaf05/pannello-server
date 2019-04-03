@@ -12,11 +12,11 @@ This is a web UI for raspberry pi and other linux servers management
 2) go to startbootstrap-shop-item-gh-pages/ and run:
 ```console
 docker build -t web_server_panel .
-'''
+```
 3) run:
 ```console
 docker run -d --restart untill-stopped --net=host -v /tmp/:/tmp/ web_server_panel:latest
-'''
+```
 ### Local installation
 
 local installation: 
