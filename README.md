@@ -10,13 +10,13 @@ This is a web UI for raspberry pi and other linux servers management
 1) launch the add_cronjob.sh script in the local machine
 
 2) go to startbootstrap-shop-item-gh-pages/ and run:
-
-* docker build -t web_server_panel .
-
+```console
+docker build -t web_server_panel .
+'''
 3) run:
-
-* docker run -d --restart untill-stopped --net=host -v /tmp/:/tmp/ web_server_panel:latest
-
+```console
+docker run -d --restart untill-stopped --net=host -v /tmp/:/tmp/ web_server_panel:latest
+'''
 ### Local installation
 
 local installation: 
