@@ -29,6 +29,20 @@ To enable the "Server Shutdown and Reboot" buttons it is necessary to use a cron
 shuts down or reboots the machine if it find the file writen by the PHP script (that cannot 
 reboot the machine directly).
 
+### MINIDLNA SERVER
+
+        docker run --restart unless-stopped -d --name minidlna \
+          --net=host \
+          -p 8200:8200 \
+          -p 1900:1900/udp \
+          -v /media/pi/extHD/MUSICA/:/media/Music \
+          -v /media/pi/extHD/FILM/:/media/Videos \
+          -v /media/pi/extHD/FOTO/:/media/Pictures \
+          -e MINIDLNA_MEDIA_DIR=/media \
+           djdefi/rpi-minidlna
+
+Based on: https://github.com/djdefi/rpi-docker-minidlna
+
 ### SCRIPT PER LA CONVERSIONE AUTOMATICA DEI FILE CARICATI - ITA 
 
 Il file \pannello-server\startbootstrap-shop-item-gh-pages\pannello_controllo\invia_file.php deve essere modificato per puntare alla cartella dove verranno caricati i file..
