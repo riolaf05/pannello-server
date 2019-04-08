@@ -54,6 +54,12 @@ To enable the "Server Shutdown and Reboot" buttons it is necessary to use a cron
 shuts down or reboots the machine if it find the file writen by the PHP script (that cannot 
 reboot the machine directly).
 
+### Python Deep Learing & Machine Learning Develop Environment
+
+```console
+docker run -it -d --restart untill-stopped -p 8888:8888 -p 6006:6006 -v /media/pi/extHD/SharedFile:/root/sharedfolder floydhub/dl-docker:cpu jupyter notebook
+```
+
 ### SCRIPT PER LA CONVERSIONE AUTOMATICA DEI FILE CARICATI - ITA 
 
 Il file \pannello-server\startbootstrap-shop-item-gh-pages\pannello_controllo\invia_file.php deve essere modificato per puntare alla cartella dove verranno caricati i file..
