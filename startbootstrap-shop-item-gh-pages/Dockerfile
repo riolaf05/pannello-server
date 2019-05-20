@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update
 RUN apt-get install -y software-properties-common && \
 add-apt-repository ppa:ondrej/php && apt-get update
-RUN apt-get install -y -- force-yes curl
+RUN apt-get install -y --force-yes curl
 # Install PHP 5.6
 RUN apt-get install -y -- allow-unauthenticated php5.6 php5.6-mysql php5.6-mcrypt php5.6-cli php5.6-gd php5.6-curl
 # Enable apache mods.
