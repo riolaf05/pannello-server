@@ -34,6 +34,6 @@ COPY apache.pem /etc/apache2/ssl
 
 RUN a2ensite default-ssl
 
-RUN service apache2 reload
+#RUN service apache2 reload
 
 CMD ["apache2ctl", "-D", "FOREGROUND"]

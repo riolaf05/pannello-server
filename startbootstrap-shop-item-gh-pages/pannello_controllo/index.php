@@ -99,8 +99,7 @@
                 <p class="lead">Home Server</p>
                 <div class="list-group">
                     <a href="#" class="list-group-item active">Dashboard</a>
-                    <a href="carica_file.html" class="list-group-item">File Upload</a>
-                    <a href="media_server.html" class="list-group-item">Media Server</a>
+                    <a href="carica_file.php" class="list-group-item">File Upload</a>
 					<a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8200" class="list-group-item">Media Server Status</a>
                     <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8123" class="list-group-item">Home Assistant</a>
 					<a href="#" class="list-group-item">Database</a>
