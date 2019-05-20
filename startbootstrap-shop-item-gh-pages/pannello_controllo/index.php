@@ -48,9 +48,9 @@
 			$memoria_percentuale=0;
 			}
 		fseek($fp, 66, SEEK_SET);
-		$memoria_tot = fread($fp, 3);
+		$memoria_tot = fread($fp, 2);
 		fseek($fp, 71, SEEK_SET); 
-		$memoria_usata = fread($fp, 3);
+		$memoria_usata = fread($fp, 2);
 		fseek($fp, 82, SEEK_SET); 
 		$memoria_percentuale = fread($fp, 2);
 		fclose($fp);
