@@ -30,7 +30,7 @@
 
 	<?php 
 		//Scrittura temperatura CPU (grazie all'applicazione acpi) e memoria restante
-		$comando=shell_exec('/opt/vc/bin/vcgencmd measure_temp > /tmp/temperatura.txt && df -h / > /tmp/memoria.txt');
+		#$comando=shell_exec('/opt/vc/bin/vcgencmd measure_temp > /tmp/temperatura.txt && df -h / > /tmp/memoria.txt');
 		
 		//Lettura temperatura CPU 
 		$fp = fopen('/tmp/temperatura.txt', r);
@@ -48,9 +48,9 @@
 			$memoria_percentuale=0;
 			}
 		fseek($fp, 66, SEEK_SET);
-		$memoria_tot = fread($fp, 3);
+		$memoria_tot = fread($fp, 2);
 		fseek($fp, 71, SEEK_SET); 
-		$memoria_usata = fread($fp, 3);
+		$memoria_usata = fread($fp, 2);
 		fseek($fp, 82, SEEK_SET); 
 		$memoria_percentuale = fread($fp, 2);
 		fclose($fp);
@@ -99,9 +99,9 @@
                 <p class="lead">Home Server</p>
                 <div class="list-group">
                     <a href="#" class="list-group-item active">Dashboard</a>
-                    <a href="carica_file.html" class="list-group-item">File Upload</a>
-                    <a href="media_server.html" class="list-group-item">Media Server</a>
+                    <a href="carica_file.php" class="list-group-item">File Upload</a>
 					<a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8200" class="list-group-item">Media Server Status</a>
+                    <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8123" class="list-group-item">Home Assistant</a>
 					<a href="#" class="list-group-item">Database</a>
 					<a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:37961" class="list-group-item">File Browser</a>
 					<a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8081" class="list-group-item">Camera</a>

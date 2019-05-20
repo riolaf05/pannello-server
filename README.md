@@ -3,9 +3,34 @@
 
 This is a web UI for raspberry pi and other linux servers management
 
-### Installation
+### Installation with Docker
 
-For the installation: 
+0) install docker-ce and vcgencmd on local machine
+
+1) launch the add_cronjob.sh script in the local machine
+
+2) go to startbootstrap-shop-item-gh-pages/ and run:
+```console
+docker build -t web_server_panel .
+```
+3) run:
+```console
+docker run -d --restart unless-stopped -p 80:80 -p 443:443 -v /tmp:/tmp web_server_panel:latest
+```
+
+Use:
+```console
+openssl req -new -x509 -days 365 -nodes -out /etc/apache2/ssl/apache.pem -keyout /etc/apache2/ssl/apache.key
+```
+inside the container to create certificate and key when expired.
+
+**TODO: disable non-https connections**
+
+### Local installation
+
+**NOTE: for the local installation must first uncomment the 33° row in index.php**
+
+local installation: 
 
 * move the pannello_controllo/ folder under: /var/www/html
 
@@ -28,6 +53,29 @@ Dlna server used is "Minidlna" (must be instaled)
 To enable the "Server Shutdown and Reboot" buttons it is necessary to use a cron job that 
 shuts down or reboots the machine if it find the file writen by the PHP script (that cannot 
 reboot the machine directly).
+
+### MINIDLNA SERVER
+
+        docker run --restart unless-stopped -d --name minidlna \
+          --net=host \
+          -p 8200:8200 \
+          -p 1900:1900/udp \
+          -v /media/pi/extHD/MUSICA/:/media/Music \
+          -v /media/pi/extHD/FILM/:/media/Videos \
+          -v /media/pi/extHD/FOTO/:/media/Pictures \
+          -e MINIDLNA_MEDIA_DIR=/media \
+           djdefi/rpi-minidlna
+
+Based on: https://github.com/djdefi/rpi-docker-minidlna
+
+
+### Python Deep Learing & Machine Learning Develop Environment
+
+```console
+docker run -it -d --restart unless-stopped -p 8888:8888 -p 6006:6006 -v /media/pi/extHD/SharedFile:/root/sharedfolder floydhub/dl-docker:cpu jupyter notebook
+```
+
+Based on: https://github.com/floydhub/dl-docker
 
 ### SCRIPT PER LA CONVERSIONE AUTOMATICA DEI FILE CARICATI - ITA 
 
@@ -88,4 +136,5 @@ bash file_conversion.sh "$(ls -1t | head -1)"
 nohup /home/pi/Downloads/transferred_files/inotify_check.sh &
 ```
 TODO: check upload di più file video contemporaneamente e vedere se le conversioni vengono fatte parallelamente!!
+
 
