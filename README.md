@@ -72,7 +72,7 @@ Based on: https://github.com/djdefi/rpi-docker-minidlna
 ### Python Deep Learing & Machine Learning Develop Environment
 
 ```console
-docker build ml-development/. ml-development
+docker build -t ml-development ml-development/. 
 
 
 docker run -it -d --restart unless-stopped -p 8888:8888 -p 6006:6006 ml-development
