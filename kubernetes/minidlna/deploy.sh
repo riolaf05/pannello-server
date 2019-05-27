@@ -4,5 +4,6 @@ export EXT_HD_PATH="/mnt/pi/extHD"
 envtpl < resources/persistantVolume.yaml.tpl > "persistantVolume.yaml"
 
 #Deploy step, applying k8s resources
-kubectl apply -f persistantVolume.yaml
-kubectl apply -f persistantVolumeClaim.yaml
+kubectl apply -f resources/persistantVolume.yaml
+kubectl apply -f resources/persistantVolumeClaim.yaml
+kubectl apply -f resources/pod.yaml
