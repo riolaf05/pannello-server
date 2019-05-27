@@ -111,7 +111,7 @@
             <div class="col-md-6 col-md-offset-1">
 				
 				<div>
-				<img src="img/Emerging-Technologies_banner.jpg" class="img-responsive">
+				<iframe src="https://calendar.google.com/calendar/embed?src=lafacerosario%40gmail.com&ctz=Europe%2FRome" style="border: 0" width="800" height="300" frameborder="0" scrolling="no"></iframe>
 				</div>
 				
                 <h2 style="text-transform: capitalize; color: blue; text-align: center; font-family: Georgia, Serif; ">Dashboard</h2>
