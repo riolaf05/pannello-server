@@ -21,4 +21,4 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/media/pi/extHD/"
+    path: "{{ .EXT_HD_PATH }}"
