@@ -73,6 +73,10 @@ spec:
         # make our mysql pod available within the cluster on port 80
         ports:
         - containerPort: 80
+        volumeMounts:
+        - mountPath: /tmp
+          name: panel-storage
+      restartPolicy: Always
       volumes:
       - name: panel-storage
         persistentVolumeClaim:
