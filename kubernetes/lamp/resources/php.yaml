@@ -73,6 +73,7 @@ spec:
         # make our mysql pod available within the cluster on port 80
         ports:
         - containerPort: 80
+        #The volumeMounts tag is used to mount a container to a volume in a specific port
         volumeMounts:
         - mountPath: /tmp
           name: panel-storage

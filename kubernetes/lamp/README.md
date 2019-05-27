@@ -22,7 +22,7 @@ The Persistant Volume Claim is used to allow each pod to ask for a Persistant Vo
 
 The Secret resource is used to store MySql credentials.
 
-To bind the containers with the volume use the spec.volumes element in php.yaml (i.e. deployment definition)
+To bind the containers with the volume use the containers.volumeMounts element in php.yaml (i.e. deployment definition)
 
 Note, for test runs on minikube run first:
 ```console
