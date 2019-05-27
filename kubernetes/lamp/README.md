@@ -19,3 +19,8 @@ Note, for test runs on minikube run first:
 ```console
 minikube addons enable ingress
 ```
+
+and check minikube exposed IP and ports with:
+```console
+minikube service web --url
+```

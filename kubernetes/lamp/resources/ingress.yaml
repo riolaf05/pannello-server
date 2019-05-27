@@ -11,3 +11,7 @@ spec:
        backend:
          serviceName: panel
          servicePort: 80
+     - path: /*
+       backend:
+        serviceName: panel
+        servicePort: 443
