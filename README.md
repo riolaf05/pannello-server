@@ -72,7 +72,9 @@ Based on: https://github.com/djdefi/rpi-docker-minidlna
 
 Using Kubernetes:
 ```console
-bash kubernetes/deploy.sh
+bash kubernetes/lamp/deploy.sh
+bash kubernetes/minidlna/deploy.sh #TO BE TESTED
+bash kubernetes/ml-keras/deploy.sh #TO BE TESTED
 ```
 It will create the K8s resources on the cluster. 
 
