@@ -57,6 +57,11 @@ reboot the machine directly).
 ### MINIDLNA SERVER
 Using docker:
 
+Note: for each change upload image in pannello-server\startbootstrap-shop-item-gh-pages first with:
+```console
+docker push rio05docker/web_server_panel:<tagname>
+```
+
 ```console
         docker run --restart unless-stopped -d --name minidlna \
           --net=host \
