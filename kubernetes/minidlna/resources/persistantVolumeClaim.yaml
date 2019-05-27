@@ -1,0 +1,12 @@
+#Pods use PersistentVolumeClaims to request physical storage. 
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: minidlna-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 250Gi

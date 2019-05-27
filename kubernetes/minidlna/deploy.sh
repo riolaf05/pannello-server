@@ -5,3 +5,4 @@ envtpl < resources/persistantVolume.yaml.tpl > "persistantVolume.yaml"
 
 #Deploy step, applying k8s resources
 kubectl apply -f persistantVolume.yaml
+kubectl apply -f persistantVolumeClaim.yaml
