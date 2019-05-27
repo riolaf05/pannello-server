@@ -55,7 +55,9 @@ shuts down or reboots the machine if it find the file writen by the PHP script (
 reboot the machine directly).
 
 ### MINIDLNA SERVER
+Using docker:
 
+```console
         docker run --restart unless-stopped -d --name minidlna \
           --net=host \
           -p 8200:8200 \
@@ -65,9 +67,14 @@ reboot the machine directly).
           -v /media/pi/extHD/FOTO/:/media/Pictures \
           -e MINIDLNA_MEDIA_DIR=/media \
            djdefi/rpi-minidlna
-
+```
 Based on: https://github.com/djdefi/rpi-docker-minidlna
 
+Using Kubernetes:
+```console
+bash kubernetes/deploy.sh
+```
+It will create the K8s resources on the cluster. 
 
 ### Python Deep Learing & Machine Learning Develop Environment
 
