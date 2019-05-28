@@ -30,9 +30,10 @@ spec:
         ports:
         - containerPort: 8200
         volumeMounts:
-        - mountPath: /tmp
-          name: https-server
+        - mountPath: /media
+          name: minidlna-volume
       restartPolicy: Always
-      volumeMounts:
-        - mountPath: "/media/"
-          name: minidlna-storage
+      volumes:
+      - name: minidlna-volume
+        persistentVolumeClaim:
+          claimName: minidlna-claim
