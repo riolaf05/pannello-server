@@ -1,5 +1,3 @@
 #!/bin/sh
-inotifywait -m -r -q --format '%f' /tmp/test_file_name | while read FILE
-do
-  ./script_file_name_match.sh $FILE"
-done
+#while inotifywait -r -e MODIFY /home/pi/Downloads/transferred_files; do /home/pi/Downloads/transferred_files/launch_script.sh; done; <- undockerized version
+while inotifywait -r -e MODIFY /transferred_files; do scripts/launch_script.sh; done;
