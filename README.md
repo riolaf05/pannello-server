@@ -3,6 +3,16 @@
 
 This is a web UI for raspberry pi and other linux servers management
 
+## Installation
+
+### Prerequisites
+
+Mount the main storage in /media/pi/extHD/ then create:
+```console
+/media/pi/extHD/FILM
+/media/pi/extHD/MUSICA
+/media/pi/extHD/FOTO
+```
 
 ### Install Docker on Raspberry Pi.
 ```console
@@ -82,7 +92,7 @@ To enable the "Server Shutdown and Reboot" buttons it is necessary to use a cron
 shuts down or reboots the machine if it find the file writen by the PHP script (that cannot 
 reboot the machine directly).
 
-### MINIDLNA SERVER
+## MINIDLNA SERVER
 Using docker:
 
 ```console
@@ -99,7 +109,7 @@ Using docker:
 Based on: https://github.com/djdefi/rpi-docker-minidlna
 
 
-### Python Deep Learing & Machine Learning Develop Environment
+## Python Deep Learing & Machine Learning Develop Environment
 
 ```console
 docker run -it -d --restart unless-stopped -p 8888:8888 -p 6006:6006 -v /media/pi/extHD/SharedFile:/root/sharedfolder floydhub/dl-docker:cpu jupyter notebook
@@ -107,8 +117,16 @@ docker run -it -d --restart unless-stopped -p 8888:8888 -p 6006:6006 -v /media/p
 
 Based on: https://github.com/floydhub/dl-docker
 
-### SCRIPT PER LA CONVERSIONE AUTOMATICA DEI FILE CARICATI - ITA 
+## Video Conversion 
+This service is used to change video and music file encoding so they can be readen by Minidlna. 
 
+### Installation with Docker:
+
+```console
+docker run -it --restart=unless-stopped -d -v /media/pi/extHD/FILM/:/FILM -v /media/pi/extHD/MUSICA/:/MUSICA -v /home/rosario/Scaricati:/transferred_files rio05docker/inotify-video-converter:latest
+```
+
+### Manual Installation: (ITA)
 Il file \pannello-server\startbootstrap-shop-item-gh-pages\pannello_controllo\invia_file.php deve essere modificato per puntare alla cartella dove verranno caricati i file..
 ### DA NON FARE
 Per fare un test..
@@ -165,6 +183,3 @@ bash file_conversion.sh "$(ls -1t | head -1)"
 ```console
 nohup /home/pi/Downloads/transferred_files/inotify_check.sh &
 ```
-TODO: check upload di più file video contemporaneamente e vedere se le conversioni vengono fatte parallelamente!!
-
-
