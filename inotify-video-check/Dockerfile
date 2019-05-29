@@ -9,7 +9,7 @@ RUN mkdir transferred_files
 RUN mkdir MUSICA
 RUN mkdir FILM
 
-RUN apt-get update && apt-get install -y inotify-tools && apt-get install ffmpeg
+RUN apt-get update && apt-get install -y inotify-tools && apt-get install -y ffmpeg
 
 WORKDIR scripts
 
