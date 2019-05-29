@@ -3,6 +3,16 @@
 
 This is a web UI for raspberry pi and other linux servers management
 
+### Install Docker on Raspberry Pi.
+```console
+curl -sSL get.docker.com | sh
+sudo usermod -aG docker pi
+```
+log out, then log back in again for the change to take effect
+```console
+sudo systemctl start docker
+```
+
 ### Installation with Kubernetes 
 
 
