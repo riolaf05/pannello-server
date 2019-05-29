@@ -16,4 +16,4 @@ COPY file_conversion.sh /root/transferred_files/
 COPY inotify_check.sh /root/transferred_files/
 COPY launch_script.sh /root/transferred_files/
 
-CMD [ "/root/transferred_files/inotify_check.sh &" ]
+CMD [ "bash" "/root/transferred_files/inotify_check.sh" ]
