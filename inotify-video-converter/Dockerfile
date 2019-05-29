@@ -15,6 +15,6 @@ WORKDIR scripts
 
 COPY . .
 
-RUN chmod +x scripts/*
+RUN chmod +x *
 
 ENTRYPOINT ./inotify_check.sh
