@@ -123,7 +123,7 @@ This service is used to change video and music file encoding so they can be read
 ### Installation with Docker:
 
 ```console
-docker run -it --restart=unless-stopped -d -v /media/pi/extHD/FILM/:/FILM -v /home/rosario/Scaricati:/transferred_files rio05docker/inotify-video-converter:latest
+docker run -it --restart=unless-stopped -d -v /media/pi/extHD/FILM/:/FILM -v /media/pi/extHD/MUSICA/:/MUSICA -v /home/rosario/Scaricati:/transferred_files rio05docker/inotify-video-converter:latest
 ```
 
 ### Manual Installation: (ITA)
