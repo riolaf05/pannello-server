@@ -15,4 +15,4 @@ WORKDIR scripts
 
 COPY . .
 
-ENTRYPOINT ["/bin/bash" "inotify_check.sh"]  
+ENTRYPOINT ./inotify_check.sh
