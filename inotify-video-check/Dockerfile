@@ -12,8 +12,6 @@ RUN apt-get update&& apt-get install -y inotify-tools
 
 WORKDIR /root/transferred_files
 
-COPY ./file_conversion.sh /root/transferred_files/
-COPY ./inotify_check.sh /root/transferred_files/
-COPY ./launch_script.sh /root/transferred_files/
+COPY . .
 
 ENTRYPOINT ["/bin/bash"]  
