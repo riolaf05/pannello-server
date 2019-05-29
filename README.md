@@ -126,7 +126,7 @@ This service is used to change video and music file encoding so they can be play
 docker run -it --restart=unless-stopped -d -v /media/pi/extHD/FILM/:/FILM -v /media/pi/extHD/MUSICA/:/MUSICA -v /home/pi/Downloads:/transferred_files rio05docker/inotify-video-converter:latest
 ```
 
-Every file that will be put to /home/pi/Downloads will trigger the script.
+Every file that will be put to /home/pi/Downloads will trigger the conversion scripts.
 
 ### Manual Installation: (ITA)
 Il file \pannello-server\startbootstrap-shop-item-gh-pages\pannello_controllo\invia_file.php deve essere modificato per puntare alla cartella dove verranno caricati i file..
