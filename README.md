@@ -117,8 +117,8 @@ docker run -it -d --restart unless-stopped -p 8888:8888 -p 6006:6006 -v /media/p
 
 Based on: https://github.com/floydhub/dl-docker
 
-## Video Conversion 
-This service is used to change video and music file encoding so they can be played by Minidlna. 
+## Codec Conversion 
+This service is used to change video and music file encoder so they can be played by Minidlna. 
 
 ### Installation with Docker:
 
