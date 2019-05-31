@@ -7,12 +7,15 @@ This is a web UI for raspberry pi and other linux servers management
 
 ### Prerequisites
 
-Mount the main storage in /media/pi/extHD/ then create:
+Use the playbook in /ansible folder to configure each Raspberry Pi node, Ansible will:
+- install Docker, Kubernetes, etc. 
+- create the requiered folders..
 ```console
 /media/pi/extHD/FILM
 /media/pi/extHD/MUSICA
 /media/pi/extHD/FOTO
 ```
+- mount the main storage in /media/pi/extHD/ 
 
 ### Install Docker on Raspberry Pi.
 ```console
