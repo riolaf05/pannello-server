@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Invia file al Server</title>
+    <title>Pannello di Controllo</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -27,6 +27,36 @@
 </head>
 
 <body>
+
+	<?php 
+		//Scrittura temperatura CPU (grazie all'applicazione acpi) e memoria restante
+		#$comando=shell_exec('/opt/vc/bin/vcgencmd measure_temp > /tmp/temperatura.txt && df -h / > /tmp/memoria.txt');
+		
+		//Lettura temperatura CPU 
+		$fp = fopen('/tmp/temperatura.txt', r);
+		if(!$fp) {
+			$temperatura=0;
+			}
+		fseek($fp, 5, SEEK_SET); //Mi posiziono al 5° carattere
+		$temperatura = fread($fp, 4); //Leggo 4 caratteri partendo dalla posizione corrente
+		fclose($fp);
+		
+
+		//lettura spazio disponibile hard disk 
+		$fp = fopen('/tmp/memoria.txt', r);
+		if(!$fp) {
+			$memoria_percentuale=0;
+			}
+		fseek($fp, 66, SEEK_SET);
+		$memoria_tot = fread($fp, 2);
+		fseek($fp, 71, SEEK_SET); 
+		$memoria_usata = fread($fp, 2);
+		fseek($fp, 82, SEEK_SET); 
+		$memoria_percentuale = fread($fp, 2);
+		fclose($fp);
+		
+
+	?>
 
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -72,27 +102,33 @@
                     <a href="carica_file.php" class="list-group-item">Board</a>
                     <a href="server_status.php" class="list-group-item">Server Status</a>
                     <a href="#" class="list-group-item">Internet of Things</a>
-                    <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8081" class="list-group-item">Camera Monitor</a>
+					<a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8081" class="list-group-item">Camera Monitor</a>
                     <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8123" class="list-group-item">Home Assistant</a>
                     <a href="carica_file.php" class="list-group-item">File Browser</a>
                     <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8200" class="list-group-item">Media Server</a>
                 </div>
             </div>
 
+            <div class="col-md-8 col-md-offset-1">
 
-            <div class="col-md-6 col-md-offset-1">
-				
-				<div>
-				<img src="img/Emerging-Technologies_banner.jpg" class="img-responsive">
+                <h2 style="text-transform: capitalize; color: blue; text-align: center; font-family: Georgia, Serif; ">Dashboard</h2>
+				<h4>Temperatura CPU</h4>
+				<div class="progress progress-striped">
+				  <?php echo $temperatura."° C"; ?><div class="progress-bar progress-bar-danger" style="width: <?php echo $temperatura;?>%;"></div>
+				</div>
+				<h4>Memoria Disponibile</h4>
+				<div class="progress progress-striped">
+				  <?php echo $memoria_usata."/".$memoria_tot." GB"; ?><div class="progress-bar progress-bar-info" style="width: <?php echo $memoria_percentuale;?>%;"></div>
 				</div>
 				
-                <h2>Carica File</h2>
-				<form enctype="multipart/form-data" action="invia_file.php" method="post" >
-				<input type="hidden" name="MAX_FILE_SIZE" value="1024000" class="btn btn-primary">
-				<input name="userfile" type="file" class="btn btn-primary">
-				<div style="height:10px";"></div> <!-- div usato per distanziare verticalmente!! -->
-				<input type="submit" value="Carica" class="btn btn-primary">
+				<form method="POST" action='spegni_riavvia.php'>
+				<input type="submit" name="shutdown" value="Server Shutdown" class="btn btn-primary btn-large btn-block">
 				</form>
+				<div style="height:10px";"></div> <!-- div usato per distanziare verticalmente!! -->
+				<form method="POST" action='spegni_riavvia.php'>
+				<input type="submit" name="reboot" value="Server Reboot" class="btn btn-primary btn-large btn-block">
+				</form>
+				
 
             </div>
 
