@@ -53,11 +53,12 @@ This will create the K8s resources on the cluster.
 
 2) go to startbootstrap-shop-item-gh-pages/ and run:
 ```console
-docker build -t web_server_panel .
+docker build -t "rio05docker/web_server_panel:latest" .
+docker push rio05docker/web_server_panel:latest
 ```
 3) run:
 ```console
-docker run -d --restart unless-stopped -p 80:80 -p 443:443 -v /tmp:/tmp web_server_panel:latest
+docker run -d --restart unless-stopped --name web_server_panel -p 80:80 -p 443:443 -v /tmp:/tmp web_server_panel:new_version
 ```
 
 Use:
