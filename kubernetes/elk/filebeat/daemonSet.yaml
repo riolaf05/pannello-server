@@ -3,7 +3,7 @@ apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
   name: filebeat
-  namespace: kube-system
+  namespace: monitoring
   labels:
     k8s-app: filebeat
 
@@ -76,9 +76,9 @@ spec:
         configMap:
           defaultMode: 0600
           name: filebeat-inputs
-      - name: varlibdockercontainers
+      - name: varlibdockercontainers #The Docker logs host folder (/var/lib/docker/containers) is mounted on the Filebeat container. 
         hostPath:
-          path: /var/lib/docker/containers
+          path: /var/lib/docker/containers 
       - name: data # data folder stores a registry of read status for all files, so we don't send everything again on a Filebeat pod restart
         hostPath:
           path: /var/lib/filebeat-data
