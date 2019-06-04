@@ -30,18 +30,12 @@ spec:
         #By default, Filebeat sends events to an existing Elasticsearch deployment, if present. 
         #To specify a different destination, change the following parameters in the manifest fil
         env:
-        - name: ELASTICSEARCH_HOST
-          value: elasticsearch
-        - name: ELASTICSEARCH_PORT
-          value: "9200"
-        - name: ELASTICSEARCH_USERNAME
-          value: elastic
-        - name: ELASTICSEARCH_PASSWORD
-          value: changeme
-        - name: ELASTIC_CLOUD_ID
-          value:
-        - name: ELASTIC_CLOUD_AUTH
-          value:
+        - name: LOGSTASH_HOSTS
+          value: logstash:5000
+        - name: LOG_LEVEL
+          value: debug
+        - name: INDEX_PREFIX
+          value: filebeat
 
         securityContext:
           runAsUser: 0
