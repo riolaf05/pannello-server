@@ -4,7 +4,8 @@ metadata:
   namespace: monitoring
   creationTimestamp: null
   labels:
-    name: kibana
+    name: kibana #this specification will create a new Service object named “kibana” 
+                 #which targets TCP port 5601 on any Pod with the "name: kibana" label. 
   name: kibana
   selfLink: /api/v1/namespaces/monitoring/services/kibana
 spec:
