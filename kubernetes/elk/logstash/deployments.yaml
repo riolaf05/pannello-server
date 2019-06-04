@@ -1,0 +1,64 @@
+apiVersion: extensions/v1beta1
+
+kind: Deployment
+
+metadata:
+  namespace: monitoring
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  creationTimestamp: null
+  generation: 1
+  labels:
+    name: logstash
+  name: logstash
+  selfLink: /apis/extensions/v1beta1/namespaces/monitoring/deployments/logstash
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: logstash
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        name: logstash
+    spec:
+
+      containers:
+      - env:
+        - name: LS_JAVA_OPTS
+          value: -Xmx256m -Xms256m
+        image: docker.elastic.co/logstash/logstash-oss:6.2.3
+        imagePullPolicy: IfNotPresent
+        name: logstash
+        ports:
+        - containerPort: 5000
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /usr/share/logstash/pipeline
+          name: config
+
+      dnsPolicy: ClusterFirst
+
+      restartPolicy: Always
+
+      schedulerName: default-scheduler
+
+      securityContext: {}
+
+      terminationGracePeriodSeconds: 30
+
+      volumes:
+      - configMap:
+          defaultMode: 420
+          items:
+          - key: logstash.conf
+            path: logstash.conf
+          name: logstash-config
+        name: config
