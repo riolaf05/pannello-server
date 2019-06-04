@@ -58,10 +58,14 @@
 		*/ 
 
         //Lettura temperatura CPU 
-        $xml=simplexml_load_file("/tmp/my_xml.xml") or die("Error: Cannot create XML object");
-        $memoria_usata_1=$xml->$memoriaUsata
-        $memoria_tot_1=$xml->$memoriaTotale
-        $temperatura_1=$xml->$temperatura
+        //$xml=simplexml_load_file("/tmp/my_xml.xml") or die("Error: Cannot create XML object");
+        //$memoria_usata_1=$xml->$memoriaUsata
+        //$memoria_tot_1=$xml->$memoriaTotale
+        //$temperatura_1=$xml->$temperatura
+
+        $memoria_usata_1=22
+        $memoria_tot_1=50
+        $Temperatura=44
 
 	?>
 
