@@ -1,6 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
+  namespace: monitoring
   annotations:
     ingress.kubernetes.io/configuration-snippet: |
       if ($http_x_forwarded_proto != 'https') {
