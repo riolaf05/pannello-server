@@ -101,7 +101,7 @@
                     <a href="index.php" class="list-group-item active">Home</a>
                     <a href="carica_file.php" class="list-group-item">Board</a>
                     <a href="#" class="list-group-item">Server Status</a>
-                    <a href="#" class="list-group-item">Internet of Things</a>
+                    <a href="internet_of_things.php" class="list-group-item">Internet of Things</a>
 					<a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8081" class="list-group-item">Camera Monitor</a>
                     <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8123" class="list-group-item">Home Assistant</a>
                     <a href="carica_file.php" class="list-group-item">File Browser</a>
@@ -109,7 +109,39 @@
                 </div>
             </div>
 
+
             <div class="col-md-8 col-md-offset-1">
+                
+                <div class="donation-meter">
+                <strong>Temperatura CPU Nodo 1</strong>
+                <strong class="goal">10</strong>
+                <span class="glass">
+                    <strong class="total" style="bottom: 30%">10</strong>
+                    <span class="amount" style="height: 30%"></span>
+                </span>
+                <div class="bulb">
+                    <span class="red-circle"></span>
+                    <span class="filler">
+                        <span></span>
+                    </span>
+                </div>
+                </div>
+
+
+                <div class="donation-meter">
+                <strong>Temperatura CPU Nodo 2</strong>
+                <strong class="goal">10</strong>
+                <span class="glass">
+                    <strong class="total" style="bottom: 30%">10</strong>
+                    <span class="amount" style="height: 30%"></span>
+                </span>
+                <div class="bulb">
+                    <span class="red-circle"></span>
+                    <span class="filler">
+                        <span></span>
+                    </span>
+                </div>
+                </div>
 
                 <h2 style="text-transform: capitalize; color: blue; text-align: center; font-family: Georgia, Serif; ">Dashboard</h2>
 				<h4>Temperatura CPU</h4>
