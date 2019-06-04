@@ -92,17 +92,16 @@
 
     <!-- Page Content -->
     <div class="container">
-
+        <p class="lead">Home Server</p>
         <div class="row">
 
             <div class="col-md-3">
-                <p class="lead">Home Server</p>
                 <div class="list-group">
                     <a href="index.php" class="list-group-item active">Home</a>
-                    <a href="carica_file.php" class="list-group-item">Board</a>
-                    <a href="#" class="list-group-item">Server Status</a>
-                    <a href="internet_of_things.php" class="list-group-item">Internet of Things</a>
-					<a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8081" class="list-group-item">Camera Monitor</a>
+                    <a href="#" class="list-group-item">Board</a>
+                    <a href="server_status.php" class="list-group-item">Server Status</a>
+                    <a href="#" class="list-group-item">Internet of Things</a>
+                    <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8081" class="list-group-item">Camera Monitor</a>
                     <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8123" class="list-group-item">Home Assistant</a>
                     <a href="carica_file.php" class="list-group-item">File Browser</a>
                     <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8200" class="list-group-item">Media Server</a>
@@ -110,82 +109,21 @@
             </div>
 
 
-            <div class="col-md-8 col-md-offset-1">
+            <div class="col-sm-4 col-md-offset-1">
                 
-                
+                <blockquote class="trello-board-compact">
+  				<a href="https://trello.com/b/c1CCI4GX/self-improvement-target">Trello Board</a>
+				</blockquote>
+				<script src="https://p.trellocdn.com/embed.min.js"></script>
+			</div>
 
-
+			<div class="col-sm-8 col-md-offset-1">
+				<blockquote class="trello-board-compact">
+ 			    <a href="https://trello.com/b/pDUe29xS/iot-platform">Trello Board</a>
+				</blockquote>
+				<script src="https://p.trellocdn.com/embed.min.js"></script>
+			</div>
             
-
-
-
-
-
-                <h2 style="text-transform: capitalize; color: blue; text-align: center; font-family: Georgia, Serif; ">Cluster Status</h2>
-				<h4>Temperatura CPU Nodo 1</h4>
-				<div class="progress progress-striped">
-				  <?php echo $temperatura_1."° C"; ?><div class="progress-bar progress-bar-danger" style="width: <?php echo $temperatura;?>%;"></div>
-				</div>
-
-
-
-
-                <h4>Temperatura CPU Nodo 2</h4>
-                <div class="progress progress-striped">
-                  <?php echo $temperatura_2."° C"; ?><div class="progress-bar progress-bar-danger" style="width: <?php echo $temperatura;?>%;"></div>
-                </div>
-
-
-
-
-
-
-				<h4>Memoria Disponibile Nodo 1</h4>
-				<div class="progress progress-striped">
-				  <?php echo $memoria_usata_1."/".$memoria_tot_1." GB"; ?><div class="progress-bar progress-bar-info" style="width: <?php echo $memoria_percentuale;?>%;"></div>
-				</div>
-				
-
-
-
-
-                <h4>Memoria Disponibile Nodo 2</h4>
-                <div class="progress progress-striped">
-                  <?php echo $memoria_usata_2."/".$memoria_tot_2." GB"; ?><div class="progress-bar progress-bar-info" style="width: <?php echo $memoria_percentuale;?>%;"></div>
-                </div>
-
-
-
-
-
-
-                <h4>Memoria Disponibile Main Storage</h4>
-                <div class="progress progress-striped">
-                  <?php echo $memoria_main."/".$memoria_main_tot." GB"; ?><div class="progress-bar progress-bar-info" style="width: <?php echo $memoria_percentuale;?>%;"></div>
-                </div>
-
-
-
-
-
-				<form method="POST" action='spegni_riavvia.php'>
-				<input type="submit" name="shutdown" value="Server Shutdown" class="btn btn-primary btn-large btn-block">
-				</form>
-				<div style="height:10px";"></div> <!-- div usato per distanziare verticalmente!! -->
-				<form method="POST" action='spegni_riavvia.php'>
-				<input type="submit" name="reboot" value="Server Reboot" class="btn btn-primary btn-large btn-block">
-				</form>
-				
-
-
-
-
-
-
-
-
-
-            </div>
 
         </div>
 
