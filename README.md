@@ -44,7 +44,7 @@ docker push rio05docker/web_server_panel:latest
 ```
 3) run:
 ```console
-docker run -d --restart unless-stopped --name web_server_panel -p 80:80 -p 443:443 -v /tmp:/tmp rio05docker/web_server_panel:new_version
+docker run -d --restart unless-stopped --name web_server_panel -p 80:80 -p 443:443 -v /tmp:/tmp rio05docker/web_server_panel:latest
 ```
 
 Use:
