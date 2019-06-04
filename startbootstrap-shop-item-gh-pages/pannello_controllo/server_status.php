@@ -33,7 +33,8 @@
 		#$comando=shell_exec('/opt/vc/bin/vcgencmd measure_temp > /tmp/temperatura.txt && df -h / > /tmp/memoria.txt');
 		
 		//Lettura temperatura CPU 
-		$fp = fopen('/tmp/temperatura.txt', r);
+		/*
+        $fp = fopen('/tmp/temperatura.txt', r);
 		if(!$fp) {
 			$temperatura=0;
 			}
@@ -54,7 +55,13 @@
 		fseek($fp, 82, SEEK_SET); 
 		$memoria_percentuale = fread($fp, 2);
 		fclose($fp);
-		
+		*/ 
+
+        //Lettura temperatura CPU 
+        $xml=simplexml_load_file("/tmp/my_xml.xml") or die("Error: Cannot create XML object");
+        $memoria_usata_1=$xml->$memoriaUsata
+        $memoria_tot_1=$xml->$memoriaTotale
+        $temperatura_1=$xml->$temperatura
 
 	?>
 
