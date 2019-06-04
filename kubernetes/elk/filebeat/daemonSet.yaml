@@ -1,0 +1,85 @@
+#Filebeat is deployed as a DaemonSet to ensure there’s a running instance on each node of the cluster.
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: filebeat
+  namespace: kube-system
+  labels:
+    k8s-app: filebeat
+
+spec: 
+  template: #template of the Pod
+    metadata:
+      labels:
+        k8s-app: filebeat
+
+    spec:
+    
+      serviceAccountName: filebeat
+      
+      terminationGracePeriodSeconds: 30
+      
+      containers:
+      - name: filebeat
+        image: docker.elastic.co/beats/filebeat:8.0.0
+        args: [
+          "-c", "/etc/filebeat.yml",
+          "-e",
+        ]
+
+        env:
+        - name: ELASTICSEARCH_HOST
+          value: elasticsearch
+        - name: ELASTICSEARCH_PORT
+          value: "9200"
+        - name: ELASTICSEARCH_USERNAME
+          value: elastic
+        - name: ELASTICSEARCH_PASSWORD
+          value: changeme
+        - name: ELASTIC_CLOUD_ID
+          value:
+        - name: ELASTIC_CLOUD_AUTH
+          value:
+
+        securityContext:
+          runAsUser: 0
+          # If using Red Hat OpenShift uncomment this:
+          #privileged: true
+
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+
+        volumeMounts: #folders where to mount volumes inside containers
+        - name: config
+          mountPath: /etc/filebeat.yml
+          readOnly: true
+          subPath: filebeat.yml
+        - name: inputs
+          mountPath: /usr/share/filebeat/inputs.d
+          readOnly: true
+        - name: varlibdockercontainers
+          mountPath: /var/lib/docker/containers
+          readOnly: true
+        - name: data
+          mountPath: /usr/share/filebeat/data
+
+      volumes: #configmaps and volumes mounted to the containers
+      - name: config
+        configMap:
+          defaultMode: 0600
+          name: filebeat-config
+      - name: inputs
+        configMap:
+          defaultMode: 0600
+          name: filebeat-inputs
+      - name: varlibdockercontainers
+        hostPath:
+          path: /var/lib/docker/containers
+      - name: data # data folder stores a registry of read status for all files, so we don't send everything again on a Filebeat pod restart
+        hostPath:
+          path: /var/lib/filebeat-data
+          type: DirectoryOrCreate
