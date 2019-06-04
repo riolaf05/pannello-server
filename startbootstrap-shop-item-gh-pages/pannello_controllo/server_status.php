@@ -109,7 +109,39 @@
                 </div>
             </div>
 
+
             <div class="col-md-8 col-md-offset-1">
+                
+                <div class="donation-meter">
+                <strong>Temperatura CPU Nodo 1</strong>
+                <strong class="goal">10</strong>
+                <span class="glass">
+                    <strong class="total" style="bottom: 30%">10</strong>
+                    <span class="amount" style="height: 30%"></span>
+                </span>
+                <div class="bulb">
+                    <span class="red-circle"></span>
+                    <span class="filler">
+                        <span></span>
+                    </span>
+                </div>
+                </div>
+
+
+                <div class="donation-meter">
+                <strong>Temperatura CPU Nodo 2</strong>
+                <strong class="goal">10</strong>
+                <span class="glass">
+                    <strong class="total" style="bottom: 30%">10</strong>
+                    <span class="amount" style="height: 30%"></span>
+                </span>
+                <div class="bulb">
+                    <span class="red-circle"></span>
+                    <span class="filler">
+                        <span></span>
+                    </span>
+                </div>
+                </div>
 
                 <h2 style="text-transform: capitalize; color: blue; text-align: center; font-family: Georgia, Serif; ">Dashboard</h2>
 				<h4>Temperatura CPU</h4>
