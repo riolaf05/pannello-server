@@ -27,6 +27,8 @@ spec:
           "-e",
         ]
 
+        #By default, Filebeat sends events to an existing Elasticsearch deployment, if present. 
+        #To specify a different destination, change the following parameters in the manifest fil
         env:
         - name: ELASTICSEARCH_HOST
           value: elasticsearch
