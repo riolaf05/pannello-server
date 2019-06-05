@@ -1,7 +1,8 @@
-export EXT_HD_PATH="/mnt/pi/extHD"
 
 #Build step, template files will be filled with env parameters
-envtpl < resources/persistantVolume.yaml.tpl > "persistantVolume.yaml"
+NODE_HOSTNAME=raspberry.local
+sed 's|{{ .EXT_HD_PATH }}|/media/pi/extHD|g' resources/persistantVolume.yaml.tpl > persistantVolume.yaml
+sed 's|{{ .NODE }}|$NODE_HOSTNAME|g' resources/persistantVolume.yaml.tpl > persistantVolume.yaml
 
 #Deploy step, applying k8s resources
 kubectl apply -f resources/persistantVolume.yaml

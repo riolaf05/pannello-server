@@ -17,7 +17,6 @@ Use the playbook in /ansible folder to configure each Raspberry Pi node, Ansible
 ```
 - mount the main storage in /media/pi/extHD/ 
 
-
 ### Install Docker on Raspberry Pi.
 ```console
 curl -sSL get.docker.com | sh

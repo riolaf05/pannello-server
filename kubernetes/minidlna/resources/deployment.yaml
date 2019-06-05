@@ -1,0 +1,39 @@
+#Pod’s configuration file specifies a PersistentVolumeClaim, 
+#but it does not specify a PersistentVolume. 
+#From the Pod’s point of view, the claim is a volume.
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: minidlna-pod
+  labels:
+    rio/iotplatform: minidlna
+spec:
+  replicas: 2
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: minidlna-pod
+  template:
+    metadata:
+      labels:
+        app: minidlna-pod
+    spec:
+      containers:
+      - image: djdefi/rpi-minidlna
+        imagePullPolicy: Always
+        name: rpi-minidlna
+        resources:
+          requests:
+            cpu: 100m
+            memory: 1Gi
+        ports:
+        - containerPort: 8200
+        volumeMounts:
+        - mountPath: /media
+          name: minidlna-volume
+      restartPolicy: Always
+      volumes:
+      - name: minidlna-volume
+        persistentVolumeClaim:
+          claimName: minidlna-claim

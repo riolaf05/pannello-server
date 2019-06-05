@@ -1,0 +1,69 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: filebeat-config
+  namespace: monitoring
+  labels:
+    k8s-app: filebeat
+data:
+  filebeat.yml: |-
+    
+    filebeat.prospectors:
+    - type: log
+      enabled: true
+      paths:
+        - /var/log/containers/*.log #This is the host's logs folder
+      exclude_files: ['filebeat.*log','kube.*log', 'kibana.*log', 'calico.*log', 'elasticsearch.*log', 'logstash.*log']
+      symlinks: true
+      json.message_key: log
+      json.keys_under_root: true
+      json.add_error_key: true
+      multiline.pattern: '^\s'
+      multiline.match: after
+
+    # To enable hints based autodiscover, remove `filebeat.config.inputs` configuration and uncomment this:
+    #filebeat.autodiscover:
+    #  providers:
+    #    - type: kubernetes
+    #      hints.enabled: true
+
+    processors:
+    - add_kubernetes_metadata: #he add_kubernetes_metadata processor annotates each event 
+                               #with relevant metadata based on which Kubernetes pod the event originated from.
+        in_cluster: true
+        matchers: #matchers are used to construct lookup keys for querying indices
+        - logs_path:
+            logs_path: /var/log/containers/
+
+    #processors:
+      #- add_cloud_metadata:
+      #cloud.id: ${ELASTIC_CLOUD_ID}
+      #cloud.auth: ${ELASTIC_CLOUD_AUTH}
+
+    #output.elasticsearch:
+      #hosts: ['${ELASTICSEARCH_HOST:elasticsearch}:${ELASTICSEARCH_PORT:9200}']
+      #username: ${ELASTICSEARCH_USERNAME}
+      #password: ${ELASTICSEARCH_PASSWORD}
+
+    output.logstash:
+      hosts: ["${LOGSTASH_HOSTS}"]
+      index: ${INDEX_PREFIX}
+      timeout: 30
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: filebeat-inputs
+  namespace: monitoring
+  labels:
+    k8s-app: filebeat
+data:
+  kubernetes.yml: |-
+    - type: docker
+      containers.ids:
+      - "*"
+      processors:
+        - add_kubernetes_metadata:
+            in_cluster: true

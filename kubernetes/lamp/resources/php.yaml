@@ -1,4 +1,4 @@
-# By Sharon Campbell, Ken Simon, and Joe Beda for Heptio
+# By Rosario Laface
 #deploy the PHP and Apache container from rio05docker/web_server_panel
 
 apiVersion: extensions/v1beta1
