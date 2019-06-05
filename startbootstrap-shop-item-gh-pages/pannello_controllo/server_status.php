@@ -98,29 +98,38 @@
             <div class="col-md-3">
                 <p class="lead">Home Server</p>
                 <div class="list-group">
-                    <a href="#" class="list-group-item active">Home</a>
+                    <a href="index.php" class="list-group-item active">Home</a>
                     <a href="carica_file.php" class="list-group-item">Board</a>
-                    <a href="server_status.php" class="list-group-item">Server Status</a>
+                    <a href="#" class="list-group-item">Server Status</a>
                     <a href="#" class="list-group-item">Internet of Things</a>
-                    <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8081" class="list-group-item">Camera Monitor</a>
+					<a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8081" class="list-group-item">Camera Monitor</a>
                     <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8123" class="list-group-item">Home Assistant</a>
                     <a href="carica_file.php" class="list-group-item">File Browser</a>
                     <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8200" class="list-group-item">Media Server</a>
                 </div>
             </div>
 
-
             <div class="col-md-8 col-md-offset-1">
-                
-                <div>
-                <iframe src="https://calendar.google.com/calendar/embed?src=lafacerosario%40gmail.com&ctz=Europe%2FRome" style="border: 0" width="100%" height="300" frameborder="0" scrolling="no"></iframe>
 
-                 <!-- Inizio codice ilMeteo.it -->
-                <iframe width="100%" height="100%" scrolling="no" frameborder="no" src="https://www.ilmeteo.it/box/previsioni.php?citta=4074&type=day1&width=400&ico=1&lang=ita&days=6&font=Arial&fontsize=12&bg=FFFFFF&fg=000000&bgtitle=0099FF&fgtitle=FFFFFF&bgtab=F0F0F0&fglink=1773C2"></iframe>
-                <!-- Fine codice ilMeteo.it -->
+                <h2 style="text-transform: capitalize; color: blue; text-align: center; font-family: Georgia, Serif; ">Dashboard</h2>
+				<h4>Temperatura CPU</h4>
+				<div class="progress progress-striped">
+				  <?php echo $temperatura."° C"; ?><div class="progress-bar progress-bar-danger" style="width: <?php echo $temperatura;?>%;"></div>
+				</div>
+				<h4>Memoria Disponibile</h4>
+				<div class="progress progress-striped">
+				  <?php echo $memoria_usata."/".$memoria_tot." GB"; ?><div class="progress-bar progress-bar-info" style="width: <?php echo $memoria_percentuale;?>%;"></div>
+				</div>
+				
+				<form method="POST" action='spegni_riavvia.php'>
+				<input type="submit" name="shutdown" value="Server Shutdown" class="btn btn-primary btn-large btn-block">
+				</form>
+				<div style="height:10px";"></div> <!-- div usato per distanziare verticalmente!! -->
+				<form method="POST" action='spegni_riavvia.php'>
+				<input type="submit" name="reboot" value="Server Reboot" class="btn btn-primary btn-large btn-block">
+				</form>
+				
 
-                </div>
-			
             </div>
 
         </div>
