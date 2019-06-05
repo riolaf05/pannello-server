@@ -12,8 +12,7 @@ data:
     - type: log
       enabled: true
       paths:
-        - /var/log/containers/*.log #This is the path of the volume mounted on each Filebeat container (from DaemonSet), 
-                                    #it points to the host's logs folder
+        - /var/log/containers/*.log #This is the host's logs folder
       exclude_files: ['filebeat.*log','kube.*log', 'kibana.*log', 'calico.*log', 'elasticsearch.*log', 'logstash.*log']
       symlinks: true
       json.message_key: log

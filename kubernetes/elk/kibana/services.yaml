@@ -12,10 +12,10 @@ spec:
   externalTrafficPolicy: Cluster
   ports:
   - name: http
-    nodePort: 32602
-    port: 80
-    protocol: TCP
-    targetPort: 5601
+    nodePort: 32602 #nodePort is the port on which the service can be accessed from external users using Kube-Proxy.
+    port: 80 #port is the port number which makes a service visible to other services running within the same K8s cluster.
+    protocol: TCP 
+    targetPort: 5601 #target port is the port on the POD where the service is running.
   - name: https
     nodePort: 30676
     port: 443
