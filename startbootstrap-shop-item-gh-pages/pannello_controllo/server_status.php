@@ -64,6 +64,9 @@
         $temperatura_1=$xml->$temperatura
         $memoria_percentuale=40
 
+
+
+
     ?>
 
     <!-- Navigation -->
@@ -119,6 +122,11 @@
 
             <div class="col-md-8 col-md-offset-1">
 
+
+
+
+
+
                 <h2 style="text-transform: capitalize; color: blue; text-align: center; font-family: Georgia, Serif; ">Dashboard</h2>
                 <h4>Temperatura CPU</h4>
                 <div class="progress progress-striped">
@@ -137,6 +145,11 @@
                 <input type="submit" name="reboot" value="Server Reboot" class="btn btn-primary btn-large btn-block">
                 </form>
                 
+                
+                <div class="col-md-4 col-md-offset-1">Current CircleCI pipeline status: <a href="https://circleci.com/gh/riolaf05/pannello-server/tree/master"><img src="https://circleci.com/gh/riolaf05/pannello-server/tree/master.svg?style=svg"></a></div>
+
+
+
 
             </div>
 
