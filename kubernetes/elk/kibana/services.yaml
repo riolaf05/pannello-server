@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: monitoring
+  creationTimestamp: null
+  labels:
+    name: kibana #this specification will create a new Service object named “kibana” 
+                 #which targets TCP port 5601 on any Pod with the "name: kibana" label. 
+  name: kibana
+  selfLink: /api/v1/namespaces/monitoring/services/kibana
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+  - name: http
+    nodePort: 32602 #nodePort is the port on which the service can be accessed from external users using Kube-Proxy.
+    port: 80 #port is the port number which makes a service visible to other services running within the same K8s cluster.
+    protocol: TCP 
+    targetPort: 5601 #target port is the port on the POD where the service is running.
+  - name: https
+    nodePort: 30676
+    port: 443
+    protocol: TCP
+    targetPort: 5601
+  selector:
+    name: kibana
+  sessionAffinity: None
+  type: NodePort

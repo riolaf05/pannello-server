@@ -3,7 +3,19 @@
 
 This is a web UI for raspberry pi and other linux servers management
 
-### Install Docker on Raspberry Pi.
+### Prerequisites
+
+Use the playbook in /ansible folder to configure each Raspberry Pi node, Ansible will:
+- install Docker, Kubernetes, etc. 
+- create the requiered folders..
+```console
+/media/pi/extHD/FILM
+/media/pi/extHD/MUSICA
+/media/pi/extHD/FOTO
+```
+- mount the main storage in /media/pi/extHD/ 
+
+Note: to manually install Docker on Raspberry Pi (optional).
 ```console
 curl -sSL get.docker.com | sh
 sudo usermod -aG docker pi
@@ -14,7 +26,6 @@ sudo systemctl start docker
 ```
 
 ### Installation with Kubernetes 
-
 
 Note: for each change upload image in pannello-server\startbootstrap-shop-item-gh-pages first with:
 ```console
@@ -38,11 +49,12 @@ This will create the K8s resources on the cluster.
 
 2) go to startbootstrap-shop-item-gh-pages/ and run:
 ```console
-docker build -t web_server_panel .
+docker build -t "rio05docker/web_server_panel:latest" .
+docker push rio05docker/web_server_panel:latest
 ```
 3) run:
 ```console
-docker run -d --restart unless-stopped -p 80:80 -p 443:443 -v /tmp:/tmp web_server_panel:latest
+docker run -d --restart unless-stopped --name web_server_panel -p 80:80 -p 443:443 -v /tmp:/tmp web_server_panel:latest
 ```
 
 Use:
@@ -81,7 +93,7 @@ To enable the "Server Shutdown and Reboot" buttons it is necessary to use a cron
 shuts down or reboots the machine if it find the file writen by the PHP script (that cannot 
 reboot the machine directly).
 
-### MINIDLNA SERVER
+## MINIDLNA SERVER
 Using docker:
 
 ```console
@@ -98,7 +110,7 @@ Using docker:
 Based on: https://github.com/djdefi/rpi-docker-minidlna
 
 
-### Python Deep Learing & Machine Learning Develop Environment
+## Python Deep Learing & Machine Learning Develop Environment
 
 ```console
 docker run -it -d --restart unless-stopped -p 8888:8888 -p 6006:6006 -v /media/pi/extHD/SharedFile:/root/sharedfolder floydhub/dl-docker:cpu jupyter notebook
@@ -106,8 +118,18 @@ docker run -it -d --restart unless-stopped -p 8888:8888 -p 6006:6006 -v /media/p
 
 Based on: https://github.com/floydhub/dl-docker
 
-### SCRIPT PER LA CONVERSIONE AUTOMATICA DEI FILE CARICATI - ITA 
+## Codec Conversion 
+This service is used to change video and music file encoder so they can be played by Minidlna. 
 
+### Installation with Docker:
+
+```console
+docker run -it --restart=unless-stopped -d -v /media/pi/extHD/FILM/:/FILM -v /media/pi/extHD/MUSICA/:/MUSICA -v /home/pi/Downloads:/transferred_files rio05docker/inotify-video-converter:latest
+```
+
+Every file that will be put to /home/pi/Downloads will trigger the conversion scripts.
+
+### Manual Installation: (ITA)
 Il file \pannello-server\startbootstrap-shop-item-gh-pages\pannello_controllo\invia_file.php deve essere modificato per puntare alla cartella dove verranno caricati i file..
 ### DA NON FARE
 Per fare un test..
@@ -164,6 +186,3 @@ bash file_conversion.sh "$(ls -1t | head -1)"
 ```console
 nohup /home/pi/Downloads/transferred_files/inotify_check.sh &
 ```
-TODO: check upload di più file video contemporaneamente e vedere se le conversioni vengono fatte parallelamente!!
-
-

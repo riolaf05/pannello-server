@@ -15,10 +15,15 @@ metadata:
   labels:
     type: local
 spec:
-  storageClassName: manual
-  capacity:
-    storage: 10Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
+  storageClassName: local-storage
+  local:
     path: "{{ .EXT_HD_PATH }}"
+  nodeAffinity: #PersistentVolume nodeAffinity is required when using local volumes. 
+                #It enables the Kubernetes scheduler to correctly schedule Pods using local volumes to the correct node.
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - {{ .NODE }}
