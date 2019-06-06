@@ -1,9 +1,9 @@
 #Cronjobs for external jobs
-info "Installing cronjobs"
+echo "Installing cronjobs"
 #TODO: launch add_cronjob.sh as a k8s cronjob
 
 #Kubernetes jobs
-info "Installing server control panel Kubernetes resources"
+echo "Installing server control panel Kubernetes resources"
 
 kubectl apply -f resources/persistantVolume.yaml
 kubectl apply -f resources/persistantVolumeClaim.yaml
