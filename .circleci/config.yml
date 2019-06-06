@@ -5,7 +5,7 @@
        - image: circleci/python:3-jessie
      steps:
        - checkout
-       - run: curl -sSL get.docker.com | sh && usermod -aG docker $USER
+       - run: setup_remote_docker 
        - run: chmod +x scripts/circleci/build.sh
        - run: scripts/circleci/build.sh
 
