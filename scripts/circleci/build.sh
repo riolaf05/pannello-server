@@ -6,5 +6,5 @@ info "Login to docker hub"
 #TODO
 
 info "Pushing docker images"
-#docker push rio05docker/inotify-video-converter:latest
-#docker push rio05docker/web_server_panel:latest
+docker push rio05docker/inotify-video-converter:latest
+docker push rio05docker/web_server_panel:latest
