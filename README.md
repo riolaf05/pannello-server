@@ -25,6 +25,14 @@ log out, then log back in again for the change to take effect
 sudo systemctl start docker
 ```
 
+### CircleCI Continuous Integration 
+
+Actually CircleCI will be triggered on each commit on master branch.
+
+It will build docker images with each new change and will push those changes on Docker Hub.
+
+TODO: enable the build step which do the rollout of the kubernetes resources on the cluster. 
+
 ### Installation with Kubernetes 
 
 Note: for each change upload image in pannello-server\startbootstrap-shop-item-gh-pages first with:
