@@ -3,7 +3,7 @@
 run: 
 
 ```console
-ansible-playbook playbook.yml
+ansible-playbook playbook.yml -u pi -k 
 ```
 
 this will install Docker, Kubernetes, etc in the Raspberry Pi nodes. 
