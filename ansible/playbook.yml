@@ -1,7 +1,6 @@
 ---
 # Setup web control panel
-- hosts: localhost
-  #hosts: raspberry_1.local, raspberry_2.local
+- hosts: kube-cluster #localhost
   #remote_user: 
   pre_tasks:
       - name: Update apt
