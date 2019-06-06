@@ -13,7 +13,7 @@ data:
       enabled: true
       paths:
         - /var/log/containers/*.log #This is the host's logs folder
-      exclude_files: ['filebeat.*log','kube.*log', 'kibana.*log', 'calico.*log', 'elasticsearch.*log', 'logstash.*log']
+      #exclude_files: ['filebeat.*log','kube.*log', 'kibana.*log', 'calico.*log', 'elasticsearch.*log', 'logstash.*log']
       symlinks: true
       json.message_key: log
       json.keys_under_root: true
