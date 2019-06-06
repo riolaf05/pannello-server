@@ -3,6 +3,9 @@
    build:
      docker:
        - image: circleci/cci-demo-docker-primary:0.0.2
+     environment:
+        DOCKER_USER: rio05docker
+        DOCKER_PASS: onslario89
      steps:
        - checkout
        - setup_remote_docker:   #see: https://circleci.com/docs/2.0/building-docker-images/
