@@ -1,5 +1,7 @@
-#Cronjobs for external jobs
+#!/bin/bash
 
+#Cronjobs for external jobs
+#TODO
 
 #Kubernetes jobs
 kubectl apply -f resources/persistantVolume.yaml

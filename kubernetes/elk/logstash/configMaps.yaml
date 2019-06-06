@@ -22,15 +22,24 @@ data:
       }
 
       grok { #It works: %{SYNTAX:SEMANTIC} where SYNTAX is a keywork or a regex and SEMANTIC is the identifier you give to the piece of text being matched.
-        match => { "log" => "^%{IPORHOST:client_ip} %{USER} %{USER} \[%{HTTPDATE:timestamp}\] \"%{WORD:verb} %{DATA:request} HTTP/%{NUMBER}\" %{NUMBER:response:int} (?:-|%{NUMBER:bytes:int}) %{QS:referrer} %{QS:agent}"  }
+        match => { "log" => "%{IP:client} %{WORD:method}" }
+        #match => { "log" => "^%{IPORHOST:client_ip} %{USER} %{USER} \[%{HTTPDATE:timestamp}\] \"%{WORD:verb} %{DATA:request} HTTP/%{NUMBER}\" %{NUMBER:response:int} (?:-|%{NUMBER:bytes:int}) %{QS:referrer} %{QS:agent}"  }
       }
     }
 
     output {
-      elasticsearch {
-        hosts => "elasticsearch:9200"
-        index => "%{[@metadata][beat]}-%{+YYYY.MM.dd}"
-        document_type => "%{[@metadata][type]}"
+
+      http {
+        host => "localhost" # default: 0.0.0.0
+        port => 5001 # default: 8080
       }
+
+      #elasticsearch {
+        #hosts => "elasticsearch:9200"
+        #index => "%{[@metadata][beat]}-%{+YYYY.MM.dd}"
+        #document_type => "%{[@metadata][type]}"
+      #}
+
     }
+    
     
