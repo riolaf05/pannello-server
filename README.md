@@ -3,8 +3,6 @@
 
 This is a web UI for raspberry pi and other linux servers management
 
-## Installation
-
 ### Prerequisites
 
 Use the playbook in /ansible folder to configure each Raspberry Pi node, Ansible will:
@@ -17,7 +15,7 @@ Use the playbook in /ansible folder to configure each Raspberry Pi node, Ansible
 ```
 - mount the main storage in /media/pi/extHD/ 
 
-### Install Docker on Raspberry Pi.
+Note: to manually install Docker on Raspberry Pi (optional).
 ```console
 curl -sSL get.docker.com | sh
 sudo usermod -aG docker pi
@@ -28,7 +26,6 @@ sudo systemctl start docker
 ```
 
 ### Installation with Kubernetes 
-
 
 Note: for each change upload image in pannello-server\startbootstrap-shop-item-gh-pages first with:
 ```console
