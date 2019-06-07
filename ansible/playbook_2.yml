@@ -1,6 +1,8 @@
 #See: https://kubernetes.io/blog/2019/03/15/kubernetes-setup-using-ansible-and-vagrant/
 - hosts: all
   become: true
+  vars:
+    node_ip: 192.168.1.9
   tasks:
   - name: Install packages that allow apt to be used over HTTPS
     apt:
@@ -14,6 +16,7 @@
       - curl
       - gnupg-agent
       - software-properties-common
+      - git-core
 
   - name: Add an apt signing key for Docker
     apt_key:
@@ -91,3 +94,4 @@
 
    #- name: Initialize the Kubernetes cluster using kubeadm
    # command: kubeadm init --apiserver-advertise-address="192.168.50.10" --apiserver-cert-extra-sans="192.168.50.10"  --node-name k8s-master --pod-network-cidr=192.168.0.0/16
+   #TODO
