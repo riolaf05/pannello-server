@@ -57,7 +57,7 @@
 
       - name: Add Docker and K8s repository to the list of repositories
         lineinfile:
-          path: /etc/apt/sources.list.d/{{ item.category }}.list
+          path: /etc/apt/sources.list.d/{{ item.url }}.list
           line: "{{ item.url }}"
         with_items:
           #- { url: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable', category: 'docker'     } #for ubuntu
