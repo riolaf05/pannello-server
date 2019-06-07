@@ -58,7 +58,7 @@ spec:
           mountPath: /usr/share/filebeat/inputs.d
           readOnly: true
         - name: varlibdockercontainers
-          mountPath: /var/lib/docker/containers
+          mountPath: /var/log/containers
           readOnly: true
         - name: data
           mountPath: /usr/share/filebeat/data
@@ -72,9 +72,9 @@ spec:
         configMap:
           defaultMode: 0600
           name: filebeat-inputs
-      - name: varlibdockercontainers #The Docker logs host folder (/var/lib/docker/containers) is mounted on the Filebeat container. 
+      - name: varlibdockercontainers #The Docker logs host folder (/var/log/containers) is mounted on the Filebeat container. 
         hostPath:
-          path: /var/lib/docker/containers 
+          path: /var/log/pods/*/*/ 
       - name: data # data folder stores a registry of read status for all files, so we don't send everything again on a Filebeat pod restart
         hostPath:
           path: /var/lib/filebeat-data
