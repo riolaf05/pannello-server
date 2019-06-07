@@ -1,151 +1,97 @@
----
-# Setup web control panel
-- hosts: kube-cluster #localhost
-  #remote_user: 
-  pre_tasks:
-      - name: Update apt
-        become: yes
-        apt:
-          cache_valid_time: 1800
-          update_cache: yes
+#See: https://kubernetes.io/blog/2019/03/15/kubernetes-setup-using-ansible-and-vagrant/
+- hosts: all
+  become: true
+  vars:
+    node_ip: 192.168.1.9
   tasks:
+  - name: Install packages that allow apt to be used over HTTPS
+    apt:
+      name: "{{ packages }}"
+      state: present
+      update_cache: yes
+    vars:
+      packages:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg-agent
+      - software-properties-common
+      - git-core
 
-    - name: Create a directory to mount main storage
-      file:
-        path: /media/pi/extHD
-        state: directory
-        mode: '0755'
-    
-    - name: Create a directory put transferred files
-      file:
-        path: /home/pi/Downloads/transferred_files
-        state: directory
-        mode: '0755'
+  - name: Add an apt signing key for Docker
+    apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
 
-    #- name: Mount up storage device by UUID
-    #  mount:
-    #    path: /media/pi/extHD
-    #    src: UUID=9bf3480d-0c71-40b2-8143-1e6f6fa27429
-    #    fstype: ext4
-    #    opts: noatime #Mount options (see fstab(5), or vfstab(4) on Solaris).
-    #    state: present #present only specifies that the device is to be configured in fstab and does not trigger or require a mount.
-    
-    - block:
-      - name: Add encryption key for the Docker and K8s repository
-        apt_key:
-          url: "{{ item }}" #It allows to iter throught an item list described in "with_items"
-          state: present
-        with_items:
-          - https://download.docker.com/linux/raspbian/gpg
-          - https://packages.cloud.google.com/apt/doc/apt-key.gpg
+  - name: Add apt repository for stable version
+    apt_repository:
+      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
+      state: present
 
-      - name: Clean Docker and K8s repository files to be idempotent
-        file:
-          name: "{{ item }}"
-          state: absent
-        with_items:
-          - /etc/apt/sources.list.d/docker.list
-          - /etc/apt/sources.list.d/kubernetes.list
+  - name: Install docker and its dependecies
+    apt: 
+      name: "{{ packages }}"
+      state: present
+      update_cache: yes
+    vars:
+      packages:
+      - docker-ce 
+      - docker-ce-cli 
+      - containerd.io
+    notify:
+      - docker status
 
-      - name: Recreate Docker and K8s repository files
-        file:
-          name: "{{ item }}"
-          state: touch
-        with_items:
-          - /etc/apt/sources.list.d/docker.list
-          - /etc/apt/sources.list.d/kubernetes.list
+  - name: Add pi user to docker group
+    user:
+      name: pi
+      group: docker
 
-      - name: Add Docker and K8s repository to the list of repositories
-        lineinfile:
-          path: /etc/apt/sources.list.d/{{ item.url }}.list
-          line: "{{ item.url }}"
-        with_items:
-          #- { url: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable', category: 'docker'     } #for ubuntu
-          - { url: 'deb [arch=armhf] https://download.docker.com/linux/raspbian stretch stable', category: 'docker'     }
-          - { url: 'deb http://apt.kubernetes.io/ kubernetes-xenial main'                      , category: 'kubernetes' }
+  - name: Remove swapfile from /etc/fstab
+    mount:
+      name: "{{ item }}"
+      fstype: swap
+      state: absent
+    with_items:
+      - swap
+      - none
 
-      - name: Install packages to allow apt to use HTTPS repositories
-        apt:
-          name: "{{ item }}"
-          state: present
-        with_items:
-          - apt-transport-https
-          - ca-certificates
-          - software-properties-common
+  - name: Disable swap
+    command: swapoff -a
+    when: ansible_swaptotal_mb > 0
 
-      - name: Update list of available repositories
-        apt:
-          update_cache: yes
-      - name: Update all packages to the latest version
-        apt:
-          upgrade: dist
+  - name: Add an apt signing key for Kubernetes
+    apt_key:
+      url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+      state: present
 
-      - name: Install Docker and K8s binaries
-        apt:
-          name: "{{ item }}"
-          state: present
-        with_items:
-          - docker-ce
-          - kubelet
-          - kubeadm
-          - kubectl
-          - kubernetes-cni
+  - name: Adding apt repository for Kubernetes
+    apt_repository:
+      repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+      state: present
+      filename: kubernetes.list
 
-      - name: Turn off swap
-        shell: dphys-swapfile swapoff && dphys-swapfile uninstall && update-rc.d dphys-swapfile remove
-      - name: Activating cgroup
-        lineinfile:
-          path: /boot/cmdline.txt
-          backrefs: true
-          regexp: '^(.*rootwait)$'
-          line: '\1 cgroup_enable=cpuset cgroup_memory=1'
+  - name: Install Kubernetes binaries
+    apt: 
+      name: "{{ packages }}"
+      state: present
+      update_cache: yes
+    vars:
+      packages:
+        - kubelet 
+        - kubeadm 
+        - kubectl
 
-      - name: Rebooting
-        shell: reboot now
-        ignore_errors: true
-      become: true
+  - name: Configure node ip
+    lineinfile:
+      path: /etc/default/kubelet
+      line: KUBELET_EXTRA_ARGS=--node-ip={{ node_ip }}
 
-    # - name: Add ppa Repository
-    #  become: yes
-    #  apt_repository: repo=ppa:ondrej/php
+  - name: Restart kubelet
+    service:
+      name: kubelet
+      daemon_reload: yes
+      state: restarted
 
-    # - name: install 
-    #  become: yes
-    #  become_user: root
-    #  apt:
-    #    pkg:
-    #      - apache2
-    #      - mysql-server
-    #      - php7.0
-    #      - php7.0-mysql
-    #    state: present
-    #    update_cache: yes
-
-    #- name: start apache service
-    #  become: yes
-    #  become_user: root
-    #  service:
-    #    name: apache2
-    #    state: started
-    #    enabled: yes
-  
-    #- name: start mysql service
-    #  become: yes
-    #  become_user: root
-    #  service:
-    #    name: mysql
-    #    state: started
-    #    enabled: yes
-
-
-    #- name: deploy web app
-    #  become: yes
-    #  become_user: root
-    #  command: cp -r ../startbootstrap-shop-item-gh-pages/pannello_controllo/* /var/www/html/pannello_controllo/ && chmod 0755 /var/www/html/pannello_controllo/*
-    
-
-
-              
-
-
-              
+   #- name: Initialize the Kubernetes cluster using kubeadm
+   # command: kubeadm init --apiserver-advertise-address="192.168.50.10" --apiserver-cert-extra-sans="192.168.50.10"  --node-name k8s-master --pod-network-cidr=192.168.0.0/16
+   #TODO
