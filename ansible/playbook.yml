@@ -25,8 +25,8 @@
     #- name: Mount up storage device by UUID
     #  mount:
     #    path: /media/pi/extHD
-    #    src: UUID=b3e48f45-f933-4c8e-a700-22a159ec9077
-    #    fstype: xfs
+    #    src: UUID=9bf3480d-0c71-40b2-8143-1e6f6fa27429
+    #    fstype: ext4
     #    opts: noatime #Mount options (see fstab(5), or vfstab(4) on Solaris).
     #    state: present #present only specifies that the device is to be configured in fstab and does not trigger or require a mount.
     
