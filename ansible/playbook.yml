@@ -3,6 +3,7 @@
   become: true
   vars:
     node_ip: 192.168.1.9
+    raspi_version: stretch #lsb_release -cs to check version
   tasks:
 
   - name: Create a directory to mount main storage
@@ -41,12 +42,12 @@
 
   - name: Add an apt signing key for Docker
     apt_key:
-      url: https://download.docker.com/linux/ubuntu/gpg
+      url: https://download.docker.com/linux/debian/gpg
       state: present
 
   - name: Add apt repository for stable version
     apt_repository:
-      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
+      repo: deb [arch=armhf] https://download.docker.com/linux/debian stretch stable
       state: present
 
   - name: Install docker and its dependecies
@@ -59,8 +60,8 @@
       - docker-ce 
       - docker-ce-cli 
       - containerd.io
-    notify:
-      - docker status
+    #notify:
+    #  - docker status
 
   - name: Add pi user to docker group
     user:
