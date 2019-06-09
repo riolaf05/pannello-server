@@ -12,18 +12,17 @@ This is a web UI for Raspberry Pi cluster management
 ```console
 echo ansible/hosts >> /etc/ansible/hosts
 ```
-- Ansible will install Docker, Kubernetes, create the requiered folders such as: /media/pi/extHD/FILM, /media/pi/extHD/MUSICA, /media/pi/extHD/FOTO), etc.
+- Ansible will install Docker, Kubernetes, create the requiered folders such as: /media/pi/extHD/FILM, /media/pi/extHD/MUSICA, /media/pi/extHD/FOTO), bind the main storage in /media/pi/extHD/ etc.
 ```
-- mount the main storage in /media/pi/extHD/ 
+- Disable WiFi nd Bluetooth Driver by adding the following line to /etc/modprobe.d/raspi-blacklist.conf
 
-Note: to manually install Docker on Raspberry Pi (optional).
 ```console
-curl -sSL get.docker.com | sh
-sudo usermod -aG docker pi
-```
-log out, then log back in again for the change to take effect
-```console
-sudo systemctl start docker
+#wifi
+blacklist brcmfmac
+blacklist brcmutil
+#bt
+blacklist btbcm
+blacklist hci_uart
 ```
 
 ### CircleCI Continuous Integration 
