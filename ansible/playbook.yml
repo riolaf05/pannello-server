@@ -105,10 +105,10 @@
         - kubeadm 
         - kubectl
 
-  #- name: Configure node ip
-  #  lineinfile:
-  #    path: /etc/default/kubelet
-  #    line: Environment="KUBELET_EXTRA_ARGS=--node-ip=hostvars[inventory_hostname]['ansible_default_ipv4']['address']
+  - name: Configure node ip
+    lineinfile:
+      path: /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+      line: Environment="KUBELET_EXTRA_ARGS=--node-ip=192.168.1.9" #TODO: parameterize this!!!
 
   - name: Restart kubelet
     service:
