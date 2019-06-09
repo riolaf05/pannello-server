@@ -1,17 +1,18 @@
 
-# Server web control panel 
+# Server web control panel on a Raspberry Pi CLuster
 
-This is a web UI for raspberry pi and other linux servers management
+This is a web UI for Raspberry Pi cluster management
 
 ### Prerequisites
 
-Use the playbook in /ansible folder to configure each Raspberry Pi node, Ansible will:
-- install Docker, Kubernetes, etc. 
-- create the requiered folders..
+- Install Ansible 2.0+
+- Install Raspbian Stretch on each Raspberry and enable SSH and Camera (throught sudo raspi-config)
+- Use the playbook in /ansible folder to configure each Raspberry Pi node, Ansible will
+- Change Rasoberry Pi hostnames and update ansible/hosts, then put hostnames on Ansible hosts file:
 ```console
-/media/pi/extHD/FILM
-/media/pi/extHD/MUSICA
-/media/pi/extHD/FOTO
+echo ansible/hosts >> /etc/ansible/hosts
+```
+- Ansible will install Docker, Kubernetes, create the requiered folders such as: /media/pi/extHD/FILM, /media/pi/extHD/MUSICA, /media/pi/extHD/FOTO), etc.
 ```
 - mount the main storage in /media/pi/extHD/ 
 
