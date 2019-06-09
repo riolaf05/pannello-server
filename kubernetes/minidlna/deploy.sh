@@ -1,3 +1,4 @@
+#!/bin/bash
 
 #Build step, template files will be filled with env parameters
 NODE_HOSTNAME=raspberry.local

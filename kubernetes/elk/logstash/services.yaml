@@ -13,7 +13,12 @@ spec:
     port: 5000
     protocol: TCP
     targetPort: 5000
+  - name: "http-output"
+    port: 5001
+    nodePort: 30000
+    protocol: TCP
+    targetPort: 5001
   selector:
     name: logstash
   sessionAffinity: None
-  type: ClusterIP
+  type: NodePort
