@@ -19,13 +19,14 @@
       mode: '0755'
 
   - name: Mount up storage device by UUID
+    when: ansible_hostname == 'raspberry_1'
     mount:
       path: /media/pi/extHD
       src: UUID=9bf3480d-0c71-40b2-8143-1e6f6fa27429
       fstype: ext4
-      opts: noatime #Mount options (see fstab(5), or vfstab(4) on Solaris).
+      opts: bind #Mount options 
       state: present #present only specifies that the device is to be configured in fstab and does not trigger or require a mount.
-      when: ansible_hostname == 'raspberry_1'
+      
 
   - name: Install packages that allow apt to be used over HTTPS
     apt:
@@ -104,10 +105,10 @@
         - kubeadm 
         - kubectl
 
-  - name: Configure node ip
-    lineinfile:
-      path: /etc/default/kubelet
-      line: KUBELET_EXTRA_ARGS=--node-ip=hostvars[inventory_hostname]['ansible_default_ipv4']['address']
+  #- name: Configure node ip
+  #  lineinfile:
+  #    path: /etc/default/kubelet
+  #    line: Environment="KUBELET_EXTRA_ARGS=--node-ip=hostvars[inventory_hostname]['ansible_default_ipv4']['address']
 
   - name: Restart kubelet
     service:
