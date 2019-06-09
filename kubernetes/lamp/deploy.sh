@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #Cronjobs for external jobs
 echo "Installing cronjobs"
 #TODO: launch add_cronjob.sh as a k8s cronjob

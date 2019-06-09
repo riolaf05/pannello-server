@@ -5,6 +5,7 @@ docker build -t "rio05docker/web_server_panel:latest" startbootstrap-shop-item-g
 echo "Login to docker hub"
 docker login -u $DOCKER_USER -p $DOCKER_PASS
 
-echo "Pushing docker images"
-#docker push rio05docker/inotify-video-converter:latest
-#docker push rio05docker/web_server_panel:latest
+info "Pushing docker images"
+docker push rio05docker/inotify-video-converter:latest
+docker push rio05docker/web_server_panel:latest
+
