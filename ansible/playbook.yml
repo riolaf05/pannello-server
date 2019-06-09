@@ -2,15 +2,15 @@
 - hosts: all
   become: true
   vars:
-    node_ip: 192.168.1.9
     raspi_version: stretch #lsb_release -cs to check version
+  
   tasks:
 
-  - name: Create a directory to mount main storage
-    file:
-      path: /media/pi/extHD
-      state: directory
-      mode: '0755'
+  #- name: Create a directory to mount main storage
+  #  file:
+  #    path: /media/pi/extHD
+  #    state: directory
+  #    mode: '0755'
     
   - name: Create a directory put transferred files
     file:
@@ -18,13 +18,14 @@
       state: directory
       mode: '0755'
 
-  #- name: Mount up storage device by UUID
-  #  mount:
-  #    path: /media/pi/extHD
-  #    src: UUID=9bf3480d-0c71-40b2-8143-1e6f6fa27429
-  #    fstype: ext4
-  #    opts: noatime #Mount options (see fstab(5), or vfstab(4) on Solaris).
-  #    state: present #present only specifies that the device is to be configured in fstab and does not trigger or require a mount.
+  - name: Mount up storage device by UUID
+    mount:
+      path: /media/pi/extHD
+      src: UUID=9bf3480d-0c71-40b2-8143-1e6f6fa27429
+      fstype: ext4
+      opts: noatime #Mount options (see fstab(5), or vfstab(4) on Solaris).
+      state: present #present only specifies that the device is to be configured in fstab and does not trigger or require a mount.
+      when: ansible_hostname == 'raspberry_1'
 
   - name: Install packages that allow apt to be used over HTTPS
     apt:
@@ -106,7 +107,7 @@
   - name: Configure node ip
     lineinfile:
       path: /etc/default/kubelet
-      line: KUBELET_EXTRA_ARGS=--node-ip={{ node_ip }}
+      line: KUBELET_EXTRA_ARGS=--node-ip=hostvars[inventory_hostname]['ansible_default_ipv4']['address']
 
   - name: Restart kubelet
     service:
