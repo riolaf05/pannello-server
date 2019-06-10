@@ -25,6 +25,43 @@ blacklist btbcm
 blacklist hci_uart
 ```
 
+- Disable Swap: #TODO: fix that in Ansible script
+```console
+sudo dphys-swapfile swapoff && \
+sudo dphys-swapfile uninstall && \
+sudo update-rc.d dphys-swapfile remove
+```
+
+### Kubernetes cluster configuration
+
+- Pre-pull K8s master images: 
+```console
+sudo kubeadm config images pull -v3
+```
+
+- Init the master:
+
+```console
+sudo kubeadm init
+```
+
+- Again, on master: 
+```console
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
+
+- Install Weave Net network driver, on master:
+```console
+kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+```
+
+- On slaves: 
+```console
+sudo kubeadm join --token <token> <master-node-ip>:6443 --discovery-token-ca-cert-hash sha256:<sha256>
+```
+
 ### CircleCI Continuous Integration 
 
 Actually CircleCI will be triggered on each commit on master branch.
@@ -33,7 +70,7 @@ It will build docker images with each new change and will push those changes on 
 
 TODO: enable the build step which do the rollout of the kubernetes resources on the cluster. 
 
-### Installation with Kubernetes 
+### Control Panel installation with Kubernetes 
 
 Note: for each change upload image in pannello-server\startbootstrap-shop-item-gh-pages first with:
 ```console
@@ -49,7 +86,7 @@ bash kubernetes/ml-keras/deploy.sh #TO BE TESTED
 ```
 This will create the K8s resources on the cluster. 
 
-### Installation with Docker
+### Control Panel installation with Docker
 
 0) install docker-ce and vcgencmd on local machine
 
@@ -73,7 +110,7 @@ inside the container to create certificate and key when expired.
 
 **TODO: disable non-https connections**
 
-### Local installation
+### Control Panel local installation (without docker or K8s)
 
 **NOTE: for the local installation must first uncomment the 33° row in index.php**
 
@@ -101,7 +138,7 @@ To enable the "Server Shutdown and Reboot" buttons it is necessary to use a cron
 shuts down or reboots the machine if it find the file writen by the PHP script (that cannot 
 reboot the machine directly).
 
-## MINIDLNA SERVER
+# Docker installation MINIDLNA SERVER
 Using docker:
 
 ```console
@@ -118,7 +155,7 @@ Using docker:
 Based on: https://github.com/djdefi/rpi-docker-minidlna
 
 
-## Python Deep Learing & Machine Learning Develop Environment
+# Python Deep Learing & Machine Learning Develop Environment with Docker
 
 ```console
 docker run -it -d --restart unless-stopped -p 8888:8888 -p 6006:6006 -v /media/pi/extHD/SharedFile:/root/sharedfolder floydhub/dl-docker:cpu jupyter notebook
@@ -126,7 +163,7 @@ docker run -it -d --restart unless-stopped -p 8888:8888 -p 6006:6006 -v /media/p
 
 Based on: https://github.com/floydhub/dl-docker
 
-## Codec Conversion 
+# Codec Conversion service installation
 This service is used to change video and music file encoder so they can be played by Minidlna. 
 
 ### Installation with Docker:
