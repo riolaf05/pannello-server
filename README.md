@@ -1,5 +1,5 @@
 
-# Server web control panel on a Raspberry Pi CLuster
+# Server web control panel on a Raspberry Pi Cluster
 
 This is a web UI for Raspberry Pi cluster management
 
