@@ -2,6 +2,9 @@
 
 #Cronjobs for external jobs
 echo "Installing cronjobs"
+chmod +x scripts/*
+sed 's|{{ .EXT_HD_PATH }}|/scripts/nodes_params.xml|g' script/ > /tmp/persistantVolume.yaml
+
 #TODO: launch add_cronjob.sh as a k8s cronjob
 
 #Kubernetes jobs
