@@ -19,11 +19,3 @@ cp scripts/get_server_info.sh $HOME/Scripts
 chmod +x $HOME/Scripts
 bash scripts/add_cronjobs.sh
 
-# Installing Kubernetes jobs
-echo "Installing server control panel Kubernetes resources"
-
-kubectl apply -f resources/persistantVolume.yaml
-kubectl apply -f resources/persistantVolumeClaim.yaml
-kubectl apply -f resources/secrets.yaml
-kubectl apply -f resources/php.yaml
-kubectl apply -f resources/ingress.yaml
