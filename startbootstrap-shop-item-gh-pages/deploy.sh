@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "Removing old scripts"
+rm /tmp//nodes_param.xml
+
 N_CLUSTER=2 #Select cluster node number
 cluster[0]="raspberrypi"
 cluster[1]="raspberrypi1"
