@@ -1,24 +1,21 @@
 #!/bin/bash
 
-N_CLUSTER=2 #Select cluster node number
+N_CLUSTER=1 #Select cluster node number
 
 echo "Writing XML configuration file for each node of the cluster"
 HOSTNAME=$(hostname)
-printf "<root>\n" >> test.txt
-for (( c=1; c<=$N_CLUSTER; c++)); do printf "\t<"$HOSTNAME">\n\t\t<temperatura>TEMP_"$HOSTNAME"</temperatura>\n\t\t<memoria_act>MEM__ACT_"$HOSTNAME"</memoria_act>\n\t\t<memoria_tot>MEM__TOT_"$(hostname)"</memoria_tot>\n\t</"$HOSTNAME">\n" >> test.txt; done
-printf "</root>\n" >> test.txt
+printf "<root>\n" >> /tmp/nodes_param.xml
+for (( c=1; c<=$N_CLUSTER; c++)); do printf "\t<"$HOSTNAME">\n\t\t<temperatura>TEMP_"$HOSTNAME"</temperatura>\n\t\t<memoria_act>MEM_ACT_"$HOSTNAME"</memoria_act>\n\t\t<memoria_tot>MEM_TOT_"$(hostname)"</memoria_tot>\n\t</"$HOSTNAME">\n" >> /tmp/nodes_param.xml; done
+printf "</root>\n" >> /tmp/nodes_param.xml
 
-#todo: avvia rsync
+#TODO: Start Rsync to syncronize /tmp/ folder between nodes 
 
-#todo: avvia cronjobs per la scrittura di node_param
-#Cronjobs for external jobs
 echo "Installing cronjobs"
-#chmod +x scripts/*
-#sed 's|{{ .EXT_HD_PATH }}|$temperatura|g' script/ > /tmp/persistantVolume.yaml
-
+chmod +x scripts/*
+bash scripts/add_cronjobs.sh
 #TODO: launch add_cronjob.sh as a k8s cronjob
 
-#Kubernetes jobs
+# Installing Kubernetes jobs
 echo "Installing server control panel Kubernetes resources"
 
 kubectl apply -f resources/persistantVolume.yaml
