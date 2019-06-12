@@ -7,5 +7,5 @@ NODE_MEM_ACT=MEM_ACT_$(hostname)
 NODE_MEM_TOT=MEM_TOT_$(hostname)
 
 #sed 's|{{ .$NODE_TEMP }}|$TEMPERATURA|g' /tmp/nodes_param.xml 
-sed 's|'$NODE_MEM_ACT'|'$MEMORIA_USATA'|g' /tmp/nodes_param.xml > /tmp/nodes_param.xml
-sed 's|'$NODE_MEM_TOT'|'$MEMORIA_TOTALE'|g' /tmp/nodes_param.xml > /tmp/nodes_param.xml
+sed -i 's|'$NODE_MEM_ACT'|'$MEMORIA_USATA'|g' /tmp/nodes_param.xml 
+sed -i 's|'$NODE_MEM_TOT'|'$MEMORIA_TOTALE'|g' /tmp/nodes_param.xml 
