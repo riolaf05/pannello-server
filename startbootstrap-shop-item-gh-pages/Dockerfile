@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM arm32v7/ubuntu:16.04
 
 MAINTAINER Rio<onslaught89@gmail.com>
 ENV DEBIAN_FRONTEND noninteractive
