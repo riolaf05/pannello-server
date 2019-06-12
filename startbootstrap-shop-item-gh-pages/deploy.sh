@@ -1,18 +1,21 @@
 #!/bin/bash
 
 N_CLUSTER=2 #Select cluster node number
+cluster[0]="raspberrypi"
+cluster[1]="raspberrypi1"
 
 echo "Writing XML configuration file for each node of the cluster"
 HOSTNAME=$(hostname)
 printf "<root>\n" >> /tmp/nodes_param.xml
-for (( c=1; c<=$N_CLUSTER; c++)); do printf "\t<"$HOSTNAME">\n\t\t<temperatura>TEMP_"$HOSTNAME"</temperatura>\n\t\t<memoria_act>MEM_ACT_"$HOSTNAME"</memoria_act>\n\t\t<memoria_tot>MEM_TOT_"$(hostname)"</memoria_tot>\n\t</"$HOSTNAME">\n" >> /tmp/nodes_param.xml; done
+for (( c=0; c<=$N_CLUSTER-1; c++)); do printf "\t<"${cluster[$c]}">\n\t\t<temperatura>TEMP_"${cluster[$c]}"</temperatura>\n\t\t<memoria_act>MEM_ACT_"${cluster[$c]}"</memoria_act>\n\t\t<memoria_tot>MEM_TOT_"${cluster[$c]}"</memoria_tot>\n\t</"${cluster[$c]}">\n" >> /tmp/nodes_param.xml; done
 printf "</root>\n" >> /tmp/nodes_param.xml
 
-#TODO: Start Rsync to syncronize /tmp/ folder between nodes 
+#Start Rsync to syncronize /tmp/ folder between nodes 
+#TODO
 
 echo "Installing cronjobs"
-chmod +x scripts/*
+mkdir $HOME/Scripts
+cp scripts/get_server_info.sh $HOME/Scripts
+chmod +x $HOME/Scripts
 bash scripts/add_cronjobs.sh
 
-#Docker run:
-docker run -d --restart unless-stopped --name web_server_panel -p 80:80 -p 443:443 -v /tmp:/tmp web_server_panel:latest
