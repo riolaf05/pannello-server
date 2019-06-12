@@ -24,17 +24,17 @@ RUN a2enmod ssl
 
 RUN mkdir /etc/apache2/ssl
 
-RUN openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 -subj "/C=../ST=...../L=..../O=..../CN=..." -keyout ./ssl.key -out ./ssl.crt
+#RUN openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 -subj "/C=../ST=...../L=..../O=..../CN=..." -keyout ./ssl.key -out ./ssl.crt
 
-COPY ./ssl.crt /etc/apache2/ssl/ssl.crt
+#COPY $HOME/ssl.crt /etc/apache2/ssl/ssl.crt
 
-COPY ./ssl.key /etc/apache2/ssl/ssl.key
+#COPY ./ssl.key /etc/apache2/ssl/ssl.key
 
 RUN mkdir -p /var/run/apache2/
 
-RUN sed -i 's|80|443|g' /etc/apache2/sites-enabled/000-default.conf
+#RUN sed -i 's|80|443|g' /etc/apache2/sites-enabled/000-default.conf
 
-RUN a2ensite default-ssl
+#RUN a2ensite default-ssl
 
 #RUN service apache2 reload
 
