@@ -14,11 +14,5 @@ echo "Installing cronjobs"
 chmod +x scripts/*
 bash scripts/add_cronjobs.sh
 
-# Installing Kubernetes jobs
-echo "Installing server control panel Kubernetes resources"
-
-kubectl apply -f resources/persistantVolume.yaml
-kubectl apply -f resources/persistantVolumeClaim.yaml
-kubectl apply -f resources/secrets.yaml
-kubectl apply -f resources/php.yaml
-kubectl apply -f resources/ingress.yaml
+#Docker run:
+docker run -d --restart unless-stopped --name web_server_panel -p 80:80 -p 443:443 -v /tmp:/tmp web_server_panel:latest
