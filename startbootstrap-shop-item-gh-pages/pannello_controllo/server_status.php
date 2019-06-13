@@ -157,7 +157,17 @@
                     $xmldata = simplexml_load_file("/tmp/nodes_param.xml") or die("Failed to load");    
                             
 
-                    foreach($xmldata->children() as $raspberrypi) {  ?>
+                    foreach($xmldata->children() as $raspberrypi) {  
+                        
+
+                        
+                            echo $raspberrypi['name']; 
+                            echo $raspberrypi->temperatura."° C";
+                            echo $raspberrypi->memoria_act."/".$raspberrypi->memoria_tot." GB"; 
+                            
+                            
+                            
+                            ?>
 
                             <h2><?php echo $raspberrypi['name']; ?></h2>
 
