@@ -143,7 +143,7 @@
                         echo 'This line is printed, because the $xmldata is empty.';
                     }
                     else{
-                        echo "File is populated!"
+                        echo "File is populated!";
                     }
 
                      ?>
