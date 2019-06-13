@@ -115,25 +115,7 @@
             <div class="col-md-8 col-md-offset-1">
 
 
-                <!--
-                <h2 style="text-transform: capitalize; color: blue; text-align: center; font-family: Georgia, Serif; ">Dashboard</h2>
-				<h4>Temperatura CPU</h4>
-				<div class="progress progress-striped">
-				  <?php echo $temperatura."° C"; ?><div class="progress-bar progress-bar-danger" style="width: <?php echo $temperatura;?>%;"></div>
-				</div>
-				<h4>Memoria Disponibile</h4>
-				<div class="progress progress-striped">
-				  <?php echo $memoria_usata."/".$memoria_tot." GB"; ?><div class="progress-bar progress-bar-info" style="width: <?php echo $memoria_percentuale;?>%;"></div>
-				</div>
-				
-				<form method="POST" action='spegni_riavvia.php'>
-				<input type="submit" name="shutdown" value="Server Shutdown" class="btn btn-primary btn-large btn-block">
-				</form>
-				<div style="height:10px";"></div>              div usato per distanziare verticalmente!! 
-				<form method="POST" action='spegni_riavvia.php'>
-				<input type="submit" name="reboot" value="Server Reboot" class="btn btn-primary btn-large btn-block">
-				</form>
-				-->
+                
 
 
 
@@ -156,12 +138,6 @@
 
                     $xmldata = simplexml_load_file("/tmp/nodes_param.xml") or die("Failed to load");    
 
-                    if(empty($xmldata)){
-                        echo 'This line is printed, because the $xmldata is empty.';
-                    }
-                    else{
-                        echo 'Data found!';
-                    }
 
                     foreach($xmldata->children() as $raspberrypi) { ?>
 
