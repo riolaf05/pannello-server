@@ -151,9 +151,9 @@
 
                     $xmldata = simplexml_load_file("/tmp/nodes_param.xml") or die("Failed to load");                
 
-                    foreach($xmldata->children() as $raspberry) {  ?>       
+                    foreach($xmldata->children() as $raspberry) {         
                             
-                            <?php echo $raspberrypi->temperatura."° C"; ?>
+                            echo $raspberrypi->temperatura."° C"; ?>
 
                             <h2><?php echo "Nodo"; ?></h2>
 
@@ -171,7 +171,7 @@
                     }
                 } 
                 else {
-                    exit("Failed to open node_param.xml");
+                    exit("Failed to open nodes_param.xml");
                 }
                 ?>
 
