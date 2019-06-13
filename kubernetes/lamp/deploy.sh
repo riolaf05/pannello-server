@@ -14,6 +14,8 @@ printf "<root>\n" >> /tmp/nodes_param.xml
 for (( c=0; c<=$N_CLUSTER-1; c++)); do printf "\t<raspberry name='"${cluster[$c]}"'>\n\t\t<temperatura>TEMP_"${cluster[$c]}"</temperatura>\n\t\t<memoria_act>MEM_ACT_"${cluster[$c]}"</memoria_act>\n\t\t<memoria_tot>MEM_TOT_"${cluster[$c]}"</memoria_tot>\n\t</raspberry>\n" >> /tmp/nodes_param.xml; done
 printf "</root>\n" >> /tmp/nodes_param.xml
 
+#TODO: copy xml params file with SSH on all machines
+
 #Start Rsync to syncronize /tmp/ folder between nodes 
 #TODO
 
