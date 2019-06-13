@@ -31,7 +31,8 @@
 	<?php 
 		//Scrittura temperatura CPU (grazie all'applicazione acpi) e memoria restante
 		#$comando=shell_exec('/opt/vc/bin/vcgencmd measure_temp > /tmp/temperatura.txt && df -h / > /tmp/memoria.txt');
-		
+        
+        /*
 		//Lettura temperatura CPU 
 		$fp = fopen('/tmp/temperatura.txt', r);
 		if(!$fp) {
@@ -54,7 +55,9 @@
 		fseek($fp, 82, SEEK_SET); 
 		$memoria_percentuale = fread($fp, 2);
 		fclose($fp);
-		
+        */
+        
+
 
 	?>
 
@@ -108,9 +111,11 @@
                     <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8200" class="list-group-item">Media Server</a>
                 </div>
             </div>
-
+            
             <div class="col-md-8 col-md-offset-1">
 
+
+                <!--
                 <h2 style="text-transform: capitalize; color: blue; text-align: center; font-family: Georgia, Serif; ">Dashboard</h2>
 				<h4>Temperatura CPU</h4>
 				<div class="progress progress-striped">
@@ -124,11 +129,48 @@
 				<form method="POST" action='spegni_riavvia.php'>
 				<input type="submit" name="shutdown" value="Server Shutdown" class="btn btn-primary btn-large btn-block">
 				</form>
-				<div style="height:10px";"></div> <!-- div usato per distanziare verticalmente!! -->
+				<div style="height:10px";"></div>              div usato per distanziare verticalmente!! 
 				<form method="POST" action='spegni_riavvia.php'>
 				<input type="submit" name="reboot" value="Server Reboot" class="btn btn-primary btn-large btn-block">
 				</form>
-				
+				-->
+
+
+
+
+
+
+
+
+                <h2 style="text-transform: capitalize; color: blue; text-align: center; font-family: Georgia, Serif; ">Dashboard</h2>
+				<h4>Temperatura CPU</h4>
+                <?php
+                $xmldata = simplexml_load_file("cat /tmp/nodes_param.xml") or die("Failed to load");
+                foreach($xmldata->children() as $root) {  ?>       
+                        <h2><?php echo "Nodo"; ?></h2>
+
+                        <div class="progress progress-striped">
+                        <?php echo $root->raspberrypi1->temperatura."° C"; ?><div class="progress-bar progress-bar-danger" style="width: <?php echo $root->raspberrypi1->temperatura;?>%;"></div>
+                        </div>
+                        
+                        <div class="progress progress-striped">
+                        <?php echo $root->raspberrypi1->memoria_act."/".$root->raspberrypi1->memoria_tot." GB"; ?><div class="progress-bar progress-bar-info" style="width: <?php echo "20";?>%;"></div>
+                        </div>
+                        
+                <?php
+                } 
+                ?>
+
+
+
+
+
+
+
+
+
+
+
 
             </div>
 
