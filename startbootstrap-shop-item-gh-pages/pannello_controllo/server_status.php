@@ -154,7 +154,9 @@
 
                 if (file_exists("/tmp/nodes_param.xml")) {
 
-                    $xmldata = simplexml_load_file("/tmp/nodes_param.xml") or die("Failed to load");                
+                    $xmldata = simplexml_load_file("/tmp/nodes_param.xml") or die("Failed to load");    
+                            
+                    print_r($xmldata);
 
                     foreach($xmldata->children() as $raspberrypi) {  ?>
 
