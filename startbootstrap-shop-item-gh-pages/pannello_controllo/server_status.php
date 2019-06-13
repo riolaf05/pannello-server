@@ -146,32 +146,32 @@
 		
                 <?php 
 
-                $xmldata = simplexml_load_file("/tmp/nodes_param.xml") or die("Failed to load");
 
-                echo $xmldata;
+                if (file_exists("/tmp/nodes_param.xml")) {
 
-                foreach($xmldata->children() as $raspberry) {  ?>       
-                        
+                    $xmldata = simplexml_load_file("/tmp/nodes_param.xml") or die("Failed to load");                
 
+                    foreach($xmldata->children() as $raspberry) {  ?>       
+                            
+                            <?php echo $raspberrypi->temperatura."° C"; ?>
 
-                        <?php echo $raspberrypi->temperatura."° C"; ?>
+                            <h2><?php echo "Nodo"; ?></h2>
 
-                        <h2><?php echo "Nodo"; ?></h2>
-
-                        <h4>Temperatura CPU</h4>
-                        <div class="progress progress-striped">
-                        <?php echo $raspberrypi->temperatura."° C"; ?><div class="progress-bar progress-bar-danger" style="width: <?php echo $raspberrypi->temperatura;?>%;"></div>
-                        </div>
-                        
-                        <h4>Memoria Disponibile</h4>
-                        <div class="progress progress-striped">
-                        <?php echo $raspberrypi->memoria_act."/".$raspberrypi->memoria_tot." GB"; ?><div class="progress-bar progress-bar-info" style="width: <?php echo "20";?>%;"></div>
-                        </div>
-                        
-
-
+                            <h4>Temperatura CPU</h4>
+                            <div class="progress progress-striped">
+                            <?php echo $raspberrypi->temperatura."° C"; ?><div class="progress-bar progress-bar-danger" style="width: <?php echo $raspberrypi->temperatura;?>%;"></div>
+                            </div>
+                            
+                            <h4>Memoria Disponibile</h4>
+                            <div class="progress progress-striped">
+                            <?php echo $raspberrypi->memoria_act."/".$raspberrypi->memoria_tot." GB"; ?><div class="progress-bar progress-bar-info" style="width: <?php echo "20";?>%;"></div>
+                            </div>
+                
                 <?php
-                } 
+                
+                } else {
+                    exit("Failed to open node_param.xml");
+                }
                 ?>
 
 
