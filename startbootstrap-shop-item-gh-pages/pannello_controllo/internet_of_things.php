@@ -31,8 +31,7 @@
 	<?php 
 		//Scrittura temperatura CPU (grazie all'applicazione acpi) e memoria restante
 		#$comando=shell_exec('/opt/vc/bin/vcgencmd measure_temp > /tmp/temperatura.txt && df -h / > /tmp/memoria.txt');
-        
-        /*
+		
 		//Lettura temperatura CPU 
 		$fp = fopen('/tmp/temperatura.txt', r);
 		if(!$fp) {
@@ -55,9 +54,7 @@
 		fseek($fp, 82, SEEK_SET); 
 		$memoria_percentuale = fread($fp, 2);
 		fclose($fp);
-        */
-        
-
+		
 
 	?>
 
@@ -95,15 +92,15 @@
 
     <!-- Page Content -->
     <div class="container">
-
+        <p class="lead">Home Server</p>
         <div class="row">
 
             <div class="col-md-3">
-                <p class="lead">Home Server</p>
+                
                 <div class="list-group">
                     <a href="index.php" class="list-group-item active">Home</a>
                     <a href="carica_file.php" class="list-group-item">Board</a>
-                    <a href="#" class="list-group-item">Server Status</a>
+                    <a href="server_status.php" class="list-group-item">Server Status</a>
                     <a href="#" class="list-group-item">Internet of Things</a>
 					<a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8081" class="list-group-item">Camera Monitor</a>
                     <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8123" class="list-group-item">Home Assistant</a>
@@ -111,67 +108,28 @@
                     <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8200" class="list-group-item">Media Server</a>
                 </div>
             </div>
-            
+
+
             <div class="col-md-8 col-md-offset-1">
 
 
-                
 
 
-
-
-
-
-
-
-
-
-                <h2 style="text-transform: capitalize; color: blue; text-align: center; font-family: Georgia, Serif; ">Dashboard</h2>
-		
-                <?php 
 
                 
+                <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/689988/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+
+                <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/689988/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
 
 
 
-                if (file_exists("/tmp/nodes_param.xml")) {
+            
+                    
 
-                    $xmldata = simplexml_load_file("/tmp/nodes_param.xml") or die("Failed to load");    
 
 
-                    foreach($xmldata->children() as $raspberrypi) { ?>
-
-                            <h2><?php echo $raspberrypi['name']; ?></h2>
-
-                            <h4>Temperatura CPU</h4>
-                            <div class="progress progress-striped">
-                            <?php echo $raspberrypi->temperatura."° C"; ?><div class="progress-bar progress-bar-danger" style="width: <?php echo $raspberrypi->temperatura;?>%;"></div>
-                            </div>
-                            
-                            <h4>Memoria Disponibile</h4>
-                            <div class="progress progress-striped">
-                            <?php echo $raspberrypi->memoria_act."/".$raspberrypi->memoria_tot." GB"; ?><div class="progress-bar progress-bar-info" style="width: <?php echo ($raspberrypi->memoria_act*100)/$raspberrypi->memoria_tot;?>%;"></div>
-                            </div>
                 
-                <?php
-                    }
-                } 
-                else {
-                    exit("Failed to open nodes_param.xml");
-                }
-                ?>
-
-
-
-
-
-
-
-
-
-
-
-
+				
 
             </div>
 
