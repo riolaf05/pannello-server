@@ -11,7 +11,7 @@ echo "Writing XML configuration file for each node of the cluster"
 HOSTNAME=$(hostname)
 printf "<?xml version="1.0"?>\n"
 printf "<root>\n" >> /tmp/nodes_param.xml
-for (( c=0; c<=$N_CLUSTER-1; c++)); do printf "\t<"${cluster[$c]}">\n\t\t<temperatura>TEMP_"${cluster[$c]}"</temperatura>\n\t\t<memoria_act>MEM_ACT_"${cluster[$c]}"</memoria_act>\n\t\t<memoria_tot>MEM_TOT_"${cluster[$c]}"</memoria_tot>\n\t</"${cluster[$c]}">\n" >> /tmp/nodes_param.xml; done
+for (( c=0; c<=$N_CLUSTER-1; c++)); do printf "\t<raspberry name="${cluster[$c]}">\n\t\t<temperatura>TEMP_"${cluster[$c]}"</temperatura>\n\t\t<memoria_act>MEM_ACT_"${cluster[$c]}"</memoria_act>\n\t\t<memoria_tot>MEM_TOT_"${cluster[$c]}"</memoria_tot>\n\t</raspberry>\n" >> /tmp/nodes_param.xml; done
 printf "</root>\n" >> /tmp/nodes_param.xml
 
 #Start Rsync to syncronize /tmp/ folder between nodes 
