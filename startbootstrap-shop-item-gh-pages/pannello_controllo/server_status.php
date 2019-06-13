@@ -144,10 +144,17 @@
 
                 <h2 style="text-transform: capitalize; color: blue; text-align: center; font-family: Georgia, Serif; ">Dashboard</h2>
 		
-                <?php
+                <?php 
+
                 $xmldata = simplexml_load_file("cat /tmp/nodes_param.xml") or die("Failed to load");
+
+                echo $xmldata
+
                 foreach($xmldata->children() as $raspberry) {  ?>       
                         
+
+                        <?php echo $raspberrypi->temperatura."° C"; ?>
+
                         <h2><?php echo "Nodo"; ?></h2>
 
                         <h4>Temperatura CPU</h4>
@@ -160,6 +167,8 @@
                         <?php echo $raspberrypi->memoria_act."/".$raspberrypi->memoria_tot." GB"; ?><div class="progress-bar progress-bar-info" style="width: <?php echo "20";?>%;"></div>
                         </div>
                         
+
+
                 <?php
                 } 
                 ?>
