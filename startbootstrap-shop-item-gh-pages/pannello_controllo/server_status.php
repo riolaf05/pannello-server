@@ -144,7 +144,7 @@
                 
                 <?php
                     }
-                } 
+                /*}*/ 
                 else {
                     exit("Failed to open nodes_param.xml");
                 }
