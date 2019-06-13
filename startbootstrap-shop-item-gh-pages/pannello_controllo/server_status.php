@@ -154,12 +154,11 @@
 
                 if (file_exists("/tmp/nodes_param.xml")) {
 
-                    $xmlfile = readfile("/tmp/nodes_param.xml");
+                    $xmldata = simplexml_load_file("/tmp/nodes_param.xml") or die("Failed to load");    
 
-                    echo $xmlfile
-
-                    $xmldata = simplexml_load_string($xmlfile);    
-                            
+                    if(empty($xmldata)){
+                        echo 'This line is printed, because the $xmldata is empty.';
+                    }
 
                     foreach($xmldata->children() as $raspberrypi) { ?>
 
