@@ -146,12 +146,13 @@
 		
                 <?php 
 
-                $xmldata = simplexml_load_file("cat /tmp/nodes_param.xml") or die("Failed to load");
+                $xmldata = simplexml_load_file("/tmp/nodes_param.xml") or die("Failed to load");
 
-                echo $xmldata;
+                
 
                 foreach($xmldata->children() as $raspberry) {  ?>       
                         
+
 
                         <?php echo $raspberrypi->temperatura."° C"; ?>
 
