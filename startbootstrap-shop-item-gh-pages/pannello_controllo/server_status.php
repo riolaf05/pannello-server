@@ -153,7 +153,7 @@
 
                     foreach($xmldata->children() as $raspberry) {         
                             
-                            echo $raspberrypi->temperatura."° C"; ?>
+                            echo "Element found!" ?>
 
                             <h2><?php echo "Nodo"; ?></h2>
 
