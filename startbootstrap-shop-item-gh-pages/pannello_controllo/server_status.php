@@ -168,8 +168,9 @@
                             </div>
                 
                 <?php
-                
-                } else {
+                    }
+                } 
+                else {
                     exit("Failed to open node_param.xml");
                 }
                 ?>
