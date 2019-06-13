@@ -150,7 +150,7 @@
                             
                             <h4>Memoria Disponibile</h4>
                             <div class="progress progress-striped">
-                            <?php echo $raspberrypi->memoria_act."/".$raspberrypi->memoria_tot." GB"; ?><div class="progress-bar progress-bar-info" style="width: <?php echo "20";?>%;"></div>
+                            <?php echo $raspberrypi->memoria_act."/".$raspberrypi->memoria_tot." GB"; ?><div class="progress-bar progress-bar-info" style="width: <?php echo ($raspberrypi->memoria_act*100)/$raspberrypi->memoria_tot;?>%;"></div>
                             </div>
                 
                 <?php
