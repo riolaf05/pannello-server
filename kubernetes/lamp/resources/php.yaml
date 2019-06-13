@@ -34,15 +34,18 @@ spec:
       containers:
       # deploys this custom PHP image from Docker Hub
       # https://hub.docker.com/r/rio05docker/web_server_panel/
-      - image: rio05docker/web_server_panel:first_test
+      - image: rio05docker/web_server_panel:rpi3
         # download a fresh copy of the image if available, even if it has the same version label
         imagePullPolicy: Always
         name: web-server-panel
         #reserving resources from our cluster
         resources:
-          requests:
-            cpu: 100m
-            memory: 1Gi
+            limits:
+                memory: "1Gi"
+                cpu: "1"
+            requests:
+                cpu: "100m"
+                memory: "30Mi"
         # env sets environment variables in the container
         # exactly like environment variables set from the command line
         env:
