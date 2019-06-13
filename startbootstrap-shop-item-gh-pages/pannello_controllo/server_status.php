@@ -158,7 +158,7 @@
 
                     foreach($xmldata->children() as $raspberrypi) {  ?>
 
-                            <h2><?php echo $raspberrypi->getAttribute('name'); ?></h2>
+                            <h2><?php echo $raspberrypi['name']; ?></h2>
 
                             <h4>Temperatura CPU</h4>
                             <div class="progress progress-striped">
