@@ -148,12 +148,15 @@
 		
                 <?php 
 
+                
+
+
 
                 if (file_exists("/tmp/nodes_param.xml")) {
 
                     $xmldata = simplexml_load_file("/tmp/nodes_param.xml") or die("Failed to load");                
 
-                    foreach($xmldata->getElementsByTagName('raspberry') as $raspberrypi) {  ?>
+                    foreach($xmldata->children() as $raspberrypi) {  ?>
 
                             <h2><?php echo $raspberrypi->getAttribute('name'); ?></h2>
 
