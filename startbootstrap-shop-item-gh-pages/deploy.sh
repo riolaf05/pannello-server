@@ -26,4 +26,4 @@ chmod +x $HOME/Scripts
 bash scripts/add_cronjobs.sh
 
 echo "PBuilding Docker image"
-docker build -t "rio05docker/web_server_panel:rpi3" .
+docker build -t "rio05docker/web_server_panel:rpi3_latest" .
