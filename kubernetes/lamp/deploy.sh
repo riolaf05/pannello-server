@@ -19,7 +19,7 @@ printf "</root>\n" >> /tmp/nodes_param.xml
 
 echo "Installing cronjobs"
 mkdir $HOME/Scripts/
-cp startbootstrap-shop-item-gh-pages/scripts/get_server_info.sh $HOME/Scripts
+cp startbootstrap-shop-item-gh-pages/scripts/* $HOME/Scripts
 chmod +x $HOME/Scripts/*
 bash startbootstrap-shop-item-gh-pages/scripts/add_cronjobs.sh
 

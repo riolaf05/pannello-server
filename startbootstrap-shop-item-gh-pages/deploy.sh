@@ -19,7 +19,7 @@ printf "</root>\n" >> /tmp/nodes_param.xml
 
 echo "Installing cronjobs"
 mkdir $HOME/Scripts
-cp scripts/get_server_info.sh $HOME/Scripts
+cp scripts/* $HOME/Scripts
 chmod +x $HOME/Scripts
 bash scripts/add_cronjobs.sh
 
