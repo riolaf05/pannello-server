@@ -156,6 +156,8 @@
 
                     $xmlfile = readfile("/tmp/nodes_param.xml");
 
+                    echo $xmlfile
+
                     $xmldata = simplexml_load_string($xmlfile);    
                             
 
