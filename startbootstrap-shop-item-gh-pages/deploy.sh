@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "Removing old scripts"
+rm /tmp//nodes_param.xml
+
 N_CLUSTER=2 #Select cluster node number
 cluster[0]="raspberrypi"
 cluster[1]="raspberrypi1"
@@ -19,3 +22,5 @@ cp scripts/get_server_info.sh $HOME/Scripts
 chmod +x $HOME/Scripts
 bash scripts/add_cronjobs.sh
 
+echo "PBuilding Docker image"
+docker build -t "rio05docker/web_server_panel:rpi3" .
