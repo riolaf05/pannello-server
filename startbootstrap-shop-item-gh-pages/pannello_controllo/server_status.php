@@ -104,7 +104,7 @@
                     <a href="index.php" class="list-group-item active">Home</a>
                     <a href="carica_file.php" class="list-group-item">Board</a>
                     <a href="#" class="list-group-item">Server Status</a>
-                    <a href="#" class="list-group-item">Internet of Things</a>
+                    <a href="internet_of_things.php" class="list-group-item">Internet of Things</a>
 					<a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8081" class="list-group-item">Camera Monitor</a>
                     <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8123" class="list-group-item">Home Assistant</a>
                     <a href="carica_file.php" class="list-group-item">File Browser</a>
