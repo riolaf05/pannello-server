@@ -1,5 +1,5 @@
 
-# Server web control panel on a Raspberry Pi CLuster
+# Server web control panel on a Raspberry Pi Cluster
 
 This is a web UI for Raspberry Pi cluster management
 
@@ -9,10 +9,14 @@ This is a web UI for Raspberry Pi cluster management
 - Install Raspbian Stretch on each Raspberry and enable SSH and Camera (throught sudo raspi-config)
 - Use the playbook in /ansible folder to configure each Raspberry Pi node, Ansible will
 - Change Rasoberry Pi hostnames and update ansible/hosts, then put hostnames on Ansible hosts file:
+
 ```console
 echo ansible/hosts >> /etc/ansible/hosts
 ```
-- Ansible will install Docker, Kubernetes, create the requiered folders such as: /media/pi/extHD/FILM, /media/pi/extHD/MUSICA, /media/pi/extHD/FOTO), bind the main storage in /media/pi/extHD/ etc.
+- Ansible will install Docker, Kubernetes, create the requiered folders such as: /media/pi/extHD/FILM, /media/pi/extHD/MUSICA, 
+
+```console
+/media/pi/extHD/FOTO), bind the main storage in /media/pi/extHD/ etc.
 ```
 - Disable WiFi nd Bluetooth Driver by adding the following line to /etc/modprobe.d/raspi-blacklist.conf
 
@@ -98,8 +102,9 @@ docker build -t "rio05docker/web_server_panel:latest" .
 docker push rio05docker/web_server_panel:latest
 ```
 3) run:
+
 ```console
-docker run -d --restart unless-stopped --name web_server_panel -p 80:80 -p 443:443 -v /tmp:/tmp web_server_panel:latest
+docker run -d --restart unless-stopped --name web_server_panel -p 80:80 -p 443:443 -v /tmp:/tmp rio05docker/web_server_panel:latest
 ```
 
 Use:

@@ -20,16 +20,10 @@ printf "</root>\n" >> /tmp/nodes_param.xml
 #TODO
 
 echo "Installing cronjobs"
-mkdir $HOME/Scripts/
-cp startbootstrap-shop-item-gh-pages/scripts/* $HOME/Scripts
-chmod +x $HOME/Scripts/*
-bash startbootstrap-shop-item-gh-pages/scripts/add_cronjobs.sh
+mkdir $HOME/Scripts
+cp scripts/* $HOME/Scripts
+chmod +x $HOME/Scripts
+bash scripts/add_cronjobs.sh
 
-# Installing Kubernetes jobs
-echo "Installing server control panel Kubernetes resources"
-
-kubectl apply -f resources/persistantVolume.yaml
-kubectl apply -f resources/persistantVolumeClaim.yaml
-kubectl apply -f resources/secrets.yaml
-kubectl apply -f resources/php.yaml
-kubectl apply -f resources/ingress.yaml
+echo "PBuilding Docker image"
+docker build -t "rio05docker/web_server_panel:rpi3_latest" .
