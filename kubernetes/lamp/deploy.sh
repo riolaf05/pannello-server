@@ -17,10 +17,10 @@ printf "</root>\n" >> /tmp/nodes_param.xml
 #TODO
 
 echo "Installing cronjobs"
-mkdir $HOME/Scripts
-cp scripts/get_server_info.sh $HOME/Scripts
-chmod +x $HOME/Scripts
-bash scripts/add_cronjobs.sh
+mkdir $HOME/Scripts/
+cp startbootstrap-shop-item-gh-pages/scripts/get_server_info.sh $HOME/Scripts
+chmod +x $HOME/Scripts/*
+bash startbootstrap-shop-item-gh-pages/scripts/add_cronjobs.sh
 
 # Installing Kubernetes jobs
 echo "Installing server control panel Kubernetes resources"
