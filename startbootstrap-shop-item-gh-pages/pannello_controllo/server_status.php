@@ -135,8 +135,9 @@
 
 
                 if (file_exists("/tmp/nodes_param.xml")) {
-
-                    $xmldata = simplexml_load_file("/tmp/nodes_param.xml") or die("Failed to load");    
+                    
+                    echo "File found";
+                    /*$xmldata = simplexml_load_file("/tmp/nodes_param.xml") or die("Failed to load");    */
 
 
                      ?>
