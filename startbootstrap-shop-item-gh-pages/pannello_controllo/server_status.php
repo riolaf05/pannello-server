@@ -148,7 +148,7 @@
 
                 $xmldata = simplexml_load_file("/tmp/nodes_param.xml") or die("Failed to load");
 
-                
+                echo $xmldata;
 
                 foreach($xmldata->children() as $raspberry) {  ?>       
                         
