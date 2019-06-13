@@ -137,7 +137,14 @@
                 if (file_exists("/tmp/nodes_param.xml")) {
                     
                     $xmldata = simplexml_load_file("/tmp/nodes_param.xml") or die("Failed to load");    
-                    print_r($xmldata);
+                    
+
+                    if(empty($xmldata)){
+                        echo 'This line is printed, because the $xmldata is empty.';
+                    }
+                    else{
+                        echo "File is populated!"
+                    }
 
                      ?>
                 
