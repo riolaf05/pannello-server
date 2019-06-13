@@ -153,7 +153,7 @@
 
                     $xmldata = simplexml_load_file("/tmp/nodes_param.xml") or die("Failed to load");                
 
-                    foreach($xmldata->getElementsByTagName('raspberry') as $raspberry) {  ?>
+                    foreach($xmldata->getElementsByTagName('raspberrypi') as $raspberry) {  ?>
 
                             <h2><?php echo "Nodo"; ?></h2>
 
