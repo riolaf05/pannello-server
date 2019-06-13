@@ -159,6 +159,9 @@
                     if(empty($xmldata)){
                         echo 'This line is printed, because the $xmldata is empty.';
                     }
+                    else{
+                        echo 'Data found!';
+                    }
 
                     foreach($xmldata->children() as $raspberrypi) { ?>
 
