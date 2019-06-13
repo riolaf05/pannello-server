@@ -142,6 +142,8 @@
 
 
 
+
+
                 <h2 style="text-transform: capitalize; color: blue; text-align: center; font-family: Georgia, Serif; ">Dashboard</h2>
 		
                 <?php 
@@ -151,9 +153,7 @@
 
                     $xmldata = simplexml_load_file("/tmp/nodes_param.xml") or die("Failed to load");                
 
-                    foreach($xmldata->children() as $raspberry) {         
-                            
-                            echo "Element found!" ?>
+                    foreach($xmldata->getElementsByTagName('raspberry') as $raspberry) {  ?>
 
                             <h2><?php echo "Nodo"; ?></h2>
 
@@ -174,6 +174,7 @@
                     exit("Failed to open nodes_param.xml");
                 }
                 ?>
+
 
 
 
