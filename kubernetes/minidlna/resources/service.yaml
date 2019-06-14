@@ -7,12 +7,11 @@ metadata:
 spec:
   ports:
   - name: http
-    protocol: TCP 
+    protocol: TCP
     port: 8200
-  #- name: https #TODO: wich port must expose minidlna??
-  #  protocol: UDP
-  #  port: ???
+  - name: https
+    protocol: UDP
+    port: 1900
   selector:
-    matchLabels:
-      app: minidlna-pod
-  type: NodePort 
+    app: minidlna-pod
+  type: NodePort

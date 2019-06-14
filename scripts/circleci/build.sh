@@ -1,3 +1,7 @@
+
+$DOCKER_USER = rio05docker
+$DOCKER_PASS = onslario89
+
 echo "Building docker images"
 docker build -t "rio05docker/inotify-video-converter:latest" inotify-video-converter/
 docker build -t "rio05docker/web_server_panel:rpi3_latest" startbootstrap-shop-item-gh-pages/
