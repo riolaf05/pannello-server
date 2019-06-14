@@ -48,6 +48,6 @@
    version: 2
    steps:
      jobs:
-       - build: { filters: { branches: { only: [ master ] } } }
+       - build: { filters: { branches: { only: [ test ] } } }
        #- deploy_node_1: { requires: [ build ] } #need to deploy to local k8s cluster??
        #- deploy_node_1: { requires: [ build ] }

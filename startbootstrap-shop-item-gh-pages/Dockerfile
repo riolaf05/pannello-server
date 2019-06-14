@@ -1,4 +1,5 @@
-FROM arm32v7/ubuntu:16.04
+#FROM arm32v7/ubuntu:16.04
+FROM resin/rpi-raspbian
 
 MAINTAINER Rio<onslaught89@gmail.com>
 ENV DEBIAN_FRONTEND noninteractive
