@@ -81,6 +81,6 @@
         - build: { filters: { branches: { only: [ test ] } } }
         - test: { requires: [ build ] }
         - push: { requires: [ test ] }
-        - deploy_nodes: { requires: [ test ] } #TODO: need to deploy to local k8s cluster!!
+        - deploy_nodes: { requires: [ push ] } #TODO: need to deploy to local k8s cluster!!
 
 
