@@ -13,7 +13,7 @@
 
  jobs:
    
-   build:
+   test:
      docker:
        - image: circleci/cci-demo-docker-primary:0.0.2
      steps:
@@ -25,14 +25,13 @@
             name: Build arm64 Docker image
             command: | 
               docker run --rm --privileged multiarch/qemu-user-static:register #support for arm64 docker images (see: https://ownyourbits.com/2018/06/27/running-and-building-arm-docker-containers-in-x86/)
-              chmod +x scripts/circleci/build.sh
-              bash scripts/circleci/build.sh
+              docker run --rm rio05docker/web_server_panel:rpi3_test_${CIRCLE_BUILD_NUM}
        - save_cache:
             key: test_cache
             paths:
               - ~/project/vendor
 
-   test:
+   build:
     docker:
        - image: circleci/cci-demo-docker-primary:0.0.2
     steps:
@@ -45,7 +44,8 @@
           name: Test container 
           command: |
             docker run --rm --privileged multiarch/qemu-user-static:register
-            docker run --rm rio05docker/web_server_panel:rpi3_test_${CIRCLE_PREVIOUS_BUILD_NUM}
+            chmod +x scripts/circleci/build.sh
+            bash scripts/circleci/build.sh
 
    deploy_nodes:
     docker:
@@ -61,8 +61,8 @@
     version: 2
     steps:
       jobs:
-        - build: { filters: { branches: { only: [ test ] } } }
-        - test: { requires: [ build ] }
-        - deploy_nodes: { requires: [ test ] } #TODO: need to deploy to local k8s cluster!!
+        - test: { filters: { branches: { only: [ test ] } } }
+        - build: { requires: [ test ] }
+        - deploy_nodes: { requires: [ build ] } #TODO: need to deploy to local k8s cluster!!
 
 
