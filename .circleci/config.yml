@@ -19,10 +19,12 @@
             curl -L -o /tmp/docker-$VER.tgz https://download.docker.com/linux/static/stable/x86_64/docker-$VER.tgz
             tar -xz -C /tmp -f /tmp/docker-$VER.tgz
             mv /tmp/docker/* /usr/bin
-       - run: |
-            docker run --rm --privileged multiarch/qemu-user-static:register #support for arm64 docker images
-            chmod +x scripts/circleci/build.sh
-            scripts/circleci/build.sh
+       - run: 
+            name: Build arm64 Docker image
+            command: | 
+              docker run --rm --privileged multiarch/qemu-user-static:register #support for arm64 docker images
+              chmod +x scripts/circleci/build.sh
+              scripts/circleci/build.sh
        - save_cache:
             key: test_cache
             paths:
@@ -33,7 +35,7 @@
         steps:
           - checkout
           - restore_cache: { keys: [ test_cache ] }
-          - run: docker run --rm rio05docker/web_server_panel:rpi3_circleci_$RANDOM_TAG --version
+          - run: docker run --rm rio05docker/web_server_panel:rpi3_test_latest --version
 
    deploy_nodes:
     docker:
