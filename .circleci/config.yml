@@ -30,12 +30,11 @@
             paths:
               - ~/project/vendor
 
-     test:
-        machine: true
-        steps:
-          - checkout
-          - restore_cache: { keys: [ test_cache ] }
-          - run: docker run --rm rio05docker/web_server_panel:rpi3_test_latest --version
+   test:
+    steps:
+      - checkout
+      - restore_cache: { keys: [ test_cache ] }
+      - run: docker run --rm rio05docker/web_server_panel:rpi3_test_latest --version
 
    deploy_nodes:
     docker:
