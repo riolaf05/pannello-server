@@ -4,7 +4,7 @@ FROM arm32v7/ubuntu:16.04
 MAINTAINER Rio<onslaught89@gmail.com>
 ENV DEBIAN_FRONTEND noninteractive
 
-# Compatibility with x86 hosts
+# Compatibility with x86 hosts (see: https://ownyourbits.com/2018/06/27/running-and-building-arm-docker-containers-in-x86/)
 COPY qemu-arm-static /usr/bin/
 
 # Install basics
