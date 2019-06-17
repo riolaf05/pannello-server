@@ -4,7 +4,7 @@
    build:
      docker:
        #- image: circleci/cci-demo-docker-primary:0.0.2
-       - image: circleci/18.10-curl
+       - image: circleci/buildpack-deps:18.10-curl
      steps:
        - checkout
        - setup_remote_docker:   #see: https://circleci.com/docs/2.0/building-docker-images/
@@ -31,7 +31,7 @@
    test:
     docker:
        #- image: circleci/cci-demo-docker-primary:0.0.2
-       - image: circleci/ubuntu:18.04
+       - image: circleci/buildpack-deps:18.10-curl
     steps:
       - checkout
       - restore_cache: { keys: [ test_cache ] }
@@ -39,7 +39,7 @@
 
    deploy_nodes:
     docker:
-      - image: circleci/cci-demo-docker-primary:0.0.2
+      - image: circleci/buildpack-deps:18.10-curl
     environment:
         NODE_HOSTNAME: raspberrypi
     steps:
