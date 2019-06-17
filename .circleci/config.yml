@@ -3,7 +3,8 @@
    
    build:
      docker:
-       - image: circleci/cci-demo-docker-primary:0.0.2
+       #- image: circleci/cci-demo-docker-primary:0.0.2
+       - image: ubuntu:18.04
      steps:
        - checkout
        - setup_remote_docker:   #see: https://circleci.com/docs/2.0/building-docker-images/
