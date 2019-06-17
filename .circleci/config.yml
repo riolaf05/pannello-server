@@ -25,7 +25,7 @@
        - run: 
             name: Build arm64 Docker image
             command: | 
-              docker run --rm --privileged multiarch/qemu-user-static:register #support for arm64 docker images
+              docker run --rm --privileged multiarch/qemu-user-static:register #support for arm64 docker images (see: https://ownyourbits.com/2018/06/27/running-and-building-arm-docker-containers-in-x86/)
               chmod +x scripts/circleci/build.sh
               scripts/circleci/build.sh
        - save_cache:
@@ -36,21 +36,19 @@
    test:
     docker:
        - image: circleci/cci-demo-docker-primary:0.0.2
-       #- image: circleci/buildpack-deps:18.10-curl
     steps:
        - checkout
        - setup_remote_docker:   #see: https://circleci.com/docs/2.0/building-docker-images/
           docker_layer_caching: true 
        - *install_docker
        - restore_cache: { keys: [ test_cache ] }
-       - run: |
+       - run: 
           name: Test container 
           command: docker run --rm rio05docker/web_server_panel:rpi3_test_${CIRCLE_BUILD_NUM}
 
    deploy_nodes:
     docker:
       - image: circleci/cci-demo-docker-primary:0.0.2
-      #- image: circleci/buildpack-deps:18.10-curl
     environment:
         NODE_HOSTNAME: raspberrypi
     steps:
