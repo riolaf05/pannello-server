@@ -4,6 +4,9 @@ FROM arm32v7/ubuntu:16.04
 MAINTAINER Rio<onslaught89@gmail.com>
 ENV DEBIAN_FRONTEND noninteractive
 
+# Compatibility with x86 hosts
+COPY qemu-arm-static /usr/bin/
+
 # Install basics
 RUN apt-get update
 RUN apt-get install -y apache2 libapache2-mod-php curl php7.0-mbstring php7.0-zip php7.0-xml
