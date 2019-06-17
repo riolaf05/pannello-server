@@ -45,7 +45,7 @@
        - restore_cache: { keys: [ test_cache ] }
        - run: |
           name: Test container 
-          command: docker run --rm rio05docker/web_server_panel:rpi3_test_$CIRCLE_BUILD_NUM 
+          command: docker run --rm rio05docker/web_server_panel:rpi3_test_${CIRCLE_BUILD_NUM}
 
    deploy_nodes:
     docker:
