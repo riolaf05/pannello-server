@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Install basics
 RUN apt-get update
-RUN apt-get install -y apache2 php libapache2-mod-php curl php7.0-mbstring php7.0-zip php7.0-xml
+RUN apt-get install -y apache2 libapache2-mod-php curl php7.0-mbstring php7.0-zip php7.0-xml
 
 # Update the PHP.ini file, enable <? ?> tags and quieten logging.
 RUN sed -i "s/short_open_tag = Off/short_open_tag = On/" /etc/php/7.0/apache2/php.ini

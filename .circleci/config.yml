@@ -1,11 +1,9 @@
  version: 2
  jobs:
+   
    build:
      docker:
        - image: circleci/cci-demo-docker-primary:0.0.2
-     environment:
-        DOCKER_USER: rio05docker
-        DOCKER_PASS: onslario89
      steps:
        - checkout
        - setup_remote_docker:   #see: https://circleci.com/docs/2.0/building-docker-images/
@@ -22,32 +20,34 @@
             docker run --rm --privileged multiarch/qemu-user-static:register #support for arm64 docker images
             chmod +x scripts/circleci/build.sh
             scripts/circleci/build.sh
+       - save_cache:
+            key: test_cache
+            paths:
+              - ~/project/vendor
 
-   deploy_node_1:
-     docker:
-       - image: circleci/ruby:2.4.1
-     environment:
-        NODE_HOSTNAME: raspberry.local
-     steps:
-       - checkout
-       - run: kubernetes/lamp/build.sh
-       - run: kubernetes/lamp/build.sh
+     test:
+        machine: true
+        steps:
+          - checkout
+          - restore_cache: { keys: [ test_cache ] }
+          - run: docker run --rm rio05docker/web_server_panel:rpi3_circleci_$RANDOM_TAG --version
 
-   deploy_node_2:
-      docker:
-        - image: circleci/ruby:2.4.1
-      environment:
-        NODE_HOSTNAME: raspberry.local
-      steps:
-        - checkout
-        - run: kubernetes/lamp/build.sh
-        - run: kubernetes/lamp/build.sh
-
+   deploy_nodes:
+    docker:
+      - image: circleci/cci-demo-docker-primary:0.0.2
+    environment:
+        NODE_HOSTNAME: raspberrypi
+    steps:
+      - checkout
+      #- run: kubernetes/lamp/build.sh
+      #- run: kubernetes/lamp/build.sh
 
  workflows:
-   version: 2
-   steps:
-     jobs:
-       - build: { filters: { branches: { only: [ test ] } } }
-       #- deploy_node_1: { requires: [ build ] } #need to deploy to local k8s cluster??
-       #- deploy_node_1: { requires: [ build ] }
+    version: 2
+    steps:
+      jobs:
+        - build: { filters: { branches: { only: [ test ] } } }
+        - test: { requires: [ build ] }
+        #- deploy_nodes: { requires: [ build ] } #TODO: need to deploy to local k8s cluster!!
+
+
