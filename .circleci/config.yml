@@ -43,7 +43,9 @@
        - restore_cache: { keys: [ test_cache ] }
        - run: 
           name: Test container 
-          command: docker run --rm rio05docker/web_server_panel:rpi3_test_${CIRCLE_SHA1}
+          command: |
+            docker run --rm --privileged multiarch/qemu-user-static:register #support for arm64 docker images
+            docker run --rm rio05docker/web_server_panel:rpi3_test_${CIRCLE_SHA1}
    
   push:
       docker:
@@ -57,7 +59,7 @@
          - run: 
            name: push arm64 Docker image
            command: | 
-             docker run --rm --privileged multiarch/qemu-user-static:register #support for arm64 docker images (see: https://ownyourbits.com/2018/06/27/running-and-building-arm-docker-containers-in-x86/)
+             docker run --rm --privileged multiarch/qemu-user-static:register #support for arm64 docker images 
              chmod +x scripts/circleci/build.sh
              bash scripts/circleci/build.sh
 
