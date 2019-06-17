@@ -50,7 +50,7 @@
             bash scripts/circleci/push.sh
 
    deploy_nodes:
-    docker:1
+    docker:
       - image: circleci/cci-demo-docker-primary:0.0.2
     environment:
         NODE_HOSTNAME: raspberrypi
