@@ -48,6 +48,6 @@
       jobs:
         - build: { filters: { branches: { only: [ test ] } } }
         - test: { requires: [ build ] }
-        #- deploy_nodes: { requires: [ build ] } #TODO: need to deploy to local k8s cluster!!
+        - deploy_nodes: { requires: [ build ] } #TODO: need to deploy to local k8s cluster!!
 
 
