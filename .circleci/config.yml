@@ -45,7 +45,7 @@
        - run: 
           name: Push container 
           command: |
-            docker run --rm --privileged multiarch/qemu-user-static:register
+            #docker run --rm --privileged multiarch/qemu-user-static:register
             chmod +x scripts/circleci/push.sh
             bash scripts/circleci/push.sh
    
