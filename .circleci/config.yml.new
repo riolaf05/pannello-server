@@ -18,27 +18,41 @@
        - image: circleci/cci-demo-docker-primary:0.0.2
      steps:
        - checkout
-       - *install_docker
        - setup_remote_docker:   #see: https://circleci.com/docs/2.0/building-docker-images/
           docker_layer_caching: true 
+       - *install_docker
        - run: 
-            name: Build and test arm64 Docker image
-            command: |
-              docker run --rm --privileged multiarch/qemu-user-static:register #support for arm64 docker images (see: https://ownyourbits.com/2018/06/27/running-and-building-arm-docker-containers-in-x86/)
+            name: Build arm64 Docker image
+            command: | 
               chmod +x scripts/circleci/build.sh
               bash scripts/circleci/build.sh
-              docker run -d --rm rio05docker/web_server_panel:rpi3_${CIRCLE_BUILD_NUM}
+       - run:
+            name: Test container
+            command: |
+              docker run --rm --privileged multiarch/qemu-user-static:register #support for arm64 docker images (see: https://ownyourbits.com/2018/06/27/running-and-building-arm-docker-containers-in-x86/)
+              docker run --rm rio05docker/web_server_panel:rpi3_test_${CIRCLE_BUILD_NUM}
+       - save_cache:
+            key: test_cache
+            paths:
+              - ~/project/vendor
+
+   build:
+    docker:
+       - image: circleci/cci-demo-docker-primary:0.0.2
+    steps:
+       - checkout
+       - setup_remote_docker:   #see: https://circleci.com/docs/2.0/building-docker-images/
+          docker_layer_caching: true 
+       - *install_docker
+       - restore_cache: { keys: [ test_cache ] }
        - run: 
-          name: Push container 
+          name: Test container 
           command: |
+            docker run --rm --privileged multiarch/qemu-user-static:register
             chmod +x scripts/circleci/push.sh
             bash scripts/circleci/push.sh
-       - save_cache:
-            key: circleci-{{ .Branch }}-{{ .Revision }}
-            paths:
-              - ~/project/
-       
-   deploy:
+
+   deploy_nodes:
     docker:
       - image: circleci/cci-demo-docker-primary:0.0.2
     environment:
@@ -53,6 +67,7 @@
     steps:
       jobs:
         - test: { filters: { branches: { only: [ test ] } } }
-        - deploy: { requires: [ test ] } #TODO: need to deploy to local k8s cluster!!
+        - build: { requires: [ test ] }
+        - deploy_nodes: { requires: [ build ] } #TODO: need to deploy to local k8s cluster!!
 
 

@@ -1,11 +1,15 @@
+#FROM arm32v7/ubuntu:16.04
 FROM arm32v7/ubuntu:16.04
 
 MAINTAINER Rio<onslaught89@gmail.com>
 ENV DEBIAN_FRONTEND noninteractive
 
+# Compatibility with x86 hosts (see: https://ownyourbits.com/2018/06/27/running-and-building-arm-docker-containers-in-x86/)
+COPY qemu-arm-static /usr/bin/
+
 # Install basics
 RUN apt-get update
-RUN apt-get install -y apache2 php libapache2-mod-php curl php7.0-mbstring php7.0-zip php7.0-xml
+RUN apt-get install -y apache2 libapache2-mod-php curl php7.0-mbstring php7.0-zip php7.0-xml
 
 # Update the PHP.ini file, enable <? ?> tags and quieten logging.
 RUN sed -i "s/short_open_tag = Off/short_open_tag = On/" /etc/php/7.0/apache2/php.ini

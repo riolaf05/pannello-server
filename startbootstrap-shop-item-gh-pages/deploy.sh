@@ -3,9 +3,13 @@
 echo "Removing old scripts"
 rm /tmp//nodes_param.xml
 
-N_CLUSTER=2 #Select cluster node number
+#Select cluster node number
+N_CLUSTER=2 
 cluster[0]="raspberrypi"
 cluster[1]="raspberrypi1"
+
+#Select latest docker image tag:
+DOCKER_TAG="rpi3_test_latest"
 
 echo "Writing XML configuration file for each node of the cluster"
 HOSTNAME=$(hostname)
@@ -25,5 +29,5 @@ cp scripts/* $HOME/Scripts
 chmod +x $HOME/Scripts
 bash scripts/add_cronjobs.sh
 
-echo "PBuilding Docker image"
-docker build -t "rio05docker/web_server_panel:rpi3_latest" .
+echo "Building Docker image"
+docker build -t "rio05docker/web_server_panel:$DOCKER_TAG" .
