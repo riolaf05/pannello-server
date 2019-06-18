@@ -19,6 +19,7 @@ spec:
       labels:
         app: minidlna-pod
     spec:
+      nodeName: raspberrypi1
       containers:
       - image: djdefi/rpi-minidlna
         imagePullPolicy: Always
