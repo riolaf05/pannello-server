@@ -7,7 +7,7 @@ kind: Deployment
 metadata:
   name: minidlna-pod
   labels:
-    rio/iotplatform: minidlna
+    rioiotplatform: minidlna
 spec:
   replicas: 1
   revisionHistoryLimit: 5

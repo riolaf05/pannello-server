@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: minidlna-pod
   labels:
-    rio/iotplatform: minidlna
+    rioiotplatform: minidlna
 spec:
   ports:
   - name: http
