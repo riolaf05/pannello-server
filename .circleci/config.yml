@@ -26,7 +26,7 @@
             command: | 
               docker run --rm --privileged multiarch/qemu-user-static:register #support for arm64 docker images (see: https://ownyourbits.com/2018/06/27/running-and-building-arm-docker-containers-in-x86/)
               chmod +x scripts/circleci/build.sh
-              docker build -t "rio05docker/web_server_panel:${DOCKER_TAG}" startbootstrap-shop-item-gh-pages/
+              docker build -t "rio05docker/web_server_panel:${DOCKER_TAG}" ~/project/startbootstrap-shop-item-gh-pages/
        #- save_cache:
        #     key: test_cache
        #     paths:
