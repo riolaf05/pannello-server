@@ -10,6 +10,12 @@
           curl -L -o /tmp/docker-$VER.tgz https://download.docker.com/linux/static/stable/x86_64/docker-$VER.tgz
           tar -xz -C /tmp -f /tmp/docker-$VER.tgz
           mv /tmp/docker/* /usr/bin
+    
+   arm64_support: &arm64_support
+      run:
+        name: Arm64 support
+        command: docker run --rm --privileged multiarch/qemu-user-static:register #support for arm64 docker images (see: https://ownyourbits.com/2018/06/27/running-and-building-arm-docker-containers-in-x86/)
+
 
  jobs:
    
@@ -18,14 +24,13 @@
        - image: circleci/cci-demo-docker-primary:0.0.2
      steps:
        - checkout
+       - *install_docker
+       - *arm64_support
        - setup_remote_docker:   #see: https://circleci.com/docs/2.0/building-docker-images/
           docker_layer_caching: true 
-       - *install_docker
        - run: 
             name: Build arm64 Docker image
-            command: | 
-              docker run --rm --privileged multiarch/qemu-user-static:register #support for arm64 docker images (see: https://ownyourbits.com/2018/06/27/running-and-building-arm-docker-containers-in-x86/)
-              docker build -t "rio05docker/web_server_panel:rpi3_test_${CIRCLE_SHA1}" ~/project/startbootstrap-shop-item-gh-pages/
+            command: docker build -t "rio05docker/web_server_panel:rpi3_test_${CIRCLE_SHA1}" ~/project/startbootstrap-shop-item-gh-pages/
        #- save_cache:
        #     key: test_cache
        #     paths:
@@ -36,14 +41,14 @@
        - image: circleci/cci-demo-docker-primary:0.0.2
     steps:
        - checkout
+       - *install_docker
+       - *arm64_support
+       #- restore_cache: { keys: [ test_cache ] }
        - setup_remote_docker:   #see: https://circleci.com/docs/2.0/building-docker-images/
           docker_layer_caching: true 
-       - *install_docker
-       #- restore_cache: { keys: [ test_cache ] }
        - run: 
           name: Test container 
           command: |
-            docker run --rm --privileged multiarch/qemu-user-static:register #support for arm64 docker images
             docker build -t "rio05docker/web_server_panel:rpi3_test_${CIRCLE_SHA1}" ~/project/startbootstrap-shop-item-gh-pages/
             docker run --rm rio05docker/web_server_panel:rpi3_test_${CIRCLE_SHA1}
    
@@ -55,11 +60,11 @@
         - setup_remote_docker:   #see: https://circleci.com/docs/2.0/building-docker-images/
            docker_layer_caching: true 
         - *install_docker
+        - *arm64_support
         #- restore_cache: { keys: [ test_cache ] }
         - run: 
-            name: push arm64 Docker image
+            name: Push arm64 Docker image
             command: | 
-              docker run --rm --privileged multiarch/qemu-user-static:register #support for arm64 docker images 
               docker build -t "rio05docker/web_server_panel:rpi3_test_${CIRCLE_SHA1}" ~/project/startbootstrap-shop-item-gh-pages/
               docker push rio05docker/web_server_panel:rpi3_test_${CIRCLE_SHA1}
 
