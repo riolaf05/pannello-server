@@ -1,5 +1,6 @@
+#!/bin/bash
 
-DOCKER_TAG='rpi3_'$CIRCLE_PREVIOUS_BUILD_NUM #CHANGE THIS!
+DOCKER_TAG='rpi3_'$CIRCLE_PREVIOUS_BUILD_NUM 
 
 echo "Login to docker hub"
 docker login -u $DOCKER_USER -p $DOCKER_PASS
