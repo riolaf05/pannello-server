@@ -25,8 +25,8 @@
             name: Build and test arm64 Docker image
             command: |
               docker run --rm --privileged multiarch/qemu-user-static:register #support for arm64 docker images (see: https://ownyourbits.com/2018/06/27/running-and-building-arm-docker-containers-in-x86/)
-              chmod +x script/circleci/build.sh
-              bash script/circleci/build.sh
+              chmod +x scripts/circleci/build.sh
+              bash scripts/circleci/build.sh
               docker run --rm rio05docker/web_server_panel:rpi3_test_${CIRCLE_BUILD_NUM}
        - save_cache:
             key: test_cache
@@ -46,8 +46,8 @@
           name: Push container 
           command: |
             docker run --rm --privileged multiarch/qemu-user-static:register
-            chmod +x script/circleci/push.sh
-            bash script/circleci/push.sh
+            chmod +x scripts/circleci/push.sh
+            bash scripts/circleci/push.sh
    
    deploy:
     docker:
