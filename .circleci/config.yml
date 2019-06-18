@@ -51,7 +51,7 @@
        - run: 
           name: Test container 
           command: |
-            docker build -t "rio05docker/web_server_panel:rpi3_test_${CIRCLE_SHA1}" ~/project/startbootstrap-shop-item-gh-pages/
+            docker run --rm --privileged multiarch/qemu-user-static:register
             docker run --rm rio05docker/web_server_panel:rpi3_test_${CIRCLE_SHA1}
    
    push:
@@ -69,7 +69,7 @@
         - run: 
             name: Push arm64 Docker image
             command: | 
-              docker build -t "rio05docker/web_server_panel:rpi3_test_${CIRCLE_SHA1}" ~/project/startbootstrap-shop-item-gh-pages/
+              docker run --rm --privileged multiarch/qemu-user-static:register
               docker push rio05docker/web_server_panel:rpi3_test_${CIRCLE_SHA1}
 
 
