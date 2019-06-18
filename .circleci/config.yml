@@ -62,6 +62,8 @@
         - *install_docker
         - *arm64_support
         #- restore_cache: { keys: [ test_cache ] }
+        - setup_remote_docker:   #see: https://circleci.com/docs/2.0/building-docker-images/
+            docker_layer_caching: true 
         - run: 
             name: Push arm64 Docker image
             command: | 
