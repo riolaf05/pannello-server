@@ -26,11 +26,11 @@
             command: | 
               docker run --rm --privileged multiarch/qemu-user-static:register #support for arm64 docker images (see: https://ownyourbits.com/2018/06/27/running-and-building-arm-docker-containers-in-x86/)
               chmod +x scripts/circleci/build.sh
-              bash scripts/circleci/build.sh
-       - save_cache:
-            key: test_cache
-            paths:
-              - ~/project/vendor
+              docker build -t "rio05docker/web_server_panel:$DOCKER_TAG" startbootstrap-shop-item-gh-pages/
+       #- save_cache:
+       #     key: test_cache
+       #     paths:
+       #       - ~/project/vendor
 
    test:
     docker:
@@ -39,8 +39,8 @@
        - checkout
        - setup_remote_docker:   #see: https://circleci.com/docs/2.0/building-docker-images/
           docker_layer_caching: true 
-       - *install_docker
-       - restore_cache: { keys: [ test_cache ] }
+       #- *install_docker
+       #- restore_cache: { keys: [ test_cache ] }
        - run: 
           name: Test container 
           command: |
@@ -54,14 +54,14 @@
         - checkout
         - setup_remote_docker:   #see: https://circleci.com/docs/2.0/building-docker-images/
            docker_layer_caching: true 
-        - *install_docker
-        - restore_cache: { keys: [ test_cache ] }
-        - run: 
-          name: push arm64 Docker image
-          command: | 
-            docker run --rm --privileged multiarch/qemu-user-static:register #support for arm64 docker images 
-            chmod +x scripts/circleci/build.sh
-            bash scripts/circleci/build.sh
+        #- *install_docker
+        #- restore_cache: { keys: [ test_cache ] }
+        #- run: 
+        #  name: push arm64 Docker image
+        #  command: | 
+        #    docker run --rm --privileged multiarch/qemu-user-static:register #support for arm64 docker images 
+        #    chmod +x scripts/circleci/build.sh
+        #    bash scripts/circleci/build.sh
 
 
    deploy_nodes:
