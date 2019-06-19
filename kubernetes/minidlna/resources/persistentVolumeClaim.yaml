@@ -3,10 +3,12 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: minidlna-claim
+  labels:
+    rioiotplatform: minidlna
 spec:
-  storageClassName: manual
+  storageClassName: local-storage
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 290Gi
+      storage: 200Gi
