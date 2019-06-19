@@ -66,6 +66,28 @@ kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl versio
 sudo kubeadm join --token <token> <master-node-ip>:6443 --discovery-token-ca-cert-hash sha256:<sha256>
 ```
 
+### Cross-compiling Docker for ARM Architecture
+
+
+
+### Load Balancing
+
+By default, the applications deployed to a Kubernetes cluster are only reachable from within the cluster (default service type is ClusterIP). To make them reachable from outside the cluster you can either configure the service with the type NodePort, which exposes the service on each node's IP at a static port, or you can use a load balancer.
+
+NodePort services are, however, quite limited: they use their own dedicated port range and we can only differentiate apps by their port number. 
+
+For these reasons, we decided to deploy [MetalLB](https://metallb.universe.tf), a load-balancer implementation that is intended for bare metal clusters.
+
+To deploy the load balancer use: 
+
+```console
+kubectl apply -f https://raw.githubusercontent.com/google/metallb/v0.7.3/manifests/metallb.yaml
+```
+
+The kubernetes/load-balancer folder contains the configMaps for MetalLB. 
+
+Source: https://blog.boogiesoftware.com/2019/03/building-light-weight-kubernetes.html
+
 ### CircleCI Continuous Integration 
 
 Actually CircleCI will be triggered on each commit on master branch.
