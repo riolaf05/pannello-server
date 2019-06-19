@@ -68,7 +68,19 @@ sudo kubeadm join --token <token> <master-node-ip>:6443 --discovery-token-ca-cer
 
 ### Cross-compiling Docker for ARM Architecture
 
+To run Raspberry Pi docker images (architected natively for ARM32), need to copy the QEMU interpreter to the container: add this to the Dockerfile:
 
+```console
+COPY qemu-arm-static /usr/bin
+```
+
+Second, on the x86 host run:
+
+```console
+docker run --rm --privileged multiarch/qemu-user-static:register      
+```
+
+This is used on CircleCI pipeline to build Raspberry docker images on executors. 
 
 ### Load Balancing
 
