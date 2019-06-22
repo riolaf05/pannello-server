@@ -19,7 +19,7 @@ spec:
       labels:
         app: ml-pod
     spec:
-      nodeName: raspberrypi1
+      nodeName: raspberrypi
       containers:
       - image: nandanrao/rpi-docker-tensorflow
         imagePullPolicy: Always
