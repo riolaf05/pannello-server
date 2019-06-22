@@ -1,59 +1,121 @@
----
-# Setup web control panel
-- hosts: localhost
-  pre_tasks:
-      - name: Update apt
-        become: yes
-        apt:
-          cache_valid_time: 1800
-          update_cache: yes
+#See: https://kubernetes.io/blog/2019/03/15/kubernetes-setup-using-ansible-and-vagrant/
+- hosts: all
+  become: true
+  vars:
+    raspi_version: stretch #lsb_release -cs to check version
+  
   tasks:
 
-    - name: Add ppa Repository
-      become: yes
-      apt_repository: repo=ppa:ondrej/php
-
-    - name: install 
-      become: yes
-      become_user: root
-      apt:
-        pkg:
-          - apache2
-          - mysql-server
-          - php7.0
-          - php7.0-mysql
-        state: present
-        update_cache: yes
-
-    - name: start apache service
-      become: yes
-      become_user: root
-      service:
-        name: apache2
-        state: started
-        enabled: yes
-  
-    #- name: start mysql service
-    #  become: yes
-    #  become_user: root
-    #  service:
-    #    name: mysql
-    #    state: started
-    #    enabled: yes
-
-    - name: create target directory
-      become: yes
-      become_user: root
-      file: path=/var/www/html/pannello_controllo/ state=directory mode=0755
-
-    - name: deploy web app
-      become: yes
-      become_user: root
-      command: cp -r ../startbootstrap-shop-item-gh-pages/pannello_controllo/* /var/www/html/pannello_controllo/ && chmod 0755 /var/www/html/pannello_controllo/*
+  #- name: Create a directory to mount main storage
+  #  file:
+  #    path: /media/pi/extHD
+  #    state: directory
+  #    mode: '0755'
     
+  - name: Create a directory put transferred files
+    file:
+      path: /home/pi/Downloads/transferred_files
+      state: directory
+      mode: '0755'
 
+  - name: Mount up storage device by UUID
+    when: ansible_hostname == 'raspberry_1'
+    mount:
+      path: /media/pi/extHD
+      src: UUID=9bf3480d-0c71-40b2-8143-1e6f6fa27429
+      fstype: ext4
+      opts: bind #Mount options 
+      state: present #present only specifies that the device is to be configured in fstab and does not trigger or require a mount.
+      
 
-              
+  - name: Install packages that allow apt to be used over HTTPS
+    apt:
+      name: "{{ packages }}"
+      state: present
+      update_cache: yes
+    vars:
+      packages:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg-agent
+      - software-properties-common
+      - git-core
 
+  - name: Add an apt signing key for Docker
+    apt_key:
+      url: https://download.docker.com/linux/debian/gpg
+      state: present
 
-              
+  - name: Add apt repository for stable version
+    apt_repository:
+      repo: deb [arch=armhf] https://download.docker.com/linux/debian stretch stable
+      state: present
+
+  - name: Install docker and its dependecies
+    apt: 
+      name: "{{ packages }}"
+      state: present
+      update_cache: yes
+    vars:
+      packages:
+      - docker-ce 
+      - docker-ce-cli 
+      - containerd.io
+    #notify:
+    #  - docker status
+
+  - name: Add pi user to docker group
+    user:
+      name: pi
+      group: docker
+
+  - name: Remove swapfile from /etc/fstab
+    mount:
+      name: "{{ item }}"
+      fstype: swap
+      state: absent
+    with_items:
+      - swap
+      - none
+
+  - name: Disable swap
+    command: swapoff -a
+    when: ansible_swaptotal_mb > 0
+
+  - name: Add an apt signing key for Kubernetes
+    apt_key:
+      url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+      state: present
+
+  - name: Adding apt repository for Kubernetes
+    apt_repository:
+      repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+      state: present
+      filename: kubernetes.list
+
+  - name: Install Kubernetes binaries
+    apt: 
+      name: "{{ packages }}"
+      state: present
+      update_cache: yes
+    vars:
+      packages:
+        - kubelet 
+        - kubeadm 
+        - kubectl
+
+  - name: Configure node ip
+    lineinfile:
+      path: /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+      line: Environment="KUBELET_EXTRA_ARGS=--node-ip=192.168.1.9" #TODO: parameterize this!!!
+
+  - name: Restart kubelet
+    service:
+      name: kubelet
+      daemon_reload: yes
+      state: restarted
+
+   #- name: Initialize the Kubernetes cluster using kubeadm
+   # command: kubeadm init --apiserver-advertise-address="192.168.50.10" --apiserver-cert-extra-sans="192.168.50.10"  --node-name k8s-master --pod-network-cidr=192.168.0.0/16
+   #TODO

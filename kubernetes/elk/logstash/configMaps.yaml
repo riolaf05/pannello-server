@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: monitoring
+  creationTimestamp: null
+  name: logstash-config
+  selfLink: /api/v1/namespaces/monitoring/configmaps/logstash-config
+
+data:
+
+  logstash.conf: |-
+    input {
+      beats {
+        port => 5000
+      }
+    }
+
+    filter {
+      date {
+        match => ["time", "ISO8601"]
+        remove_field => ["time"]
+      }
+
+      grok { #It works like this: %{SYNTAX:SEMANTIC} where SYNTAX is a keywork or a regex and SEMANTIC is the identifier you give to the piece of text being matched.
+        match => { "log" => "%{IP:client} %{WORD:method}" }
+        #match => { "log" => "^%{IPORHOST:client_ip} %{USER} %{USER} \[%{HTTPDATE:timestamp}\] \"%{WORD:verb} %{DATA:request} HTTP/%{NUMBER}\" %{NUMBER:response:int} (?:-|%{NUMBER:bytes:int}) %{QS:referrer} %{QS:agent}"  }
+      }
+    }
+
+    output {
+
+      http {
+        host => "localhost" # default: 0.0.0.0
+        port => 5001 # default: 8080
+      }
+
+      #elasticsearch {
+        #hosts => "elasticsearch:9200"
+        #index => "%{[@metadata][beat]}-%{+YYYY.MM.dd}"
+        #document_type => "%{[@metadata][type]}"
+      #}
+
+    }
+    
+    

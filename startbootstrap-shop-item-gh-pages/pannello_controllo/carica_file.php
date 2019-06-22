@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -66,17 +66,19 @@
         <div class="row">
 
             <div class="col-md-3">
-                <p class="lead">Ubuntu Server</p>
+                <p class="lead">Home Server</p>
                 <div class="list-group">
-                    <a href="index.php" class="list-group-item ">Dashboard</a>
-                    <a href="#" class="list-group-item active">File Upload</a>
-                    <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8200" class="list-group-item">Media Server Status</a>
+                    <a href="index.php" class="list-group-item active">Home</a>
+                    <a href="#" class="list-group-item">Board</a>
+                    <a href="server_status.php" class="list-group-item">Server Status</a>
+                    <a href="internet_of_things.php" class="list-group-item">Internet of Things</a>
+                    <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8081" class="list-group-item">Camera Monitor</a>
                     <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8123" class="list-group-item">Home Assistant</a>
-					<a href="#" class="list-group-item">Database</a>
-					<a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:37961" class="list-group-item">File Browser</a>
-					<a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8081" class="list-group-item">Camera</a>
+                    <a href="#" class="list-group-item">File Browser</a>
+                    <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8200" class="list-group-item">Media Server</a>
                 </div>
             </div>
+
 
             <div class="col-md-6 col-md-offset-1">
 				

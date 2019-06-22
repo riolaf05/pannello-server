@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: monitoring
+  creationTimestamp: null
+  labels:
+    name: elasticsearch
+  name: elasticsearch
+  selfLink: /api/v1/namespaces/monitoring/services/elasticsearch
+spec:
+  ports:
+  - name: "9200"
+    port: 9200
+    protocol: TCP
+    targetPort: 9200
+  selector:
+    name: elasticsearch
+  sessionAffinity: None
+  type: ClusterIP

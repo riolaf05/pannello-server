@@ -1,9 +1,130 @@
 
-# Server web control panel 
+# Server web control panel on a Raspberry Pi Cluster
 
-This is a web UI for raspberry pi and other linux servers management
+This is a web UI for Raspberry Pi cluster management
 
-### Installation with Docker
+### Prerequisites
+
+- Install Ansible 2.0+
+- Install Raspbian Stretch on each Raspberry and enable SSH and Camera (throught sudo raspi-config)
+- Use the playbook in /ansible folder to configure each Raspberry Pi node, Ansible will
+- Change Rasoberry Pi hostnames and update ansible/hosts, then put hostnames on Ansible hosts file:
+
+```console
+echo ansible/hosts >> /etc/ansible/hosts
+```
+- Ansible will install Docker, Kubernetes, create the requiered folders such as: /media/pi/extHD/FILM, /media/pi/extHD/MUSICA, 
+
+```console
+/media/pi/extHD/FOTO), bind the main storage in /media/pi/extHD/ etc.
+```
+- Disable WiFi nd Bluetooth Driver by adding the following line to /etc/modprobe.d/raspi-blacklist.conf
+
+```console
+#wifi
+blacklist brcmfmac
+blacklist brcmutil
+#bt
+blacklist btbcm
+blacklist hci_uart
+```
+
+- Disable Swap: #TODO: fix that in Ansible script
+```console
+sudo dphys-swapfile swapoff && \
+sudo dphys-swapfile uninstall && \
+sudo update-rc.d dphys-swapfile remove
+```
+
+### Kubernetes cluster configuration
+
+- Pre-pull K8s master images: 
+```console
+sudo kubeadm config images pull -v3
+```
+
+- Init the master:
+
+```console
+sudo kubeadm init
+```
+
+- Again, on master: 
+```console
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
+
+- Install Weave Net network driver, on master:
+```console
+kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+```
+
+- On slaves: 
+```console
+sudo kubeadm join --token <token> <master-node-ip>:6443 --discovery-token-ca-cert-hash sha256:<sha256>
+```
+
+### Cross-compiling Docker for ARM Architecture
+
+To run Raspberry Pi docker images (architected natively for ARM32), need to copy the QEMU interpreter to the container: add this to the Dockerfile:
+
+```console
+COPY qemu-arm-static /usr/bin
+```
+
+Second, on the x86 host run:
+
+```console
+docker run --rm --privileged multiarch/qemu-user-static:register      
+```
+
+This is used on CircleCI pipeline to build Raspberry docker images on executors. 
+
+### Load Balancing
+
+By default, the applications deployed to a Kubernetes cluster are only reachable from within the cluster (default service type is ClusterIP). To make them reachable from outside the cluster you can either configure the service with the type NodePort, which exposes the service on each node's IP at a static port, or you can use a load balancer.
+
+NodePort services are, however, quite limited: they use their own dedicated port range and we can only differentiate apps by their port number. 
+
+For these reasons, we decided to deploy [MetalLB](https://metallb.universe.tf), a load-balancer implementation that is intended for bare metal clusters.
+
+To deploy the load balancer use: 
+
+```console
+kubectl apply -f https://raw.githubusercontent.com/google/metallb/v0.7.3/manifests/metallb.yaml
+```
+
+The kubernetes/load-balancer folder contains the configMaps for MetalLB. 
+
+Source: https://blog.boogiesoftware.com/2019/03/building-light-weight-kubernetes.html
+
+### CircleCI Continuous Integration 
+
+Actually CircleCI will be triggered on each commit on master branch.
+
+It will build docker images with each new change and will push those changes on Docker Hub.
+
+TODO: enable the build step which do the rollout of the kubernetes resources on the cluster. 
+
+### Control Panel installation with Kubernetes 
+
+Note: for each change upload image in pannello-server\startbootstrap-shop-item-gh-pages first with:
+```console
+docker push rio05docker/web_server_panel:<tagname>
+```
+
+Use:
+
+```console
+bash kubernetes/lamp/deploy.sh
+bash kubernetes/minidlna/deploy.sh #TO BE TESTED
+bash kubernetes/ml-keras/deploy.sh #TO BE TESTED
+```
+This will create the K8s resources on the cluster. 
+
+### Control Panel installation with Docker
 
 0) install docker-ce and vcgencmd on local machine
 
@@ -11,11 +132,13 @@ This is a web UI for raspberry pi and other linux servers management
 
 2) go to startbootstrap-shop-item-gh-pages/ and run:
 ```console
-docker build -t web_server_panel .
+docker build -t "rio05docker/web_server_panel:latest" .
+docker push rio05docker/web_server_panel:latest
 ```
 3) run:
+
 ```console
-docker run -d --restart unless-stopped -p 80:80 -p 443:443 -v /tmp:/tmp web_server_panel:latest
+docker run -d --restart unless-stopped --name web_server_panel -p 80:80 -p 443:443 -v /tmp:/tmp rio05docker/web_server_panel:latest
 ```
 
 Use:
@@ -26,7 +149,7 @@ inside the container to create certificate and key when expired.
 
 **TODO: disable non-https connections**
 
-### Local installation
+### Control Panel local installation (without docker or K8s)
 
 **NOTE: for the local installation must first uncomment the 33° row in index.php**
 
@@ -54,8 +177,10 @@ To enable the "Server Shutdown and Reboot" buttons it is necessary to use a cron
 shuts down or reboots the machine if it find the file writen by the PHP script (that cannot 
 reboot the machine directly).
 
-### MINIDLNA SERVER
+# Docker installation MINIDLNA SERVER
+Using docker:
 
+```console
         docker run --restart unless-stopped -d --name minidlna \
           --net=host \
           -p 8200:8200 \
@@ -65,11 +190,11 @@ reboot the machine directly).
           -v /media/pi/extHD/FOTO/:/media/Pictures \
           -e MINIDLNA_MEDIA_DIR=/media \
            djdefi/rpi-minidlna
-
+```
 Based on: https://github.com/djdefi/rpi-docker-minidlna
 
 
-### Python Deep Learing & Machine Learning Develop Environment
+# Python Deep Learing & Machine Learning Develop Environment with Docker
 
 ```console
 docker build -t ml-development ml-development/. 
@@ -80,8 +205,18 @@ docker run -it -d --restart unless-stopped -p 8888:8888 -p 6006:6006 ml-developm
 
 Based on: https://github.com/floydhub/dl-docker
 
-### SCRIPT PER LA CONVERSIONE AUTOMATICA DEI FILE CARICATI - ITA 
+# Codec Conversion service installation
+This service is used to change video and music file encoder so they can be played by Minidlna. 
 
+### Installation with Docker:
+
+```console
+docker run -it --restart=unless-stopped -d -v /media/pi/extHD/FILM/:/FILM -v /media/pi/extHD/MUSICA/:/MUSICA -v /home/pi/Downloads:/transferred_files rio05docker/inotify-video-converter:latest
+```
+
+Every file that will be put to /home/pi/Downloads will trigger the conversion scripts.
+
+### Manual Installation: (ITA)
 Il file \pannello-server\startbootstrap-shop-item-gh-pages\pannello_controllo\invia_file.php deve essere modificato per puntare alla cartella dove verranno caricati i file..
 ### DA NON FARE
 Per fare un test..
@@ -138,6 +273,3 @@ bash file_conversion.sh "$(ls -1t | head -1)"
 ```console
 nohup /home/pi/Downloads/transferred_files/inotify_check.sh &
 ```
-TODO: check upload di più file video contemporaneamente e vedere se le conversioni vengono fatte parallelamente!!
-
-

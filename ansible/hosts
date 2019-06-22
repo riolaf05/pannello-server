@@ -1,3 +1,3 @@
-[local]
-127.0.0.1 ansible_connection=local
-localhost ansible_connection=local
+[kube-clusterl]
+raspberry_1 ansible_host=192.168.1.9 ansible_user=pi
+raspberry_2 ansible_host=192.168.1.10 ansible_user=pi
