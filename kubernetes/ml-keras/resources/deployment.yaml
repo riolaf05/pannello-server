@@ -21,12 +21,12 @@ spec:
     spec:
       nodeName: raspberrypi
       containers:
-      - image: nandanrao/rpi-docker-tensorflow
+      - image: rio05docker/rpi-docker-tensorflow:latest
         imagePullPolicy: Always
         name: rpi-docker-tensorflow
         resources:
             limits:
-                memory: "1Gi"
+                memory: "2Gi"
                 cpu: "1"
             requests:
                 cpu: "100m"
