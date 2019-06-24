@@ -26,7 +26,7 @@ spec:
         name: kibana
     spec:
       containers:
-      - image: docker.elastic.co/kibana/kibana-oss:6.2.3
+      - image: ind3x/rpi-kibana #docker.elastic.co/kibana/kibana-oss:6.2.3
         imagePullPolicy: IfNotPresent
         name: kibana
         ports:

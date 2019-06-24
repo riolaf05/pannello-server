@@ -23,7 +23,6 @@ data:
 
       grok { #It works like this: %{SYNTAX:SEMANTIC} where SYNTAX is a keywork or a regex and SEMANTIC is the identifier you give to the piece of text being matched.
         match => { "log" => "%{IP:client} %{WORD:method}" }
-        #match => { "log" => "^%{IPORHOST:client_ip} %{USER} %{USER} \[%{HTTPDATE:timestamp}\] \"%{WORD:verb} %{DATA:request} HTTP/%{NUMBER}\" %{NUMBER:response:int} (?:-|%{NUMBER:bytes:int}) %{QS:referrer} %{QS:agent}"  }
       }
     }
 

@@ -31,7 +31,7 @@ spec:
       - env:
         - name: LS_JAVA_OPTS
           value: -Xmx256m -Xms256m
-        image: docker.elastic.co/logstash/logstash-oss:6.2.3
+        image: ind3x/rpi-logstash #docker.elastic.co/logstash/logstash-oss:6.2.3
         imagePullPolicy: IfNotPresent
         name: logstash
         ports:
