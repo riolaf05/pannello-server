@@ -21,7 +21,7 @@ spec:
     spec:
       nodeName: raspberrypi
       containers:
-      - image: rio05docker/rpi-docker-tensorflow:latest
+      - image: floydhub/dl-docker
         imagePullPolicy: Always
         name: rpi-docker-tensorflow
         resources:
@@ -34,7 +34,7 @@ spec:
         ports:
         - containerPort: 8888
         volumeMounts:
-        - mountPath: /notebooks/myNotebooks #see https://hub.docker.com/r/nandanrao/rpi-docker-tensorflow
+        - mountPath: /root/sharedfolder 
           name: ml-volume
       restartPolicy: Always
       volumes:
