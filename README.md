@@ -205,6 +205,10 @@ Based on: https://github.com/floydhub/dl-docker
 # Codec Conversion service installation
 This service is used to change video and music file encoder so they can be played by Minidlna. 
 
+### Installation with Kubernetes:
+
+TODO
+
 ### Installation with Docker:
 
 ```console
