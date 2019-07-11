@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: minidlna-ingress
+  labels:
+    rioiotplatform: minidlna
+spec:
+  rules:
+    - host: minidlna.riohomeiot.com
+      http:
+        paths:
+          - backend:
+              serviceName: minidlna-pod
+              servicePort: 1900
