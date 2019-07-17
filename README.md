@@ -12,8 +12,6 @@ Index:
 * Cross-compiling Docker for ARM Architecture
 * Load Balancing
 * CircleCI Continuous Integration 
-* Control Panel installation with Kubernetes 
-* Control Panel installation with Docker
 * Installation
 * Minidlna Server
 * Python Deep Learing & Machine Learning Develop Environment
