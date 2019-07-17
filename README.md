@@ -3,7 +3,23 @@
 
 This is a web UI for Raspberry Pi cluster management
 
-### Prerequisites
+![image](https://github.com/riolaf05/pannello-server/blob/test/cluster.JPG)
+
+Index:
+
+* Prerequisites
+* Kubernetes cluster configuration
+* Cross-compiling Docker for ARM Architecture
+* Load Balancing
+* CircleCI Continuous Integration 
+* Control Panel installation with Kubernetes 
+* Control Panel installation with Docker
+* Installation
+* Minidlna Server
+* Python Deep Learing & Machine Learning Develop Environment
+* Codec Conversion Service installation
+
+## Prerequisites
 
 - Install Ansible 2.0+
 - Install Raspbian Stretch on each Raspberry and enable SSH and Camera (throught sudo raspi-config)
@@ -36,7 +52,7 @@ sudo dphys-swapfile uninstall && \
 sudo update-rc.d dphys-swapfile remove
 ```
 
-### Kubernetes cluster configuration
+## Kubernetes cluster configuration
 
 - Pre-pull K8s master images: 
 ```console
@@ -66,7 +82,7 @@ kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl versio
 sudo kubeadm join --token <token> <master-node-ip>:6443 --discovery-token-ca-cert-hash sha256:<sha256>
 ```
 
-### Cross-compiling Docker for ARM Architecture
+## Cross-compiling Docker for ARM Architecture
 
 To run Raspberry Pi docker images (architected natively for ARM32), need to copy the QEMU interpreter to the container: add this to the Dockerfile:
 
@@ -82,7 +98,7 @@ docker run --rm --privileged multiarch/qemu-user-static:register
 
 This is used on CircleCI pipeline to build Raspberry docker images on executors. 
 
-### Load Balancing
+## Load Balancing
 
 By default, the applications deployed to a Kubernetes cluster are only reachable from within the cluster (default service type is ClusterIP). To make them reachable from outside the cluster you can either configure the service with the type NodePort, which exposes the service on each node's IP at a static port, or you can use a load balancer.
 
@@ -100,13 +116,23 @@ The kubernetes/load-balancer folder contains the configMaps for MetalLB.
 
 Source: https://blog.boogiesoftware.com/2019/03/building-light-weight-kubernetes.html
 
-### CircleCI Continuous Integration 
+## CircleCI Continuous Integration 
 
 Actually CircleCI will be triggered on each commit on master branch.
 
 It will build docker images with each new change and will push those changes on Docker Hub.
 
 TODO: enable the build step which do the rollout of the kubernetes resources on the cluster. 
+
+## Monitoring 
+
+The cluster uses a custom cript to retrieve temperature and CPU usage of each node.
+
+Also, a Glances server run on each nodes and pushes information on the cluster on TPC port 61208.
+
+For Glances installation steps see: https://linuxconfig.org/building-a-raspberry-pi-cluster-part-iv-monitoring
+
+## Installation
 
 ### Control Panel installation with Kubernetes 
 
@@ -177,7 +203,7 @@ To enable the "Server Shutdown and Reboot" buttons it is necessary to use a cron
 shuts down or reboots the machine if it find the file writen by the PHP script (that cannot 
 reboot the machine directly).
 
-# Docker installation MINIDLNA SERVER
+## Minidlna Server
 Using docker:
 
 ```console
@@ -194,7 +220,7 @@ Using docker:
 Based on: https://github.com/djdefi/rpi-docker-minidlna
 
 
-# Python Deep Learing & Machine Learning Develop Environment with Docker
+## Python Deep Learing & Machine Learning Develop Environment 
 
 ```console
 docker build -t ml-development ml-development/. 
@@ -205,7 +231,7 @@ docker run -it -d --restart unless-stopped -p 8888:8888 -p 6006:6006 ml-developm
 
 Based on: https://github.com/floydhub/dl-docker
 
-# Codec Conversion service installation
+## Codec Conversion service installation
 This service is used to change video and music file encoder so they can be played by Minidlna. 
 
 ### Installation with Kubernetes:
