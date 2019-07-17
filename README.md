@@ -3,7 +3,7 @@
 
 This is a web UI for Raspberry Pi cluster management
 
-![Alt text](cluster.jpeg?raw=true "My Raspberry Cluster (WIP)")
+![image](https://github.com/riolaf05/pannello-server/blob/test/cluster.JPG)
 
 Index:
 
