@@ -3,6 +3,8 @@
 
 This is a web UI for Raspberry Pi cluster management
 
+![Alt text](cluster.jpeg?raw=true "My Raspberry Cluster (WIP)")
+
 Index:
 
 * Prerequisites
