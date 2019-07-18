@@ -139,7 +139,7 @@ Note: for each change upload image in pannello-server\startbootstrap-shop-item-g
 docker push rio05docker/web_server_panel:<tagname>
 ```
 
-Use:
+* Use:
 
 ```console
 bash kubernetes/lamp/deploy.sh
@@ -148,7 +148,8 @@ bash kubernetes/ml-keras/deploy.sh #TO BE TESTED
 ```
 This will create the K8s resources on the cluster. 
 
-To enable cluster monitoring update pannello-server\startbootstrap-shop-item-gh-pages/hostnames.txt with all nodes hostname!
+* To enable cluster monitoring update pannello-server\startbootstrap-shop-item-gh-pages/hostnames.txt with all nodes hostname and
+launch pannello-server\startbootstrap-shop-item-gh-pages/deploy.sh 
 
 ### Control Panel installation with Docker
 
