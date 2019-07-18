@@ -148,6 +148,8 @@ bash kubernetes/ml-keras/deploy.sh #TO BE TESTED
 ```
 This will create the K8s resources on the cluster. 
 
+To enable cluster monitoring update pannello-server\startbootstrap-shop-item-gh-pages/hostnames.txt with all nodes hostname!
+
 ### Control Panel installation with Docker
 
 0) install docker-ce and vcgencmd on local machine
