@@ -1,12 +1,13 @@
 #!/bin/bash
 
 echo "Removing old scripts"
-rm /tmp//nodes_param.xml
+rm /tmp/nodes_param.xml
 
-#Select cluster node number
-N_CLUSTER=2 
-cluster[0]="raspberrypi"
-cluster[1]="raspberrypi1"
+#Getting node hostnames 
+c=0
+mapfile -t node_list < hostnames.txt
+for i in $node_list; do cluster[$c]=$i && c=$c+1; done
+N_CLUSTER=${#cluster[@]}
 
 #Select latest docker image tag:
 DOCKER_TAG="rpi3_test_latest"
@@ -18,10 +19,7 @@ printf "<root>\n" >> /tmp/nodes_param.xml
 for (( c=0; c<=$N_CLUSTER-1; c++)); do printf "\t<raspberry name='"${cluster[$c]}"'>\n\t\t<temperatura>TEMP_"${cluster[$c]}"</temperatura>\n\t\t<memoria_act>MEM_ACT_"${cluster[$c]}"</memoria_act>\n\t\t<memoria_tot>MEM_TOT_"${cluster[$c]}"</memoria_tot>\n\t</raspberry>\n" >> /tmp/nodes_param.xml; done
 printf "</root>\n" >> /tmp/nodes_param.xml
 
-#TODO: copy xml params file with SSH on all machines
-
-#Start Rsync to syncronize /tmp/ folder between nodes 
-#TODO
+#TODO: rsync files between nodes
 
 echo "Installing cronjobs"
 mkdir $HOME/Scripts
