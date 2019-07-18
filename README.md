@@ -12,8 +12,6 @@ Index:
 * Cross-compiling Docker for ARM Architecture
 * Load Balancing
 * CircleCI Continuous Integration 
-* Control Panel installation with Kubernetes 
-* Control Panel installation with Docker
 * Installation
 * Minidlna Server
 * Python Deep Learing & Machine Learning Develop Environment
@@ -23,13 +21,13 @@ Index:
 
 - Install Ansible 2.0+
 - Install Raspbian Stretch on each Raspberry and enable SSH and Camera (throught sudo raspi-config)
-- Use the playbook in /ansible folder to configure each Raspberry Pi node, Ansible will
-- Change Rasoberry Pi hostnames and update ansible/hosts, then put hostnames on Ansible hosts file:
+- Use the playbook in /ansible folder to configure each Raspberry Pi node.
+- Change Raspberry Pi hostnames and update ansible/hosts, then put hostnames on Ansible hosts file:
 
 ```console
 echo ansible/hosts >> /etc/ansible/hosts
 ```
-- Ansible will install Docker, Kubernetes, create the requiered folders such as: /media/pi/extHD/FILM, /media/pi/extHD/MUSICA, 
+- Ansible will install Docker, Kubernetes, dependencies and create the requiered folders such as: /media/pi/extHD/FILM, /media/pi/extHD/MUSICA, 
 
 ```console
 /media/pi/extHD/FOTO), bind the main storage in /media/pi/extHD/ etc.

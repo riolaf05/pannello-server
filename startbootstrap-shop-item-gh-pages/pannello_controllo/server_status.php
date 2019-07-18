@@ -142,16 +142,18 @@
                     foreach($xmldata->children() as $raspberrypi) { ?>
 
                             <h2><?php echo $raspberrypi['name']; ?></h2>
-
+                            <!-- Custom dashboards -->
                             <h4>Temperatura CPU</h4>
                             <div class="progress progress-striped">
                             <?php echo $raspberrypi->temperatura."° C"; ?><div class="progress-bar progress-bar-danger" style="width: <?php echo $raspberrypi->temperatura;?>%;"></div>
                             </div>
                             
+                            <!--
                             <h4>Memoria Disponibile</h4>
                             <div class="progress progress-striped">
                             <?php echo $raspberrypi->memoria_act."/".$raspberrypi->memoria_tot." GB"; ?><div class="progress-bar progress-bar-info" style="width: <?php echo ($raspberrypi->memoria_act*100)/$raspberrypi->memoria_tot;?>%;"></div>
                             </div>
+                                -->
                 
                 <?php
                     }
@@ -163,8 +165,10 @@
 
 
 
-
-
+                <!-- Glances dashboards -->
+                <h2>Cluster Status</h2>
+                <iframe src="http://192.168.1.9:61208" height="930" width="450"></iframe>
+                <iframe src="http://192.168.1.10:61208" height="930" width="450"></iframe>
 
 
 
