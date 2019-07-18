@@ -6,15 +6,28 @@
   
   tasks:
 
-  #- name: Create a directory to mount main storage
-  #  file:
-  #    path: /media/pi/extHD
-  #    state: directory
-  #    mode: '0755'
+  - name: Create a directory to mount main storage
+    when: ansible_hostname == 'raspberry_1'
+    file:
+      path: /media/pi/extHD
+      state: directory
+      mode: '0755'
     
-  - name: Create a directory put transferred files
+  - name: Create a directory to put transferred files
     file:
       path: /home/pi/Downloads/transferred_files
+      state: directory
+      mode: '0755'
+
+  - name: Create a directory for mosquitto logs
+    file:
+      path: /mosquitto/log
+      state: directory
+      mode: '0755'
+
+  - name: Create a directory for mosquitto config
+    file:
+      path: /mosquitto/data
       state: directory
       mode: '0755'
 
