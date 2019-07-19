@@ -167,8 +167,8 @@
 
                 <!-- Glances dashboards -->
                 <h2>Cluster Status</h2>
-                <iframe src="http://192.168.1.9:61208" height="930" width="450"></iframe>
-                <iframe src="http://192.168.1.10:61208" height="930" width="450"></iframe>
+                <iframe src="http://192.168.1.9:61208" height="930" width="375"></iframe>
+                <iframe src="http://192.168.1.10:61208" height="930" width="375"></iframe>
 
 
 
