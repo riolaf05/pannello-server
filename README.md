@@ -142,9 +142,9 @@ docker push rio05docker/web_server_panel:<tagname>
 * Use:
 
 ```console
-bash kubernetes/lamp/deploy.sh
-bash kubernetes/minidlna/deploy.sh 
-bash kubernetes/ml-keras/deploy.sh <circleci build number> 
+bash kubernetes/lamp/deploy.sh <circleci build number> 
+bash kubernetes/minidlna/deploy.sh #NOT AVAILABLE YET
+bash kubernetes/ml-keras/deploy.sh #NOT AVAILABLE YET
 ```
 This will create the K8s resources on the cluster. You can get circleci build number in CircleCI first steps of the latest run on test branch.
 
