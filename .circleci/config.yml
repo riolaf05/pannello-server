@@ -27,7 +27,7 @@
               docker run --rm --privileged multiarch/qemu-user-static:register #support for arm64 docker images (see: https://ownyourbits.com/2018/06/27/running-and-building-arm-docker-containers-in-x86/)
               chmod +x scripts/circleci/build.sh
               bash scripts/circleci/build.sh
-              docker run -d --rm rio05docker/web_server_panel:rpi3_${CIRCLE_BUILD_NUM}
+              docker run -d --rm rio05docker/web_server_panel:rpi3_test_${CIRCLE_BUILD_NUM}
        - run: 
           name: Push container 
           command: |
