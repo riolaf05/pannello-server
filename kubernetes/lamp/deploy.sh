@@ -27,6 +27,10 @@ bash scripts/add_cronjobs.sh
 # Installing Kubernetes jobs
 echo "Installing server control panel Kubernetes resources"
 
+BUILD_NUM=$1
+
+sed 's|{{ .CIRCLE_BUILD_NUM }}|'$BUILD_NUM'|g' resources/php.yaml.tpl > resources/php.yaml
+
 kubectl apply -f resources/persistentVolume.yaml
 kubectl apply -f resources/persistentVolumeClaim.yaml
 kubectl apply -f resources/secrets.yaml

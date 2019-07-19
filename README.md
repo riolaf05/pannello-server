@@ -143,10 +143,10 @@ docker push rio05docker/web_server_panel:<tagname>
 
 ```console
 bash kubernetes/lamp/deploy.sh
-bash kubernetes/minidlna/deploy.sh #TO BE TESTED
-bash kubernetes/ml-keras/deploy.sh #TO BE TESTED
+bash kubernetes/minidlna/deploy.sh 
+bash kubernetes/ml-keras/deploy.sh <circleci build number> 
 ```
-This will create the K8s resources on the cluster. 
+This will create the K8s resources on the cluster. You can get circleci build number in CircleCI first steps of the latest run on test branch.
 
 * To enable cluster monitoring update pannello-server\startbootstrap-shop-item-gh-pages/hostnames.txt with all nodes hostname and
 launch pannello-server\startbootstrap-shop-item-gh-pages/deploy.sh 
