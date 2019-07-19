@@ -10,7 +10,7 @@ for i in $node_list; do cluster[$c]=$i && c=$c+1; done
 N_CLUSTER=${#cluster[@]}
 
 #Select latest docker image tag:
-DOCKER_TAG="rpi3_test_latest"
+#DOCKER_TAG="rpi3_prod_latest"
 
 echo "Writing XML configuration file for each node of the cluster"
 HOSTNAME=$(hostname)
@@ -27,5 +27,5 @@ cp scripts/* $HOME/Scripts
 chmod +x $HOME/Scripts
 bash scripts/add_cronjobs.sh
 
-echo "Building Docker image"
-docker build -t "rio05docker/web_server_panel:$DOCKER_TAG" .
+#echo "Building Docker image"
+#docker build -t "rio05docker/web_server_panel:$DOCKER_TAG" .
