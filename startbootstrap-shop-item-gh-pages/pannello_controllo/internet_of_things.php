@@ -146,8 +146,8 @@
                     
                     <div class="col-6">
 
-                        <form action="<?=$_SERVER['PHP_SELF'];?>" method="post">
-                            <input type="button" name="submit" value="Aqua" class="button">
+                        <form action='' method='post'>
+                            <input type="submit" name="submit" value="Aqua" class="button">
                         </form>
 
                     </div>
@@ -157,22 +157,11 @@
 
                 <?php
 
-                #Scrittura dati su broker MQTT
-                define('BROKER', '10.44.0.5');
-                define('PORT', 1883);
-                define('CLIENT_ID', "pubclient_php" + getmypid());
+                if(isset($_POST['submit'])){
 
-                $client = new Mosquitto\Client(CLIENT_ID);
-                $client->connect(BROKER, PORT, 60);
+                        $output = shell_exec('mosquitto_pub -h 192.168.1.0 -t pump_activation -m "ON"'); //TODO: change hard coded broker IP!!
+                    }
 
-
-                    if(isset($_POST['submit'])) {
-                       
-                            $message = "ON";
-                            $client->publish('test', $message, 0, false);
-                           
-                                }   
-                            
                 ?>
                 
 
