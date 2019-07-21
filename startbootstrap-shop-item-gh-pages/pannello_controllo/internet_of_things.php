@@ -23,10 +23,36 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+        .button {
+          display: inline-block;
+          padding: 15px 25px;
+          font-size: 24px;
+          cursor: pointer;
+          text-align: center;
+          text-decoration: none;
+          outline: none;
+          color: #fff;
+          background-color: #0000ff;
+          border: none;
+          border-radius: 15px;
+          box-shadow: 0 9px #999;
+        }
+
+        .button:hover {background-color: #0000ff}
+
+        .button:active {
+          background-color: #0000ff;
+          box-shadow: 0 5px #666;
+          transform: translateY(4px);
+        }
+    </style>
 
 </head>
 
 <body>
+
+    
 
 	<?php 
 		//Scrittura temperatura CPU (grazie all'applicazione acpi) e memoria restante
@@ -113,13 +139,55 @@
             <div class="col-md-8 col-md-offset-1">
 
 
-
-
-
                 
-                <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/689988/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
 
-                <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/689988/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+
+                <div class="row">
+                    
+                    <div class="col-6">
+
+                        <form action="<?=$_SERVER['PHP_SELF'];?>" method="post">
+                            <input type="button" name="submit" value="Aqua" class="button">
+                        </form>
+
+                    </div>
+                    
+                </div>
+
+
+                <?php
+
+                #Scrittura dati su broker MQTT
+                define('BROKER', '10.44.0.5');
+                define('PORT', 1883);
+                define('CLIENT_ID', "pubclient_php" + getmypid());
+
+                $client = new Mosquitto\Client(CLIENT_ID);
+                $client->connect(BROKER, PORT, 60);
+
+
+                    if(isset($_POST['submit'])) {
+                       
+                            $message = "ON";
+                            $client->publish('test', $message, 0, false);
+                           
+                                }   
+                            
+                ?>
+                
+
+
+                <span style="display:inline-block; width: 50;"></span>
+
+
+
+                <div class="row">
+                    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/689988/widgets/88557"></iframe>
+
+
+                    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/689988/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+                </div>
+                
 
 
 
@@ -146,7 +214,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Copyright &copy; Rosario Laface 2016</p>
+                    <p>Copyright &copy; Rosario Laface 2016-2019</p>
                 </div>
             </div>
         </footer>
