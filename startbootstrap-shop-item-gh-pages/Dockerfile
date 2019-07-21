@@ -21,8 +21,8 @@ ENV APACHE_LOCK_DIR /var/lock/apache2
 ENV APACHE_PID_FILE /var/run/apache2.pid 
 
 # Install PHP extension on Docker
-RUN printf "\n" | pecl install Mosquitto-alpha
-RUN echo "extension=mosquitto.so" >> /etc/php/7.0/apache2/php.ini
+#RUN printf "\n" | pecl install Mosquitto-alpha
+#RUN echo "extension=mosquitto.so" >> /etc/php/7.0/apache2/php.ini
 
 RUN mkdir /var/www/html/pannello_controllo
 
