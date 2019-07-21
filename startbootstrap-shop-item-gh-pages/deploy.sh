@@ -34,5 +34,5 @@ DOCKER_TAG='rpi3_test_'$DAY'_'$MONTH
 
 echo "Build and push subscriber container"
 docker build -t "rio05docker/web_server_panel:"$DOCKER_TAG .
-docker push rio05docker/web_server_panel::$DOCKER_TAG
+docker push rio05docker/web_server_panel:$DOCKER_TAG
 
