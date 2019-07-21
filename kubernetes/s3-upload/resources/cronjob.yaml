@@ -1,0 +1,21 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: s3-upload
+spec:
+  schedule: "0 0 */1 * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: s3-upload
+            image: demo-image:latest
+            envFrom:
+            - secretRef:
+                name: s3-secrets
+            #TODO: add volume
+            args:
+            - bash
+            - s3-upload.sh
+          restartPolicy: OnFailure

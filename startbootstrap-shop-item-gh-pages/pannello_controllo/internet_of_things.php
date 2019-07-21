@@ -23,10 +23,36 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+        .button {
+          display: inline-block;
+          padding: 15px 25px;
+          font-size: 24px;
+          cursor: pointer;
+          text-align: center;
+          text-decoration: none;
+          outline: none;
+          color: #fff;
+          background-color: #0000ff;
+          border: none;
+          border-radius: 15px;
+          box-shadow: 0 9px #999;
+        }
+
+        .button:hover {background-color: #0000ff}
+
+        .button:active {
+          background-color: #0000ff;
+          box-shadow: 0 5px #666;
+          transform: translateY(4px);
+        }
+    </style>
 
 </head>
 
 <body>
+
+    
 
 	<?php 
 		//Scrittura temperatura CPU (grazie all'applicazione acpi) e memoria restante
@@ -113,13 +139,44 @@
             <div class="col-md-8 col-md-offset-1">
 
 
+                <h2>IoT - Piantina cucina</h2>
 
 
+                <div class="row">
+                    
+                    <div class="col-6">
 
+                        <form action='' method='post'>
+                            <input type="submit" name="submit" value="Aqua" class="button">
+                        </form>
+
+                    </div>
+                    
+                </div>
+
+
+                <?php
+
+                if(isset($_POST['submit'])){
+
+                        $output = shell_exec('mosquitto_pub -h 192.168.1.0 -t pump_activation -m "ON"'); //TODO: change hard coded broker IP!!
+                    }
+
+                ?>
                 
-                <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/689988/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
 
-                <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/689988/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+
+                <span style="display:inline-block; width: 50;"></span>
+
+
+
+                <div class="row">
+                    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/689988/widgets/41173"></iframe>
+
+
+                    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/689988/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+                </div>
+                
 
 
 
@@ -146,7 +203,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Copyright &copy; Rosario Laface 2016</p>
+                    <p>Copyright &copy; Rosario Laface 2016-2019</p>
                 </div>
             </div>
         </footer>

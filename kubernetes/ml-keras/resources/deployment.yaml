@@ -5,39 +5,39 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: minidlna-pod
+  name: ml-pod
   labels:
-    rioiotplatform: minidlna
+    rioiotplatform: ml
 spec:
   replicas: 1
   revisionHistoryLimit: 5
   selector:
     matchLabels:
-      app: minidlna-pod
+      app: ml-pod
   template:
     metadata:
       labels:
-        app: minidlna-pod
+        app: ml-pod
     spec:
-      nodeName: raspberrypi1
+      nodeName: raspberrypi
       containers:
-      - image: djdefi/rpi-minidlna
+      - image: floydhub/dl-docker
         imagePullPolicy: Always
-        name: rpi-minidlna
+        name: rpi-docker-tensorflow
         resources:
             limits:
-                memory: "1Gi"
+                memory: "2Gi"
                 cpu: "1"
             requests:
                 cpu: "100m"
                 memory: "30Mi"
         ports:
-        - containerPort: 1900
+        - containerPort: 8888
         volumeMounts:
-        - mountPath: /media
-          name: minidlna-volume
+        - mountPath: /root/sharedfolder 
+          name: ml-volume
       restartPolicy: Always
       volumes:
-      - name: minidlna-volume
+      - name: ml-volume
         persistentVolumeClaim:
-          claimName: minidlna-claim
+          claimName: ml-claim

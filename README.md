@@ -3,17 +3,31 @@
 
 This is a web UI for Raspberry Pi cluster management
 
-### Prerequisites
+![image](https://github.com/riolaf05/pannello-server/blob/test/cluster.JPG)
+
+Index:
+
+* Prerequisites
+* Kubernetes cluster configuration
+* Cross-compiling Docker for ARM Architecture
+* Load Balancing
+* CircleCI Continuous Integration 
+* Installation
+* Minidlna Server
+* Python Deep Learing & Machine Learning Develop Environment
+* Codec Conversion Service installation
+
+## Prerequisites
 
 - Install Ansible 2.0+
 - Install Raspbian Stretch on each Raspberry and enable SSH and Camera (throught sudo raspi-config)
-- Use the playbook in /ansible folder to configure each Raspberry Pi node, Ansible will
-- Change Rasoberry Pi hostnames and update ansible/hosts, then put hostnames on Ansible hosts file:
+- Use the playbook in /ansible folder to configure each Raspberry Pi node.
+- Change Raspberry Pi hostnames and update ansible/hosts, then put hostnames on Ansible hosts file:
 
 ```console
 echo ansible/hosts >> /etc/ansible/hosts
 ```
-- Ansible will install Docker, Kubernetes, create the requiered folders such as: /media/pi/extHD/FILM, /media/pi/extHD/MUSICA, 
+- Ansible will install Docker, Kubernetes, dependencies and create the requiered folders such as: /media/pi/extHD/FILM, /media/pi/extHD/MUSICA, 
 
 ```console
 /media/pi/extHD/FOTO), bind the main storage in /media/pi/extHD/ etc.
@@ -36,7 +50,7 @@ sudo dphys-swapfile uninstall && \
 sudo update-rc.d dphys-swapfile remove
 ```
 
-### Kubernetes cluster configuration
+## Kubernetes cluster configuration
 
 - Pre-pull K8s master images: 
 ```console
@@ -66,13 +80,57 @@ kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl versio
 sudo kubeadm join --token <token> <master-node-ip>:6443 --discovery-token-ca-cert-hash sha256:<sha256>
 ```
 
-### CircleCI Continuous Integration 
+## Cross-compiling Docker for ARM Architecture
+
+To run Raspberry Pi docker images (architected natively for ARM32), need to copy the QEMU interpreter to the container: add this to the Dockerfile:
+
+```console
+COPY qemu-arm-static /usr/bin
+```
+
+Second, on the x86 host run:
+
+```console
+docker run --rm --privileged multiarch/qemu-user-static:register      
+```
+
+This is used on CircleCI pipeline to build Raspberry docker images on executors. 
+
+## Load Balancing
+
+By default, the applications deployed to a Kubernetes cluster are only reachable from within the cluster (default service type is ClusterIP). To make them reachable from outside the cluster you can either configure the service with the type NodePort, which exposes the service on each node's IP at a static port, or you can use a load balancer.
+
+NodePort services are, however, quite limited: they use their own dedicated port range and we can only differentiate apps by their port number. 
+
+For these reasons, we decided to deploy [MetalLB](https://metallb.universe.tf), a load-balancer implementation that is intended for bare metal clusters.
+
+To deploy the load balancer use: 
+
+```console
+kubectl apply -f https://raw.githubusercontent.com/google/metallb/v0.7.3/manifests/metallb.yaml
+```
+
+The kubernetes/load-balancer folder contains the configMaps for MetalLB. 
+
+Source: https://blog.boogiesoftware.com/2019/03/building-light-weight-kubernetes.html
+
+## CircleCI Continuous Integration 
 
 Actually CircleCI will be triggered on each commit on master branch.
 
 It will build docker images with each new change and will push those changes on Docker Hub.
 
 TODO: enable the build step which do the rollout of the kubernetes resources on the cluster. 
+
+## Monitoring 
+
+The cluster uses a custom cript to retrieve temperature and CPU usage of each node.
+
+Also, a Glances server run on each nodes and pushes information on the cluster on TPC port 61208.
+
+For Glances installation steps see: https://linuxconfig.org/building-a-raspberry-pi-cluster-part-iv-monitoring
+
+## Installation
 
 ### Control Panel installation with Kubernetes 
 
@@ -81,14 +139,17 @@ Note: for each change upload image in pannello-server\startbootstrap-shop-item-g
 docker push rio05docker/web_server_panel:<tagname>
 ```
 
-Use:
+* Use:
 
 ```console
-bash kubernetes/lamp/deploy.sh
-bash kubernetes/minidlna/deploy.sh #TO BE TESTED
-bash kubernetes/ml-keras/deploy.sh #TO BE TESTED
+bash kubernetes/lamp/deploy.sh <circleci build number> 
+bash kubernetes/minidlna/deploy.sh #NOT AVAILABLE YET
+bash kubernetes/ml-keras/deploy.sh #NOT AVAILABLE YET
 ```
-This will create the K8s resources on the cluster. 
+This will create the K8s resources on the cluster. You can get circleci build number in CircleCI first steps of the latest run on test branch.
+
+* To enable cluster monitoring update pannello-server\startbootstrap-shop-item-gh-pages/hostnames.txt with all nodes hostname and
+launch pannello-server\startbootstrap-shop-item-gh-pages/deploy.sh 
 
 ### Control Panel installation with Docker
 
@@ -143,7 +204,7 @@ To enable the "Server Shutdown and Reboot" buttons it is necessary to use a cron
 shuts down or reboots the machine if it find the file writen by the PHP script (that cannot 
 reboot the machine directly).
 
-# Docker installation MINIDLNA SERVER
+## Minidlna Server
 Using docker:
 
 ```console
@@ -160,16 +221,23 @@ Using docker:
 Based on: https://github.com/djdefi/rpi-docker-minidlna
 
 
-# Python Deep Learing & Machine Learning Develop Environment with Docker
+## Python Deep Learing & Machine Learning Develop Environment 
 
 ```console
-docker run -it -d --restart unless-stopped -p 8888:8888 -p 6006:6006 -v /media/pi/extHD/SharedFile:/root/sharedfolder floydhub/dl-docker:cpu jupyter notebook
+docker build -t ml-development ml-development/. 
+
+
+docker run -it -d --restart unless-stopped -p 8888:8888 -p 6006:6006 ml-development
 ```
 
 Based on: https://github.com/floydhub/dl-docker
 
-# Codec Conversion service installation
+## Codec Conversion service installation
 This service is used to change video and music file encoder so they can be played by Minidlna. 
+
+### Installation with Kubernetes:
+
+TODO
 
 ### Installation with Docker:
 

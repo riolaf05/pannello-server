@@ -11,19 +11,19 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: minidlna-volume
+  name: ml-volume
   labels:
     #type: local
     rioiotplatform: minidlna
 spec:
   storageClassName: local-storage
   capacity:
-    storage: 290Gi
+    storage: 8Gi
   volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce
   local:
-    path: "/media/pi/extHD"
+    path: "/home/pi/machine-learning/notebooks"
   nodeAffinity: #PersistentVolume nodeAffinity is required when using local volumes.
                 #It enables the Kubernetes scheduler to correctly schedule Pods using local volumes to the correct node.
     required:
@@ -32,4 +32,4 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - raspberrypi1
+          - raspberrypi

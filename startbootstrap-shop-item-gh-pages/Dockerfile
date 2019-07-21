@@ -1,11 +1,15 @@
+#FROM arm32v7/ubuntu:16.04
 FROM arm32v7/ubuntu:16.04
 
 MAINTAINER Rio<onslaught89@gmail.com>
 ENV DEBIAN_FRONTEND noninteractive
 
+# Compatibility with x86 hosts (see: https://ownyourbits.com/2018/06/27/running-and-building-arm-docker-containers-in-x86/)
+COPY qemu-arm-static /usr/bin/
+
 # Install basics
 RUN apt-get update
-RUN apt-get install -y apache2 php libapache2-mod-php curl php7.0-mbstring php7.0-zip php7.0-xml
+RUN apt-get install -y apache2 libapache2-mod-php curl php7.0-mbstring php7.0-zip php7.0-xml php-pear php7.0-dev make mosquitto mosquitto-clients
 
 # Update the PHP.ini file, enable <? ?> tags and quieten logging.
 RUN sed -i "s/short_open_tag = Off/short_open_tag = On/" /etc/php/7.0/apache2/php.ini
@@ -15,6 +19,10 @@ RUN sed -i "s/error_reporting = .*$/error_reporting = E_ERROR | E_WARNING | E_PA
 ENV APACHE_LOG_DIR /var/log/apache2
 ENV APACHE_LOCK_DIR /var/lock/apache2
 ENV APACHE_PID_FILE /var/run/apache2.pid 
+
+# Install PHP extension on Docker
+#RUN printf "\n" | pecl install Mosquitto-alpha
+#RUN echo "extension=mosquitto.so" >> /etc/php/7.0/apache2/php.ini
 
 RUN mkdir /var/www/html/pannello_controllo
 
