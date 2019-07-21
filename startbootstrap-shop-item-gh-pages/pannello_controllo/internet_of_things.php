@@ -147,7 +147,7 @@
                     <div class="col-6">
 
                         <form action='' method='post'>
-                            <input type="submit" name="submit" value="Aqua" class="button">
+                            <input type="submit" name="submit" value="Acqua" class="button">
                         </form>
 
                     </div>
