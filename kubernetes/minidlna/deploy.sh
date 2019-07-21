@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Build step, template files will be filled with env parameters
-NODE_HOSTNAME=raspberry.local
+NODE_HOSTNAME=raspberrypi1
 sed 's|{{ .EXT_HD_PATH }}|/media/pi/extHD1|g' resources/persistentVolume.yaml.tpl > resources/persistentVolume.yaml
 sed 's|{{ .NODE }}|$NODE_HOSTNAME|g' resources/persistentVolume.yaml.tpl > resources/persistentVolume.yaml
 
