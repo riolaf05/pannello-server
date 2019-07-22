@@ -11,12 +11,12 @@ mysql_select_db("$db_name",$connessione);
 $username=mysql_real_escape_string($_POST['username']); //faccio l'escape dei caratteri dannosi
 $password=mysql_real_escape_string(sha1($_POST['password'])); //sha1 cifra la password anche qui in questo modo corrisponde con quella del db
 
- $query = "SELECT * FROM login WHERE username = '$username' AND password = '$password' ";
+ $query = "SELECT * FROM login WHERE usr_username = '$username' AND usr_password = '$password' ";
  $ris = mysql_query($query, $connessione) or die (mysql_error());
  $riga=mysql_fetch_array($ris);  
 
 /*Prelevo l'identificativo dell'utente */
-$cod=$riga['username'];
+$cod=$riga['usr_username'];
 
 /* Effettuo il controllo */
 if ($cod == NULL) $trovato = 0 ;
@@ -34,12 +34,12 @@ if($trovato === 1) {
   $_SESSION['cod'] = $cod;
 
  /*Redirect alla pagina riservata*/
-   echo '<script language=javascript>document.location.href="privato.php"</script>'; 
+   echo '<script language=javascript>document.location.href="index.php"</script>'; 
 
 } else {
 
 /*Username e password errati, redirect alla pagina di login*/
- echo '<script language=javascript>document.location.href="index.php"</script>';
+ echo '<script language=javascript>document.location.href="login.php"</script>';
 
 }
 ?>

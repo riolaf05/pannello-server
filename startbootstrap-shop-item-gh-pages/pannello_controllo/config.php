@@ -1,4 +1,5 @@
-/generali
+<?php
+//generali
 
 	$sito_internet = "Rio's Cloud";
 
@@ -19,3 +20,4 @@
 	$db_psw = "onslario89";
 
 	$db_name = "users";
+?>
