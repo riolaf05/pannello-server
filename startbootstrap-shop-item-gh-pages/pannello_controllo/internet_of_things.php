@@ -54,7 +54,19 @@
 
     
 
-	<?php 
+<?php
+        //Verifica login
+        session_start();
+        //se non c'è la sessione registrata
+        if (!session_is_registered('autorizzato')) {
+        echo "<h1>Area riservata, accesso negato.</h1>";
+        echo "Per effettuare il login clicca <a href='index.php'><font color='blue'>qui</font></a>";
+        die;
+        }
+
+        //Altrimenti Prelevo il codice identificatico dell'utente loggato
+        session_start();
+        $cod = $_SESSION['cod']; //id cod recuperato nel file di verifica
 		//Scrittura temperatura CPU (grazie all'applicazione acpi) e memoria restante
 		#$comando=shell_exec('/opt/vc/bin/vcgencmd measure_temp > /tmp/temperatura.txt && df -h / > /tmp/memoria.txt');
 		
