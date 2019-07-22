@@ -3,17 +3,18 @@ session_start(); //inizio la sessione
 //includo i file necessari a collegarmi al db con relativo script di accesso
 include("config.php"); 
 
-$host="localhost";
-$db__user="root";
-$db_psw="onslario89";
-$username="rio";
-$password="onslario89";
-
-//mi collego
-$connection = new mysqli('locahost', 'root', 'onslario89', 'users');
-
 //$username=$_POST['username']; //faccio l'escape dei caratteri dannosi
 //$password=$_POST['password']; // usare $password=sha1($_POST['password']);,  sha1 cifra la password anche qui in questo modo corrisponde con quella del db
+
+//mi collego
+$connection = mysqli_connect("locahost", "root", "onslario89");
+
+if (mysqli_connect_errno())
+{
+    echo "Failed to connect to MySQL: " . mysqli_connect_error();
+    //you need to exit the script, if there is an error
+    exit();
+}
 
 // Check connection
 if ($connection->connect_error) {
@@ -21,16 +22,12 @@ if ($connection->connect_error) {
 } 
 echo "Connected successfully";
 
-
-$query = $connection->query("SELECT * FROM login WHERE usr_username = '$username' AND usr_password = '$password' ");
-if($query->num_rows) {
-  echo "Accesso consentito";
-} else {
-  echo "Accesso rifiutato";
-}
+//$sql_statement = "SELECT * FROM login WHERE usr_username = '" . $_POST['username'] ."'" . "AND usr_password ='" . $_POST['password'] ."'";
+$sql= "SELECT * FROM users WHERE usr_username = 'rio' AND usr_password = 'onslario89'";
+$query = mysqli_query($connection, $sql_statement);
 
 /*Prelevo l'identificativo dell'utente */
-$cod=$query['usr_username'];
+$cod=$result['usr_username'];
 
 /* Effettuo il controllo */
 if ($cod == NULL) $trovato = 0 ;
