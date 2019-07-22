@@ -18,7 +18,7 @@
         </fieldset>
         <fieldset id="actions">
             <input type="submit" id="submit" value="Collegati">
-            <a href="../index.php" id="back">Ritorna al sito</a>
+            <a href="index.php" id="back">Ritorna al sito</a>
         </fieldset>
     </form>
 

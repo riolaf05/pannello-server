@@ -1,22 +1,36 @@
 <?php
 session_start(); //inizio la sessione
 //includo i file necessari a collegarmi al db con relativo script di accesso
-include("connessione_db.php");
 include("config.php"); 
 
+$host="localhost";
+$db__user="root";
+$db_psw="onslario89";
+$username="rio";
+$password="onslario89";
+
 //mi collego
-mysql_select_db("$db_name",$connessione); 
+$connection = new mysqli('locahost', 'root', 'onslario89', 'users');
 
-//variabili POST con anti sql Injection
-$username=mysql_real_escape_string($_POST['username']); //faccio l'escape dei caratteri dannosi
-$password=mysql_real_escape_string(sha1($_POST['password'])); //sha1 cifra la password anche qui in questo modo corrisponde con quella del db
+//$username=$_POST['username']; //faccio l'escape dei caratteri dannosi
+//$password=$_POST['password']; // usare $password=sha1($_POST['password']);,  sha1 cifra la password anche qui in questo modo corrisponde con quella del db
 
- $query = "SELECT * FROM login WHERE usr_username = '$username' AND usr_password = '$password' ";
- $ris = mysql_query($query, $connessione) or die (mysql_error());
- $riga=mysql_fetch_array($ris);  
+// Check connection
+if ($connection->connect_error) {
+  die("Connection failed: " . $connection->connect_error);
+} 
+echo "Connected successfully";
+
+
+$query = $connection->query("SELECT * FROM login WHERE usr_username = '$username' AND usr_password = '$password' ");
+if($query->num_rows) {
+  echo "Accesso consentito";
+} else {
+  echo "Accesso rifiutato";
+}
 
 /*Prelevo l'identificativo dell'utente */
-$cod=$riga['usr_username'];
+$cod=$query['usr_username'];
 
 /* Effettuo il controllo */
 if ($cod == NULL) $trovato = 0 ;
