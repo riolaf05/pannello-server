@@ -16,6 +16,6 @@
 
 	$db_user = "root";
 
-	$db_psw = "wtargetweb";
+	$db_psw = "onslario89";
 
-	$db_name = "target";
+	$db_name = "users";
