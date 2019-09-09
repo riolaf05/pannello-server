@@ -9,15 +9,15 @@
 
 	//URL PER HTACCESS
 
-	$base_url = "http://riohomeiot.dsss.net/";
+	$base_url = "";
 
 	//connessione DB
 
-	$host = "localhost";
+	$host = $_SERVER["HOSTNAME"];
 
 	$db_user = "root";
 
-	$db_psw = "onslario89";
+	$db_psw = "wiqcOsaKzaNbagEsarCiq0PJAH#";
 
-	$db_name = "users";
+	$db_name = "Login";
 ?>

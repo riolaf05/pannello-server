@@ -6,7 +6,7 @@
     <title>Collegati per amministrare il sito - <?php echo $sito_internet ?></title>
 
     <!--Pannello di gestione creato da Mel Riccardo-->
-    <link href="css/login.css" rel="stylesheet" type="text/css" />
+    <link href="css/admin.css" rel="stylesheet" type="text/css" />
 
 </head>
 <body>
