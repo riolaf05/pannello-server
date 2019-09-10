@@ -13,11 +13,11 @@
 
 	//connessione DB
 
-	$host = $_SERVER["HOSTNAME"];
+	$host = "localhost";//$_SERVER["HOSTNAME"];
 
 	$db_user = "root";
 
 	$db_psw = "wiqcOsaKzaNbagEsarCiq0PJAH#";
 
-	$db_name = "Login";
+	$db_name = "login";
 ?>

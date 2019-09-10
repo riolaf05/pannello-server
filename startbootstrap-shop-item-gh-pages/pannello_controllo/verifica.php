@@ -8,8 +8,8 @@ include("config.php");
 mysql_select_db("$db_name",$connessione); 
 
 //variabili POST con anti sql Injection
-$username=mysql_real_escape_string($_POST['username']); //faccio l'escape dei caratteri dannosi
-$password=mysql_real_escape_string(sha1($_POST['password'])); //sha1 cifra la password anche qui in questo modo corrisponde con quella del db
+#$username=mysql_real_escape_string($_POST['username']); //faccio l'escape dei caratteri dannosi
+#$password=mysql_real_escape_string(sha1($_POST['password'])); //sha1 cifra la password anche qui in questo modo corrisponde con quella del db
 
  $query = "SELECT * FROM Login WHERE Username = '$username' AND Password = '$password' ";
  $ris = mysql_query($query, $connessione) or die (mysql_error());
