@@ -109,6 +109,7 @@
                     <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8123" class="list-group-item">Home Assistant</a>
                     <a href="carica_file.php" class="list-group-item">File Browser</a>
                     <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8200" class="list-group-item">Media Server</a>
+                    <a href = "logout.php" class="list-group-item">Log Out</a>
                 </div>
             </div>
 
