@@ -1,23 +1,7 @@
 <?php
-//generali
-
-	$sito_internet = "Rio's Cloud";
-
-	$data =(date("d-m-y"));
-
-	$vers = "2.0";
-
-	//URL PER HTACCESS
-
-	$base_url = "";
-
-	//connessione DB
-
-	$host = "localhost";//$_SERVER["HOSTNAME"];
-
-	$db_user = "root";
-
-	$db_psw = "wiqcOsaKzaNbagEsarCiq0PJAH#";
-
-	$db_name = "login";
+   define('DB_SERVER', '127.0.0.1');
+   define('DB_USERNAME', 'root');
+   define('DB_PASSWORD', 'onslario89');
+   define('DB_DATABASE', 'Login');
+   $db = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE, 3306);
 ?>

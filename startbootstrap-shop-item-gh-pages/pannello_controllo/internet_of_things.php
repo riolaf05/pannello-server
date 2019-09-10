@@ -55,6 +55,9 @@
     
 
 <?php
+
+		include('session.php');
+		
         //Verifica login
         session_start();
         //se non c'è la sessione registrata
