@@ -155,14 +155,36 @@ launch pannello-server\startbootstrap-shop-item-gh-pages/deploy.sh
 
 0) install docker-ce and vcgencmd on local machine
 
-1) launch the add_cronjob.sh script in the local machine
+1) install MySQL with Docker:
+```console
+docker run --name=mysql --network=host -e MYSQL_ROOT_PASSWORD=<password> -d mysql
 
-2) go to startbootstrap-shop-item-gh-pages/ and run:
+docker exec -it mysql mysql -uroot -p
+
+mysql > create database Login;
+
+mysql > use Login;
+
+mysql > CREATE TABLE login
+(
+ID int NOT NULL AUTO_INCREMENT,
+Username varchar(255) NOT NULL,
+Password varchar(255),
+Email varchar(255),
+PRIMARY KEY (ID)
+);
+
+mysql > INSERT INTO login (ID, Username, Password, Email) VALUES (null, '<user>', '<pass>', '<email>');
+```
+
+2) launch the add_cronjob.sh script in the local machine
+
+3) go to startbootstrap-shop-item-gh-pages/ and run:
 ```console
 docker build -t "rio05docker/web_server_panel:latest" .
 docker push rio05docker/web_server_panel:latest
 ```
-3) run:
+4) run:
 
 ```console
 docker run -d --restart unless-stopped --name web_server_panel -p 80:80 -p 443:443 -v /tmp:/tmp rio05docker/web_server_panel:latest
@@ -240,11 +262,6 @@ This service is used to change video and music file encoder so they can be playe
 TODO
 
 ### Installation with Docker:
-
-Installazione MySQL su Docker:
-```console
-docker run --name=mysql --network=host -e MYSQL_ROOT_PASSWORD=onslario89 -d mysql
-```
 
 ```console
 docker run -it --restart=unless-stopped -d -v /media/pi/extHD/FILM/:/FILM -v /media/pi/extHD/MUSICA/:/MUSICA -v /home/pi/Downloads:/transferred_files rio05docker/inotify-video-converter:latest
