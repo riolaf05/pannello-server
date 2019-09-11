@@ -241,6 +241,11 @@ TODO
 
 ### Installation with Docker:
 
+Installazione MySQL su Docker:
+```console
+docker run --name=mysql --network=host -e MYSQL_ROOT_PASSWORD=onslario89 -d mysql
+```
+
 ```console
 docker run -it --restart=unless-stopped -d -v /media/pi/extHD/FILM/:/FILM -v /media/pi/extHD/MUSICA/:/MUSICA -v /home/pi/Downloads:/transferred_files rio05docker/inotify-video-converter:latest
 ```

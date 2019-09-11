@@ -12,6 +12,13 @@
       path: /media/pi/extHD
       state: directory
       mode: '0755'
+      
+  - name: Create a directory to mount K8S volumes
+    when: ansible_hostname == 'raspberry_1'
+    file:
+      path: /home/pi/volume
+      state: directory
+      mode: '0755'
     
   - name: Create a directory to put transferred files
     file:

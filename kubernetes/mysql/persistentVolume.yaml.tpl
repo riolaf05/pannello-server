@@ -11,13 +11,13 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: minidlna-volume
+  name: mysql-volume
   labels:
     type: local
 spec:
   storageClassName: local-storage
   local:
-    path: "/media/pi/extHD1/"
+    path: "{{ .EXT_HD_PATH }}"
   nodeAffinity: #PersistentVolume nodeAffinity is required when using local volumes. 
                 #It enables the Kubernetes scheduler to correctly schedule Pods using local volumes to the correct node.
     required:
@@ -26,4 +26,4 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - raspberrypi1
+          - {{ .NODE }}

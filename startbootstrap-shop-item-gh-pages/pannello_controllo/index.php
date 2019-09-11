@@ -27,8 +27,11 @@
 </head>
 
 <body>
-
-	<?php 
+    
+        <?php
+        
+		include('session.php');
+	
 		//Scrittura temperatura CPU (grazie all'applicazione acpi) e memoria restante
 		#$comando=shell_exec('/opt/vc/bin/vcgencmd measure_temp > /tmp/temperatura.txt && df -h / > /tmp/memoria.txt');
 		
@@ -106,6 +109,7 @@
                     <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8123" class="list-group-item">Home Assistant</a>
                     <a href="carica_file.php" class="list-group-item">File Browser</a>
                     <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8200" class="list-group-item">Media Server</a>
+                    <a href = "logout.php" class="list-group-item">Log Out</a>
                 </div>
             </div>
 

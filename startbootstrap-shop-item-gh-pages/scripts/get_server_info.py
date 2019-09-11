@@ -1,7 +1,7 @@
 import sys
 import xml.etree.ElementTree as ET
 
-tree = ET.parse('/tmp/nodes_param.xml')
+tree = ET.parse('/home/pi/volume/nodes_param.xml')
 root = tree.getroot()
 
 node_name=sys.argv[1]
@@ -16,4 +16,4 @@ for raspberry in root:
         raspberry[1].text=str(mem_act)
         raspberry[2].text=str(mem_tot)
 #tree.write(sys.stdout)
-tree.write('/tmp/nodes_param.xml')
+tree.write('/home/pi/volume/nodes_param.xml')

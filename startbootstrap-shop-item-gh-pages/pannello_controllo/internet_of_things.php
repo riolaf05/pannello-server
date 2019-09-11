@@ -54,7 +54,10 @@
 
     
 
-	<?php 
+<?php
+
+		include('session.php');
+		
 		//Scrittura temperatura CPU (grazie all'applicazione acpi) e memoria restante
 		#$comando=shell_exec('/opt/vc/bin/vcgencmd measure_temp > /tmp/temperatura.txt && df -h / > /tmp/memoria.txt');
 		
