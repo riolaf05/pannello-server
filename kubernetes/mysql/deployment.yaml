@@ -1,0 +1,48 @@
+#Pod’s configuration file specifies a PersistentVolumeClaim,
+#but it does not specify a PersistentVolume.
+#From the Pod’s point of view, the claim is a volume.
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: minidlna-pod
+  labels:
+    rioiotplatform: minidlna
+spec:
+  replicas: 1
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      nodeName: raspberrypi1
+      containers:
+      - image: hypriot/rpi-mysql
+        imagePullPolicy: Always
+        name: mysql
+        resources:
+            limits:
+                memory: "1Gi"
+                cpu: "1"
+            requests:
+                cpu: "100m"
+                memory: "30Mi"
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "onslario89"
+        - name: MYSQL_DATABASE
+          value: "users"
+        ports:
+        - containerPort: 1900
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: mysql-volume
+      restartPolicy: Always
+      volumes:
+      - name: mysql-volume
+        persistentVolumeClaim:
+          claimName: mysql-claim
