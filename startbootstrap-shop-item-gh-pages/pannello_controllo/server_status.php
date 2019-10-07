@@ -171,8 +171,8 @@
 
                 <!-- Glances dashboards -->
                 <h2>Cluster Status</h2>
-                <iframe src="http://http://riohomecloud.ddns.net:61208" height="930" width="325"></iframe>
-                <iframe src="http://http://riohomecloud.ddns.net:61209" height="930" width="325"></iframe>
+                <iframe src="http://riohomecloud.ddns.net:61208" height="930" width="325"></iframe>
+                <iframe src="http://riohomecloud.ddns.net:61209" height="930" width="325"></iframe>
 
 
 
