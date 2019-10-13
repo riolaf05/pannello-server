@@ -130,6 +130,14 @@ Also, a Glances server run on each nodes and pushes information on the cluster o
 
 For Glances installation steps see: https://linuxconfig.org/building-a-raspberry-pi-cluster-part-iv-monitoring
 
+To start Glances at boot:
+
+append this into /etc/rc.local:
+
+```console
+nohup glances -w &
+```
+
 ## Installation
 
 ### Control Panel installation with Kubernetes 
