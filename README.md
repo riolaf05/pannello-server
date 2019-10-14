@@ -130,6 +130,23 @@ Also, a Glances server run on each nodes and pushes information on the cluster o
 
 For Glances installation steps see: https://linuxconfig.org/building-a-raspberry-pi-cluster-part-iv-monitoring
 
+To start Glances at boot:
+
+append this into /etc/rc.local:
+
+```console
+nohup glances -w &
+```
+## Container Monitoring 
+
+Install Portainer: (see: https://blog.hypriot.com/post/new-docker-ui-portainer/)
+
+```console
+docker run -it --restart=unless-stopped -v /var/run/docker.sock:/var/run/docker.sock -p 9000:9000 hypriot/rpi-dockerui
+```
+
+and open port 9000 on Raspberry master node to enable containers monitoring page. 
+
 ## Installation
 
 ### Control Panel installation with Kubernetes 
