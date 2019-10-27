@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Removing old scripts"
-rm /home/pi/nodes_param.xml
+rm /tmp/nodes_param.xml
 
 #Getting node hostnames 
 c=0
