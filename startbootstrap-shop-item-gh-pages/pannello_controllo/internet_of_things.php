@@ -130,6 +130,7 @@
                     <a href="index.php" class="list-group-item active">Home</a>
                     <a href="carica_file.php" class="list-group-item">Board</a>
                     <a href="server_status.php" class="list-group-item">Server Status</a>
+                    <a href="http://riohomecloud.ddns.net:9000" class="list-group-item">Containers</a>
                     <a href="#" class="list-group-item">Internet of Things</a>
 					<a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8081" class="list-group-item">Camera Monitor</a>
                     <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8123" class="list-group-item">Home Assistant</a>
@@ -177,7 +178,9 @@
                     <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/689988/widgets/41173"></iframe>
 
 
-                    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/689988/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+                    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/689988/widgets/88557"></iframe>
+
+
                 </div>
                 
 

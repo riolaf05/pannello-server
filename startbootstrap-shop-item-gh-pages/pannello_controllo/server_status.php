@@ -108,6 +108,7 @@
                     <a href="index.php" class="list-group-item active">Home</a>
                     <a href="carica_file.php" class="list-group-item">Board</a>
                     <a href="#" class="list-group-item">Server Status</a>
+                    <a href="http://riohomecloud.ddns.net:9000" class="list-group-item">Containers</a>
                     <a href="internet_of_things.php" class="list-group-item">Internet of Things</a>
 					<a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8081" class="list-group-item">Camera Monitor</a>
                     <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8123" class="list-group-item">Home Assistant</a>
@@ -171,8 +172,8 @@
 
                 <!-- Glances dashboards -->
                 <h2>Cluster Status</h2>
-                <iframe src="http://192.168.1.9:61208" height="930" width="325"></iframe>
-                <iframe src="http://192.168.1.10:61208" height="930" width="325"></iframe>
+                <iframe src="http://riohomecloud.ddns.net:61208" height="930" width="325"></iframe>
+                <iframe src="http://riohomecloud.ddns.net:61209" height="930" width="325"></iframe>
 
 
 

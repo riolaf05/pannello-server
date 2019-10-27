@@ -137,6 +137,15 @@ append this into /etc/rc.local:
 ```console
 nohup glances -w &
 ```
+## Container Monitoring 
+
+Install Portainer: (see: https://blog.hypriot.com/post/new-docker-ui-portainer/)
+
+```console
+docker run -it --restart=unless-stopped -v /var/run/docker.sock:/var/run/docker.sock -p 9000:9000 hypriot/rpi-dockerui
+```
+
+and open port 9000 on Raspberry master node to enable containers monitoring page. 
 
 ## Installation
 
@@ -165,7 +174,7 @@ launch pannello-server\startbootstrap-shop-item-gh-pages/deploy.sh
 
 1) install MySQL with Docker:
 ```console
-docker run --name=mysql --network=host -e MYSQL_ROOT_PASSWORD=<password> -d mysql
+docker run --name=mysql --network=host -e MYSQL_ROOT_PASSWORD=<password> -d hypriot/rpi-mysql
 
 docker exec -it mysql mysql -uroot -p
 
