@@ -132,7 +132,7 @@ For Glances installation steps see: https://linuxconfig.org/building-a-raspberry
 
 To start Glances at boot:
 
-append this into /etc/rc.local:
+append this into /etc/rc.local (or add to cronjobs with @reboot):
 
 ```console
 nohup glances -w &
