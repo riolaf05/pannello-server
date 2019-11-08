@@ -13,6 +13,7 @@ Index:
 * Load Balancing
 * CircleCI Continuous Integration 
 * Installation
+* Private Key Authentication
 * Minidlna Server
 * Python Deep Learing & Machine Learning Develop Environment
 * Codec Conversion Service installation
@@ -242,6 +243,37 @@ Dlna server used is "Minidlna" (must be instaled)
 To enable the "Server Shutdown and Reboot" buttons it is necessary to use a cron job that 
 shuts down or reboots the machine if it find the file writen by the PHP script (that cannot 
 reboot the machine directly).
+
+## Private Key Authentication
+
+To enable SSH login through private key:
+
+1) generate key pair:
+```console
+ssh-keygen -t rsa
+```
+
+2) Install public key on server:
+```console
+ssh-copy-id -i ~/.ssh/id_rsa.pub pi@localhost
+```
+
+3) Copy private key on client
+
+4) Turn off password authentication
+
+sudo nano /etc/ssh/sshd_config
+```console
+PasswordAuthentication no
+PubkeyAuthentication yes
+```
+
+5) Restart SSH daemon:
+```console
+sudo service ssh restart
+```
+
+6) Open port 22 on router
 
 ## Minidlna Server
 Using docker:
