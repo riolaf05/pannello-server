@@ -14,6 +14,7 @@ Index:
 * CircleCI Continuous Integration 
 * Installation
 * Private Key Authentication
+* Install Jupyter Notebook
 * Minidlna Server
 * Python Deep Learing & Machine Learning Develop Environment
 * Codec Conversion Service installation
@@ -274,6 +275,17 @@ sudo service ssh restart
 ```
 
 6) Open port 22 on router
+
+## Install Jupyter Notebook 
+```console
+sudo su - \
+&& apt-get update \
+&& apt-get install python3-matplotlib -y \
+&& apt-get install python3-scipy -y \
+&& pip3 install --upgrade pip \
+&& sudo pip3 install jupyter \
+&& sudo apt-get clean
+```
 
 ## Minidlna Server
 Using docker:
