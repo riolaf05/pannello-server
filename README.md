@@ -287,6 +287,34 @@ sudo su - \
 && sudo apt-get clean
 ```
 
+Configuration, to open jupyter notebook from outside networks:
+```console
+jupyter notebook --generate-config
+```
+
+Then open a notebook and generate password hash:
+
+```python
+from notebook.auth import passwd
+passwd()
+```
+
+then update configuration file:
+
+```console
+c.NotebookApp.ip = '*'
+c.NotebookApp.password = u'sha1:847cb8a5687d:bd62e1c30614656c1cb8dc80b6bc0ad4eb971b77'
+```
+
+To enable HTTPS:
+
+```console
+cd && mkdir jupyter_keys && cd ~/jupyter_keys/ \
+&& openssl req -x509 -nodes -days 365 -newkey rsa:4096 -keyout myjupyterkey.key -out myjupytercert.pem \
+&& chmod 700 ~/jupyter_keys \
+&& chmod 600 ~/jupyter_keys/* 
+```
+
 ## Minidlna Server
 Using docker:
 
