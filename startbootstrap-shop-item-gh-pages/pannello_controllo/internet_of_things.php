@@ -175,10 +175,17 @@
 
 
                 <div class="row">
-                    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/689988/widgets/41173"></iframe>
 
 
                     <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/689988/widgets/88557"></iframe>
+
+
+
+                    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/689988/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&max=100&min=0&results=60&title=Umidit%C3%A0++&type=line&yaxismax=100&yaxismin=0"></iframe>
+
+
+                    
+                    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/911024/widgets/119332"></iframe>
 
 
                 </div>
