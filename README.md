@@ -16,6 +16,7 @@ Index:
 * Private Key Authentication
 * Install Jupyter Notebook
 * Minidlna Server
+* REST API Server
 * Python Deep Learing & Machine Learning Develop Environment
 * Codec Conversion Service installation
 
@@ -331,6 +332,26 @@ Using docker:
 ```
 Based on: https://github.com/djdefi/rpi-docker-minidlna
 
+## REST API Server
+
+It is used to control Raspberry Pi features
+
+Installation:
+
+```console
+cp scripts/restful-server/api-server.py ~/Scripts/ 
+cp scripts/restful-server/minidlna-restart.sh ~/Scripts/ && chmod +x ~/Scripts/minidlna-restart.sh
+cp scripts/restful-server/motion-start.sh ~/Scripts/ && chmod +x ~/Scripts/motion-start.sh      
+cp scripts/restful-server/motion-stop.sh ~/Scripts/ && chmod +x ~/Scripts/motion-stop.sh
+```
+
+Then add the following cronjob:
+
+```console
+@reboot python3 /home/pi/Scripts/api-server.py
+```
+
+optional: open route on <raspberry_ip>:5002
 
 ## Python Deep Learing & Machine Learning Develop Environment 
 
