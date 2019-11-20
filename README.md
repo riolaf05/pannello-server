@@ -339,6 +339,7 @@ It is used to control Raspberry Pi features
 Installation:
 
 ```console
+pip install flask flask-jsonpify flask-sqlalchemy flask-restful --user
 cp scripts/restful-server/api-server.py ~/Scripts/ 
 cp scripts/restful-server/minidlna-restart.sh ~/Scripts/ && chmod +x ~/Scripts/minidlna-restart.sh
 cp scripts/restful-server/motion-start.sh ~/Scripts/ && chmod +x ~/Scripts/motion-start.sh      
