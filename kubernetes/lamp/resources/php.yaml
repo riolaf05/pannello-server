@@ -34,7 +34,7 @@ spec:
       containers:
       # deploys this custom PHP image from Docker Hub
       # https://hub.docker.com/r/rio05docker/web_server_panel/
-      - image: rio05docker/web_server_panel:rpi3_test_419
+      - image: rio05docker/web_server_panel:rpi3_test_424
         # download a fresh copy of the image if available, even if it has the same version label
         imagePullPolicy: Always
         name: web-server-panel
