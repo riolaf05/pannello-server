@@ -11,10 +11,10 @@ class Camera(Resource):
     def get(self, command):
         if command == 'on':
             rc = subprocess.call("/home/pi/Scripts/test.sh")
-            return redirect("http://riohomecloud.ddns.net/pannello_controllo/", code=302)
+            return redirect("http://riohomecloud.ddns.net/pannello_controllo/server_status.php", code=302)
         else:
             rc = subprocess.call("/home/pi/Scripts/test.sh")
-            return redirect("http://riohomecloud.ddns.net/pannello_controllo/", code=302)
+            return redirect("http://riohomecloud.ddns.net/pannello_controllo/server_status.php", code=302)
 
 class Docker(Resource):
     def get(self):
