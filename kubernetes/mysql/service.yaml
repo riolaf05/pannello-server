@@ -9,4 +9,4 @@ spec:
     nodePort: 33060
   selector:
     app: mysql
-type: NodePort 
+  type: NodePort 
