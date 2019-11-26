@@ -23,7 +23,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   local:
-    path: "/home/pi/Volumes/mysql"
+    path: "/home/pi/volume/mysql"
   nodeAffinity: #PersistentVolume nodeAffinity is required when using local volumes.
                 #It enables the Kubernetes scheduler to correctly schedule Pods using local volumes to the correct node.
     required:
@@ -32,4 +32,4 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - raspberrypi1
+          - raspberrypi
