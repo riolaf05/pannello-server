@@ -46,6 +46,44 @@
           box-shadow: 0 5px #666;
           transform: translateY(4px);
         }
+
+        .green {
+            background-image: -webkit-linear-gradient(top, #13fB04 0%, #58e343 50%, #ADED99 100%);
+        }
+
+        .orange {
+            background-image: -webkit-linear-gradient(top, #f9a004 0%, #e0ac45 50%, #ead698 100%);
+         }
+
+
+        .red {
+            background-image: -webkit-linear-gradient(top, #fb1304 0%, #e35843 50%, #edad99 100%);
+        }
+
+
+        .led {
+            border-radius: 5px;
+            width: 10px;
+            height: 10px;
+            box-shadow: 0px 0px 3px black;
+            margin: 5px;
+            zoom: 5;
+         }
+
+        .led:after {
+            display: block;            
+            content: '';
+            margin-left: 1px;
+            margin-right: 1px;
+            width: 8px;
+            height: 6px;
+            -webkit-border-top-right-radius: 4px 3px;
+            -webkit-border-top-left-radius: 4px 3px;
+            -webkit-border-bottom-right-radius: 4px 3px;
+            -webkit-border-bottom-left-radius: 4px 3px;
+            background-image: -webkit-linear-gradient(top, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.2) 100%);
+         }
+​
     </style>
 
 </head>
@@ -128,7 +166,7 @@
                 
                 <div class="list-group">
                     <a href="index.php" class="list-group-item active">Home</a>
-                    <a href="carica_file.php" class="list-group-item">Board</a>
+                    <a href="boards.php" class="list-group-item">Boards</a>
                     <a href="server_status.php" class="list-group-item">Server Status</a>
                     <a href="http://riohomecloud.ddns.net:9000" class="list-group-item">Containers</a>
                     <a href="#" class="list-group-item">Internet of Things</a>
@@ -142,8 +180,49 @@
 
             <div class="col-md-8 col-md-offset-1">
 
+                
+                
+                    
+                
+            <nav class="nav nav-pills nav-justified">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Smart Garden</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">New Device</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">New Device</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">New Device</a>
+                </li>
 
-                <h2>IoT - Piantina cucina</h2>
+                    <?php
+                        
+                        $sql =  "select Status from Smart_Garden_Status where Name = 'smart_garden' order by ID desc limit 1;";
+                    
+                        $result = mysqli_query($db_sg,$sql);
+                        
+                        $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+
+                        $status = $row['Status'];
+                            
+                        if($status == "ON"){
+                            ?>
+                            <div class="green led"></div>
+                            
+                            <?php
+                        }
+                        else{
+                            ?>
+                            <div class="red led"></div>
+                        <?php
+                        }
+                    ?>
+
+
+                <h2>Smart Garden</h2>
 
 
                 <div class="row">
@@ -196,7 +275,7 @@
             
                     
 
-
+            </nav>     
 
                 
 				

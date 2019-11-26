@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Pannello di Controllo</title>
+    <title>Invia file al Server</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -31,39 +31,9 @@
 <?php
 
 		include('session.php');
-
-     
-		//Scrittura temperatura CPU (grazie all'applicazione acpi) e memoria restante
-		#$comando=shell_exec('/opt/vc/bin/vcgencmd measure_temp > /tmp/temperatura.txt && df -h / > /tmp/memoria.txt');
-        
-        /*
-		//Lettura temperatura CPU 
-		$fp = fopen('/tmp/temperatura.txt', r);
-		if(!$fp) {
-			$temperatura=0;
-			}
-		fseek($fp, 5, SEEK_SET); //Mi posiziono al 5° carattere
-		$temperatura = fread($fp, 4); //Leggo 4 caratteri partendo dalla posizione corrente
-		fclose($fp);
 		
+        ?>
 
-		//lettura spazio disponibile hard disk 
-		$fp = fopen('/tmp/memoria.txt', r);
-		if(!$fp) {
-			$memoria_percentuale=0;
-			}
-		fseek($fp, 66, SEEK_SET);
-		$memoria_tot = fread($fp, 2);
-		fseek($fp, 71, SEEK_SET); 
-		$memoria_usata = fread($fp, 2);
-		fseek($fp, 82, SEEK_SET); 
-		$memoria_percentuale = fread($fp, 2);
-		fclose($fp);
-        */
-        
-
-
-	?>
 
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -106,81 +76,29 @@
                 <p class="lead">Home Server</p>
                 <div class="list-group">
                     <a href="index.php" class="list-group-item active">Home</a>
-                    <a href="boards.php" class="list-group-item">Boards</a>
-                    <a href="#" class="list-group-item">Server Status</a>
+                    <a href="#" class="list-group-item">Board</a>
+                    <a href="server_status.php" class="list-group-item">Server Status</a>
                     <a href="http://riohomecloud.ddns.net:9000" class="list-group-item">Containers</a>
                     <a href="internet_of_things.php" class="list-group-item">Internet of Things</a>
-					<a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8081" class="list-group-item">Camera Monitor</a>
+                    <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8081" class="list-group-item">Camera Monitor</a>
                     <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8123" class="list-group-item">Home Assistant</a>
-                    <a href="carica_file.php" class="list-group-item">File Browser</a>
+                    <a href="#" class="list-group-item">File Browser</a>
                     <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:8200" class="list-group-item">Media Server</a>
                 </div>
             </div>
-            
-            <div class="col-md-8 col-md-offset-1">
 
 
-                
+            <div class="col-md-6 col-md-offset-1">
+				
+            <blockquote class="trello-board-compact">
+            <a href="https://trello.com/b/pDUe29xS/iot-platform">Trello Board</a>
+            </blockquote>
+            <script src="https://p.trellocdn.com/embed.min.js"></script>
 
-
-
-
-
-
-
-
-
-
-                <h2 style="text-transform: capitalize; color: blue; text-align: center; font-family: Georgia, Serif; ">Dashboard</h2>
-		
-                <?php 
-
-                
-
-
-
-                if (file_exists("/tmp/nodes_param.xml")) {
-
-                    $xmldata = simplexml_load_file("/tmp/nodes_param.xml") or die("Failed to load");    
-
-
-                    foreach($xmldata->children() as $raspberrypi) { ?>
-
-                            <h2><?php echo $raspberrypi['name']; ?></h2>
-                            <!-- Custom dashboards -->
-                            <h4>Temperatura CPU</h4>
-                            <div class="progress progress-striped">
-                            <?php echo $raspberrypi->temperatura."° C"; ?><div class="progress-bar progress-bar-danger" style="width: <?php echo $raspberrypi->temperatura;?>%;"></div>
-                            </div>
-                            
-                            <!--
-                            <h4>Memoria Disponibile</h4>
-                            <div class="progress progress-striped">
-                            <?php echo $raspberrypi->memoria_act."/".$raspberrypi->memoria_tot." GB"; ?><div class="progress-bar progress-bar-info" style="width: <?php echo ($raspberrypi->memoria_act*100)/$raspberrypi->memoria_tot;?>%;"></div>
-                            </div>
-                                -->
-                
-                <?php
-                    }
-                } 
-                else {
-                    exit("Failed to open nodes_param.xml");
-                }
-                ?>
-
-
-
-                <!-- Glances dashboards -->
-                <h2>Cluster Status</h2>
-                <iframe src="http://riohomecloud.ddns.net:61208" height="930" width="325"></iframe>
-                <iframe src="http://riohomecloud.ddns.net:61209" height="930" width="325"></iframe>
-
-
-
-
-
-
-
+            <blockquote class="trello-board-compact">
+            <a href="https://trello.com/b/ayrTbGOr/ai-follow-camera">Trello Board</a>
+            </blockquote>
+            <script src="https://p.trellocdn.com/embed.min.js"></script>
 
             </div>
 

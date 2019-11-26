@@ -175,12 +175,34 @@ launch pannello-server\startbootstrap-shop-item-gh-pages/deploy.sh
 
 0) install docker-ce and vcgencmd on local machine
 
-1) install MySQL with Docker:
+1) install MySQL with Kubernetes: (note, MySQL volume will be put in the node names "rapberrypi")
+
 ```console
-docker run --name=mysql --network=host -e MYSQL_ROOT_PASSWORD=<password> -d hypriot/rpi-mysql
+./pannello-server/kubernetes/mysql/build.sh
+
+kubectl expose deployment rpi-mosquitto --type=LoadBalancer --name=rpi-mosquitto
+
+kubectl exec -it <mysql-pod-name> bash
+
+mysql -uroot -p
+
+```
+
+..or with Docker..
+
+```console
+
+mkdir $HOME/volumes
+
+docker run --name=mysql --restart=unless-stopped -v /home/pi/volumes:/var/lib/mysql --network=host -e MYSQL_ROOT_PASSWORD=<password> -d hypriot/rpi-mysql
 
 docker exec -it mysql mysql -uroot -p
 
+```
+
+in both cases..
+
+```console
 mysql > create database Login;
 
 mysql > use Login;
@@ -196,6 +218,8 @@ PRIMARY KEY (ID)
 
 mysql > INSERT INTO login (ID, Username, Password, Email) VALUES (null, '<user>', '<pass>', '<email>');
 ```
+
+NOTE: MySQL container IP is hard-coded inside pannello-server\startbootstrap-shop-item-gh-pages\pannello_controllo\config.php because it is not exposed as a Kubernetes service yet (TODO).
 
 2) launch the add_cronjob.sh script in the local machine
 
