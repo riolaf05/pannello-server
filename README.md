@@ -177,7 +177,10 @@ launch pannello-server\startbootstrap-shop-item-gh-pages/deploy.sh
 
 1) install MySQL with Docker:
 ```console
-docker run --name=mysql --network=host -e MYSQL_ROOT_PASSWORD=<password> -d hypriot/rpi-mysql
+
+mkdir $HOME/volumes
+
+docker run --name=mysql --restart=unless-stopped -v /home/rosario/volumes:/var/lib/mysql --network=host -e MYSQL_ROOT_PASSWORD=<password> -d hypriot/rpi-mysql
 
 docker exec -it mysql mysql -uroot -p
 
