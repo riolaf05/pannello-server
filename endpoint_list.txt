@@ -1,0 +1,4 @@
+Those endpoints must be changed according to Load Balancer exposed services
+(through "kubectl expose deployment.." command)
+
+\startbootstrap-shop-item-gh-pages\pannello_controllo\config.php <-- change mysql IP

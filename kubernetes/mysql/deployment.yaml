@@ -5,9 +5,9 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: minidlna-pod
+  name: mysql
   labels:
-    rioiotplatform: minidlna
+    rioiotplatform: mysql
 spec:
   replicas: 1
   revisionHistoryLimit: 5
@@ -19,7 +19,7 @@ spec:
       labels:
         app: mysql
     spec:
-      nodeName: raspberrypi1
+      nodeName: raspberrypi
       containers:
       - image: hypriot/rpi-mysql
         imagePullPolicy: Always
@@ -34,10 +34,8 @@ spec:
         env:
         - name: MYSQL_ROOT_PASSWORD
           value: "onslario89"
-        - name: MYSQL_DATABASE
-          value: "users"
         ports:
-        - containerPort: 1900
+        - containerPort: 3306
         volumeMounts:
         - mountPath: /var/lib/mysql
           name: mysql-volume
