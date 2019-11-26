@@ -34,7 +34,7 @@ spec:
       containers:
       # deploys this custom PHP image from Docker Hub
       # https://hub.docker.com/r/rio05docker/web_server_panel/
-      - image: rio05docker/web_server_panel:rpi3_test_424
+      - image: rio05docker/web_server_panel:rpi3_test_425
         # download a fresh copy of the image if available, even if it has the same version label
         imagePullPolicy: Always
         name: web-server-panel
@@ -48,27 +48,6 @@ spec:
                 memory: "30Mi"
         # env sets environment variables in the container
         # exactly like environment variables set from the command line
-        env:
-          # The PHP image will configure an environment variable with the value of MYSQL_USER...
-          - name: MYSQL_USER
-            valueFrom:
-              # rather than embed sensitive details in this config
-              # we reference another Kubernetes object
-              # in this case, the Secret with the name: mysql-credentials
-              secretKeyRef:
-                name: mysql-credentials
-                # references the user key-value pair from the mysql-credentials Secret
-                key: user
-          # ... and a password of the value of MYSQL_PASSWORD ...
-          - name: MYSQL_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: mysql-credentials
-                key: password
-          # ... and the MYSQL_HOST mysql.default.svc.cluster.local
-          # which comes from the Service with the name mysql in the mysql.yaml file
-          - name: MYSQL_HOST
-            value: mysql.default.svc.cluster.local
         # https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
         livenessProbe:
           tcpSocket:
