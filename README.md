@@ -180,7 +180,7 @@ launch pannello-server\startbootstrap-shop-item-gh-pages/deploy.sh
 
 mkdir $HOME/volumes
 
-docker run --name=mysql --restart=unless-stopped -v /home/rosario/volumes:/var/lib/mysql --network=host -e MYSQL_ROOT_PASSWORD=<password> -d hypriot/rpi-mysql
+docker run --name=mysql --restart=unless-stopped -v /home/pi/volumes:/var/lib/mysql --network=host -e MYSQL_ROOT_PASSWORD=<password> -d hypriot/rpi-mysql
 
 docker exec -it mysql mysql -uroot -p
 
