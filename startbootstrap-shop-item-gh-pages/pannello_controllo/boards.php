@@ -30,7 +30,7 @@
 
 <?php
 
-		#include('session.php');
+		include('session.php');
 		
         ?>
 
@@ -92,6 +92,11 @@
 				
             <blockquote class="trello-board-compact">
             <a href="https://trello.com/b/pDUe29xS/iot-platform">Trello Board</a>
+            </blockquote>
+            <script src="https://p.trellocdn.com/embed.min.js"></script>
+
+            <blockquote class="trello-board-compact">
+            <a href="https://trello.com/b/ayrTbGOr/ai-follow-camera">Trello Board</a>
             </blockquote>
             <script src="https://p.trellocdn.com/embed.min.js"></script>
 

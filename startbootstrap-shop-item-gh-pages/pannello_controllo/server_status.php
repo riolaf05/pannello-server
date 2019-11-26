@@ -106,7 +106,7 @@
                 <p class="lead">Home Server</p>
                 <div class="list-group">
                     <a href="index.php" class="list-group-item active">Home</a>
-                    <a href="carica_file.php" class="list-group-item">Board</a>
+                    <a href="boards.php" class="list-group-item">Boards</a>
                     <a href="#" class="list-group-item">Server Status</a>
                     <a href="http://riohomecloud.ddns.net:9000" class="list-group-item">Containers</a>
                     <a href="internet_of_things.php" class="list-group-item">Internet of Things</a>
