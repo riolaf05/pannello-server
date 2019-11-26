@@ -175,7 +175,7 @@ launch pannello-server\startbootstrap-shop-item-gh-pages/deploy.sh
 
 0) install docker-ce and vcgencmd on local machine
 
-1) install MySQL with Kubernetes: (note, MySQL volume will be put in the node names "rapberrypi")
+1) install MySQL with Kubernetes: (note, MySQL volume will be put on the node named "rapberrypi")
 
 ```console
 ./pannello-server/kubernetes/mysql/build.sh
