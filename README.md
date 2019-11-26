@@ -175,7 +175,21 @@ launch pannello-server\startbootstrap-shop-item-gh-pages/deploy.sh
 
 0) install docker-ce and vcgencmd on local machine
 
-1) install MySQL with Docker:
+1) install MySQL with Kubernetes: (note, MySQL volume will be put in the node names "rapberrypi")
+
+```console
+./pannello-server/kubernetes/mysql/build.sh
+
+kubectl expose deployment rpi-mosquitto --type=LoadBalancer --name=rpi-mosquitto
+
+kubectl exec -it <mysql-pod-name> bash
+
+mysql -uroot -p
+
+```
+
+..or with Docker..
+
 ```console
 
 mkdir $HOME/volumes
@@ -184,6 +198,11 @@ docker run --name=mysql --restart=unless-stopped -v /home/pi/volumes:/var/lib/my
 
 docker exec -it mysql mysql -uroot -p
 
+```
+
+in both cases..
+
+```console
 mysql > create database Login;
 
 mysql > use Login;
