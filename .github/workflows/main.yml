@@ -1,0 +1,71 @@
+name: control-panel-ci
+
+on:
+  push: # Trigger when push on develop branch
+   branches:
+      - develop
+        
+jobs:
+  buildx:
+    name: Build and push
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v1
+        with:
+          ref: dev
+      -
+        name: Set up Docker Buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1.0.4
+        with:
+          version: latest
+      
+      -
+        name: Available platforms
+        run: echo ${{ steps.buildx.outputs.platforms }}
+        
+      - 
+        name: Login to GitHub Docker Registry
+        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+        
+      -
+        name: Build and push control panel container #see: https://github.com/marketplace/actions/docker-buildx
+        run: |
+          docker buildx build \
+            --tag rio05docker/web_server_panel:rpi3_test_${GITHUB_SHA} \
+            --platform linux/amd64 \
+            --output "type=image,push=true" \
+            --file ./pannello-server/startbootstrap-shop-item-gh-pages/Dockerfile \
+            ./pannello-server/startbootstrap-shop-item-gh-pages
+      
+     
+ #get k8s cluster context with:
+ #cat $HOME/.kube/config >> kube.config 
+ #..change IP addr and expose port 6443
+ #kube.config | base64 and copy the result to secrets.KUBE_CONFIG_DATA
+  
+  #deploy: #see: https://github.com/marketplace/actions/kubernetes-cli-kubectl
+  #  name: Deploy control panel to cluster
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - uses: actions/checkout@master
+  #    - name: deploy to cluster
+  #      uses: steebchen/kubectl@master
+  #      env:
+  #        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+  #      with:
+  #        args: set image --record deployment/web-server-panel web-server-panel=rio05docker/web-server-panel:rpi3_test_${{ github.sha }}
+  #    
+  
+   
+
+  #    - name: verify moisture client deployment
+  #      uses: steebchen/kubectl@master
+  #      env:
+  #        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+  #      with:
+  #        args: '"rollout status deployment/web-server-panel"'
+  
+  
