@@ -94,7 +94,7 @@
 
 <?php
 
-		include('session.php');
+		#include('session.php');
 		
 		//Scrittura temperatura CPU (grazie all'applicazione acpi) e memoria restante
 		#$comando=shell_exec('/opt/vc/bin/vcgencmd measure_temp > /tmp/temperatura.txt && df -h / > /tmp/memoria.txt');
@@ -201,13 +201,9 @@
                     <?php
                         
                         $sql =  "select Status from Smart_Garden_Status where Name = 'smart_garden' order by ID desc limit 1;";
+                    
+                        $result = mysqli_query($db_sg,$sql);
                         
-                        mysqli_query($db_sg,$sql);
-
-                        $result
-                        
-                        print "<h2>" . $ses_sql . "</h2>";
-
                         $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
 
                         $status = $row['Status'];
