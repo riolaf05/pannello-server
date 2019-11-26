@@ -18,12 +18,12 @@ metadata:
 spec:
   storageClassName: local-storage
   capacity:
-    storage: 2Gi
+    storage: 1Gi
   volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce
   local:
-    path: "/home/pi/Documents/mysql"
+    path: "/home/pi/Volumes/mysql"
   nodeAffinity: #PersistentVolume nodeAffinity is required when using local volumes.
                 #It enables the Kubernetes scheduler to correctly schedule Pods using local volumes to the correct node.
     required:
@@ -32,4 +32,4 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - raspberrypi
+          - raspberrypi1
