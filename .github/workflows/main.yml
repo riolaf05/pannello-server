@@ -37,8 +37,8 @@ jobs:
             --tag rio05docker/web_server_panel:rpi3_test_${GITHUB_SHA} \
             --platform linux/amd64 \
             --output "type=image,push=true" \
-            --file ./pannello-server/startbootstrap-shop-item-gh-pages/Dockerfile \
-            ./pannello-server/startbootstrap-shop-item-gh-pages
+            --file ./startbootstrap-shop-item-gh-pages/Dockerfile \
+            ./startbootstrap-shop-item-gh-pages
       
      
  #get k8s cluster context with:
