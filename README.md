@@ -200,6 +200,8 @@ PRIMARY KEY (ID)
 mysql > INSERT INTO login (ID, Username, Password, Email) VALUES (null, '<user>', '<pass>', '<email>');
 ```
 
+NOTE: MySQL container IP is hard-coded inside pannello-server\startbootstrap-shop-item-gh-pages\pannello_controllo\config.php because it is not exposed as a Kubernetes service yet (TODO).
+
 2) launch the add_cronjob.sh script in the local machine
 
 3) go to startbootstrap-shop-item-gh-pages/ and run:
