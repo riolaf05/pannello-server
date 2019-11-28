@@ -35,7 +35,7 @@ jobs:
         run: |
           docker buildx build \
             --tag rio05docker/web_server_panel:rpi3_test_${GITHUB_SHA} \
-            --platform linux/amd64 \
+            --platform linux/arm/v7 \
             --output "type=image,push=true" \
             --file ./startbootstrap-shop-item-gh-pages/Dockerfile \
             ./startbootstrap-shop-item-gh-pages
