@@ -10,15 +10,15 @@ api = Api(app)
 class Camera(Resource):
     def get(self, command):
         if command == 'on':
-            rc = subprocess.call("/home/pi/Scripts/motion-start.sh")
+            rc = subprocess.Popen(["sudo", "/home/pi/Scripts/motion-start.sh"])
             return redirect("http://riohomecloud.ddns.net/pannello_controllo/server_status.php", code=302)
         else:
-            rc = subprocess.call("/home/pi/Scripts/motion-stop.sh")
+            rc = subprocess.Popen(["sudo", "/home/pi/Scripts/motion-stop.sh"])
             return redirect("http://riohomecloud.ddns.net/pannello_controllo/server_status.php", code=302)
 
 class Docker(Resource):
     def get(self):
-        rc = subprocess.call("/home/pi/Scripts/minidlna-restart.sh")
+        rc = subprocess.Popen("sudo", "/home/pi/Scripts/minidlna-restart.sh")
         return redirect("http://riohomecloud.ddns.net/pannello_controllo/server_status.php", code=302)
 
 api.add_resource(Camera, '/camera/<command>') # Route_1
