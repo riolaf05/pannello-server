@@ -103,7 +103,8 @@
                 <div class="list-group">
                     <a href="#" class="list-group-item active">Home</a>
                     <a href="boards.php" class="list-group-item">Boards</a>
-                    <a href="server_status.php" class="list-group-item">Server Status</a>
+                    <a href="http://192.168.1.10:1880/ui" class="list-group-item">Server Status</a>
+                    <a href="http://192.168.1.10:1880" class="list-group-item">Node Red</a>
                     <a href="http://riohomecloud.ddns.net:9000" class="list-group-item">Containers</a>
                     <a href="internet_of_things.php" class="list-group-item">Internet of Things</a>
                     <a href="http://<?php echo $_SERVER['HTTP_HOST']; ?>:10000" class="list-group-item">Camera Monitor</a>

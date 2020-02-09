@@ -10,6 +10,7 @@ def camera():
         """return the information for <user_id>"""
 
     if request.method == 'POST':
+        #process = subprocess.run(['/bin/sh', '-c', './command.sh'], stdout=subprocess.PIPE, stderr=subprocess.PIPE) #See: https://janakiev.com/blog/python-shell-commands/
         """modify/update the information for <user_id>"""
         # you can use <user_id>, which is a str but could
         # changed to be int or whatever you want, along
@@ -85,8 +86,6 @@ def memory():
         output = stream.read()
     return Response(response=output[:-1], status=200)
 
-if __name__ == '__main__':
-     app.run(host='0.0.0.0', port='5002')
 
 
 @app.route('/harddisk', methods = ['GET'])
