@@ -1,4 +1,6 @@
 from flask import Flask, Response, request
+import subprocess
+import os
 
 app = Flask(__name__)
 
@@ -51,7 +53,7 @@ def light():
         return Response(response="command complete!", status=200)
 
 @app.route('/restart_minidlna', methods = ['GET', 'POST', 'DELETE'])
-def light():
+def restart_minidlna():
     if request.method == 'GET':
         """return the information for <user_id>"""
 
@@ -65,6 +67,35 @@ def light():
         if data == b'true':
             print("exec command..")
         return Response(response="command complete!", status=200)
+
+
+@app.route('/temperature', methods = ['GET'])
+def temperature():
+    if request.method == 'GET':
+        stream = os.popen("/opt/vc/bin/vcgencmd measure_temp | sed 's/[^0-9|\.]*//g'")
+        output = stream.read()
+    return Response(response=output[:-1], status=200)
+
+
+
+@app.route('/memory', methods = ['GET'])
+def memory():
+    if request.method == 'GET':
+        stream = os.popen("df -h / | awk '{ print $2 }' | tail -n 1 | sed 's/[^0-9|\,]*//g'")
+        output = stream.read()
+    return Response(response=output[:-1], status=200)
+
+if __name__ == '__main__':
+     app.run(host='0.0.0.0', port='5002')
+
+
+@app.route('/harddisk', methods = ['GET'])
+def harddisk():
+    if request.method == 'GET':
+        stream = os.popen("df -h /dev/sda1 | awk '{ print $2 }' | tail -n 1 | sed 's/[^0-9|\,]*//g'")
+        output = stream.read()
+    return Response(response=output[:-1], status=200)
+
 
 if __name__ == '__main__':
      app.run(host='0.0.0.0', port='5002')
