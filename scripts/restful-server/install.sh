@@ -1,4 +1,7 @@
-echo "Updating cronjobs"
+echo "Installing dependencies.."
+pip3 install -r requirements.txt
+
+echo "Updating cronjobs.."
 echo "Writing out current crontabs"
 crontab -l > mycron
 

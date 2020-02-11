@@ -1,73 +1,69 @@
 from flask import Flask, Response, request
 import subprocess
 import os
+import docker
 
 app = Flask(__name__)
 
 @app.route('/camera', methods = ['GET', 'POST', 'DELETE'])
 def camera():
     if request.method == 'GET':
-        """return the information for <user_id>"""
-
-    if request.method == 'POST':
-        #process = subprocess.run(['/bin/sh', '-c', './command.sh'], stdout=subprocess.PIPE, stderr=subprocess.PIPE) #See: https://janakiev.com/blog/python-shell-commands/
-        """modify/update the information for <user_id>"""
-        # you can use <user_id>, which is a str but could
-        # changed to be int or whatever you want, along
-        # with your lxml knowledge to make the required
-        # changes
-        data = request.data
-        if data == b'true':
-            print("exec command..")
+        """TODO"""
         return Response(response="command complete!", status=200)
+
+    
 
 @app.route('/motion_sensor', methods = ['GET', 'POST', 'DELETE'])
 def motion_sensor():
     if request.method == 'GET':
-        """return the information for <user_id>"""
-
-    if request.method == 'POST':
-        """modify/update the information for <user_id>"""
-        # you can use <user_id>, which is a str but could
-        # changed to be int or whatever you want, along
-        # with your lxml knowledge to make the required
-        # changes
-        data = request.data
-        if data == b'true':
-            print("exec command..")
+        """TODO"""
         return Response(response="command complete!", status=200)
+
+
 
 @app.route('/light', methods = ['GET', 'POST', 'DELETE'])
 def light():
     if request.method == 'GET':
-        """return the information for <user_id>"""
-
-    if request.method == 'POST':
-        """modify/update the information for <user_id>"""
-        # you can use <user_id>, which is a str but could
-        # changed to be int or whatever you want, along
-        # with your lxml knowledge to make the required
-        # changes
-        data = request.data
-        if data == b'true':
-            print("exec command..")
+        """TODO"""
         return Response(response="command complete!", status=200)
+
+
 
 @app.route('/restart_minidlna', methods = ['GET', 'POST', 'DELETE'])
 def restart_minidlna():
     if request.method == 'GET':
-        """return the information for <user_id>"""
-
-    if request.method == 'POST':
-        """modify/update the information for <user_id>"""
-        # you can use <user_id>, which is a str but could
-        # changed to be int or whatever you want, along
-        # with your lxml knowledge to make the required
-        # changes
-        data = request.data
-        if data == b'true':
-            print("exec command..")
+        """TODO"""
         return Response(response="command complete!", status=200)
+
+
+
+@app.route('/ainews', methods = ['GET', 'POST', 'DELETE'])
+def ainews():
+    if request.method == 'GET':
+        client = docker.APIClient(base_url='unix://var/run/docker.sock')
+        env=["TELEGRAM_BOT_TOKEN={}", "TELEGRAM_CHAT_ID={}".format(os.getenv('TELEGRAM_BOT_TOKEN'), os.getenv('TELEGRAM_CHAT_ID'))]
+        '''
+        volumes= ['/usr/bin/qemu-arm-static']
+        volume_bindings = {
+                            '/usr/bin/qemu-arm-static': {
+                                'bind': '/usr/bin/qemu-arm-static',
+                                'mode': 'rw',
+                            },
+        }
+        host_config = client.create_host_config(
+                            binds=volume_bindings
+        )
+        '''
+        container = client.create_container(
+                            image="rio05docker/ai_news_server:rpi3_develop_89714b6a3deaedd9672f73525ccc435cac5cd9ee",
+                            name='ai-news',
+                            #volumes=volumes,
+                            #host_config=host_config,
+                            environment=env,
+        ) 
+
+        response = client.start(container=container.get('Id'))
+        return Response(response=response, status=200)
 
 
 @app.route('/temperature', methods = ['GET'])
