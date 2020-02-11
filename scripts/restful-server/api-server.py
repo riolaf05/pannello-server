@@ -5,12 +5,36 @@ import docker
 
 app = Flask(__name__)
 
+client = docker.APIClient(base_url='unix://var/run/docker.sock')
+
 @app.route('/camera', methods = ['GET', 'POST', 'DELETE'])
 def camera():
     if request.method == 'GET':
-        """TODO"""
-        return Response(response="command complete!", status=200)
 
+        volumes= ['/dev/bus/usb']
+        volume_bindings = {
+                            '/dev/bus/usb': {
+                                'bind': '/dev/bus/usb',
+                                'mode': 'rw',
+                            },
+        }
+        host_config = client.create_host_config(
+                            binds=volume_bindings,
+                            privileged=True
+        )
+        
+        devices=['/dev/vchiq:rwm']
+
+        container = client.create_container(
+                            image="rio05docker/obj_detection_cd:rpi3_rt_tflite_tpu",
+                            name='ai-camera',
+                            volumes=volumes,
+                            host_config=host_config,
+                            #environment=env,
+        ) 
+
+        response = client.start(container=container.get('Id'), devices=devices)
+        return Response(response=response, status=200)
     
 
 @app.route('/motion_sensor', methods = ['GET', 'POST', 'DELETE'])
@@ -40,7 +64,7 @@ def restart_minidlna():
 @app.route('/ainews', methods = ['GET', 'POST', 'DELETE'])
 def ainews():
     if request.method == 'GET':
-        client = docker.APIClient(base_url='unix://var/run/docker.sock')
+
         env=["TELEGRAM_BOT_TOKEN={}", "TELEGRAM_CHAT_ID={}".format(os.getenv('TELEGRAM_BOT_TOKEN'), os.getenv('TELEGRAM_CHAT_ID'))]
         '''
         volumes= ['/usr/bin/qemu-arm-static']
@@ -64,6 +88,7 @@ def ainews():
 
         response = client.start(container=container.get('Id'))
         return Response(response=response, status=200)
+
 
 
 @app.route('/temperature', methods = ['GET'])
