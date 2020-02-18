@@ -1,0 +1,46 @@
+#Pod’s configuration file specifies a PersistentVolumeClaim,
+#but it does not specify a PersistentVolume.
+#From the Pod’s point of view, the claim is a volume.
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nginx
+  labels:
+    rioiotplatform: nginx
+spec:
+  replicas: 1
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      #nodeName: raspberrypi
+      containers:
+      - image: rio05docker/nginx
+        imagePullPolicy: Always
+        name: nginx
+        resources:
+            limits:
+                memory: "1Gi"
+                cpu: "1"
+            requests:
+                cpu: "100m"
+                memory: "30Mi"
+        env:
+        #- name: MYSQL_ROOT_PASSWORD
+        #  value: ""
+        ports:
+        - containerPort: 443
+        #volumeMounts:
+        #- mountPath: /var/lib/mysql
+        #  name: mysql-volume
+      restartPolicy: Always
+      #volumes:
+      #- name: mysql-volume
+      #  persistentVolumeClaim:
+      #    claimName: mysql-claim
