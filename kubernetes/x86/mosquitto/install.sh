@@ -4,4 +4,4 @@ mkdir ~/mosquitto \
 && kubectl apply -f mosquitto-pv.yaml && kubectl apply -f mosquitto-pvc.yaml && kubectl apply -f mosquitto.yaml 
 
 #to delete all
-#kubectl delete deployment mosquitto && kubectl delete pcv mosquitto-pv-claim && kubectl delete pv mosquitto-config
+#kubectl delete deployment mosquitto && kubectl delete pvc mosquitto-pv-claim && kubectl delete pv mosquitto-config
