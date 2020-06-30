@@ -13,11 +13,17 @@ See refs: [create your first Helm Chart](https://docs.bitnami.com/tutorials/crea
 
 * To test install script: 
 ```console
- helm install pannello-server/kubernetes/lamp/charts/control-panel/control_panel --dry-run --debug
+ helm install panel pannello-server/kubernetes/lamp/charts/control-panel --dry-run --debug
 ```
 
  * To install control panel: 
  
 ```console
- helm install panel pannello-server/kubernetes/lamp/charts/control-panelcontrol-panel
+ helm install panel pannello-server/kubernetes/lamp/charts/control-panel
+ ```
+
+ * To upgrade image: 
+
+```console
+ helm upgrade panel pannello-server/kubernetes/lamp/charts/control-panel --set=image=<IMAGE:TAG>
  ```
