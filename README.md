@@ -171,6 +171,14 @@ This will create the K8s resources on the cluster. You can get circleci build nu
 * To enable cluster monitoring update pannello-server\startbootstrap-shop-item-gh-pages/hostnames.txt with all nodes hostname and
 launch pannello-server\startbootstrap-shop-item-gh-pages/deploy.sh 
 
+Use:
+
+```console
+helm install panel pannello-server/kubernetes/lamp/charts/control-panel 
+```
+
+to install with helm package manager.
+
 ### Control Panel installation with Docker
 
 0) install docker-ce and vcgencmd on local machine

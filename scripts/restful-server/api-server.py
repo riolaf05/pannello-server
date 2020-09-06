@@ -87,6 +87,8 @@ def ainews():
         ) 
 
         response = client.start(container=container.get('Id'))
+        client.wait(container.get('Id'))
+        client.remove_container(container.get('Id'))
         return Response(response=response, status=200)
 
 

@@ -1,0 +1,11 @@
+#Glances for monitoring
+@reboot nohup glances -w &
+
+#RESTful API server
+@reboot nohup python3 /home/pi/Scripts/api-server.py &
+
+#Restart Minidlna
+@reboot docker stop rpi-minidlna && docker rm rpi-minidlna && docker run --restart unless-stopped -d --net=host -p 8200:8200 -p 1900:1900/udp -v /media/pi/extHD1/MUSICA/:/media/Music -v /media/pi/extHD1/FILM/:/media/Videos -v /media/pi/extHD1/FOTO/:/media/Pictures -e MINIDLNA_MEDIA_DIR=/media --name=rpi-minidlna djdefi/rpi-minidlna
+
+#Restart Ngrok
+/home/pi/Codice/ngrok tcp 22 --log=stdout > /home/pi/Codice/ngrok.log &
