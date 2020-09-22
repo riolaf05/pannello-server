@@ -19,7 +19,11 @@ After the client verifies the certificate, it creates an encryption key to use f
 
 3. ~~Launch `install.sh` script~~
 
-## References
+### References
 
 * (HTTPS with Flask)[https://blog.miguelgrinberg.com/post/running-your-flask-application-over-https]
 * (Flask basic HTTP authentication)[https://flask-httpauth.readthedocs.io/en/latest/]
+
+### TODO 
+
+1. cluster monitoring with flask or prometheus operator
