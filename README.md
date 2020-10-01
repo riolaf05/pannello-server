@@ -186,9 +186,11 @@ to install with helm package manager.
 1) install MySQL with Kubernetes: (note, MySQL volume will be put on the node named "rapberrypi")
 
 ```console
+mkdir /media/pi/extHD1/mysql/
+
 ./pannello-server/kubernetes/mysql/build.sh
 
-kubectl expose deployment rpi-mosquitto --type=LoadBalancer --name=rpi-mosquitto
+kubectl expose deployment mysql --type=LoadBalancer --name=mssql -p 3306
 
 kubectl exec -it <mysql-pod-name> bash
 
