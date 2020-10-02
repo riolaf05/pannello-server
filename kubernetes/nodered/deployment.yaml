@@ -20,7 +20,7 @@ spec:
         app: nodered
     spec:
       containers:
-      - image: nodered/node-red
+      - image: nodered/node-red:1.0.2-10-arm32v7
         imagePullPolicy: Always
         name: nodered
         resources:
@@ -30,16 +30,13 @@ spec:
             requests:
                 cpu: "100m"
                 memory: "30Mi"
-        #env:
-        #- name: MYSQL_ROOT_PASSWORD
-        #  value: ""
         ports:
         - containerPort: 1880
-        #volumeMounts:
-        #- mountPath: /var/lib/mysql
-        #  name: mysql-volume
+        volumeMounts:
+        - mountPath: /data
+          name: nodered-volume
       restartPolicy: Always
-      #volumes:
-      #- name: mysql-volume
-      #  persistentVolumeClaim:
-      #    claimName: mysql-claim
+      volumes:
+      - name: nodered-volume
+        persistentVolumeClaim:
+          claimName: nodered-claim
