@@ -2,7 +2,7 @@
 #but it does not specify a PersistentVolume.
 #From the Pod’s point of view, the claim is a volume.
 
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx
