@@ -2,7 +2,7 @@
 #but it does not specify a PersistentVolume.
 #From the Pod’s point of view, the claim is a volume.
 
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx
@@ -19,9 +19,8 @@ spec:
       labels:
         app: nginx
     spec:
-      #nodeName: raspberrypi
       containers:
-      - image: rio05docker/nginx
+      - image: nginx
         imagePullPolicy: Always
         name: nginx
         resources:
@@ -31,7 +30,7 @@ spec:
             requests:
                 cpu: "100m"
                 memory: "30Mi"
-        env:
+        #env:
         #- name: MYSQL_ROOT_PASSWORD
         #  value: ""
         ports:

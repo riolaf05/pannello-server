@@ -5,25 +5,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql
+  name: nodered
   labels:
-    rioiotplatform: mysql
+    rioiotplatform: nodered
 spec:
   replicas: 1
   revisionHistoryLimit: 5
   selector:
     matchLabels:
-      app: mysql
+      app: nodered
   template:
     metadata:
       labels:
-        app: mysql
+        app: nodered
     spec:
-      nodeName: raspberrypi
       containers:
-      - image: hypriot/rpi-mysql
+      - image: nodered/node-red
         imagePullPolicy: Always
-        name: mysql
+        name: nodered
         resources:
             limits:
                 memory: "1Gi"
@@ -31,16 +30,16 @@ spec:
             requests:
                 cpu: "100m"
                 memory: "30Mi"
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: "onslario89"
+        #env:
+        #- name: MYSQL_ROOT_PASSWORD
+        #  value: ""
         ports:
-        - containerPort: 3306
-        volumeMounts:
-        - mountPath: /var/lib/mysql
-          name: mysql-volume
+        - containerPort: 1880
+        #volumeMounts:
+        #- mountPath: /var/lib/mysql
+        #  name: mysql-volume
       restartPolicy: Always
-      volumes:
-      - name: mysql-volume
-        persistentVolumeClaim:
-          claimName: mysql-claim
+      #volumes:
+      #- name: mysql-volume
+      #  persistentVolumeClaim:
+      #    claimName: mysql-claim
