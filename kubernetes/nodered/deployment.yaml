@@ -20,9 +20,9 @@ spec:
         app: nodered
     spec:
       containers:
-      - image: rpi-nodered
+      - image: nodered/node-red
         imagePullPolicy: Always
-        name: nginx
+        name: nodered
         resources:
             limits:
                 memory: "1Gi"
