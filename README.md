@@ -8,15 +8,10 @@ This is a web UI for Raspberry Pi cluster management
 Index:
 
 * Prerequisites
-* Kubernetes cluster configuration
+* Install K3s
+* Install K8s
 * Cross-compiling Docker for ARM Architecture
-* Load Balancing
-* CircleCI Continuous Integration 
-* Installation
-* Private Key Authentication
-* Install Jupyter Notebook
-* Minidlna Server
-* REST API Server
+* Services
 * Python Deep Learing & Machine Learning Develop Environment
 * Codec Conversion Service installation
 
@@ -53,7 +48,29 @@ sudo dphys-swapfile uninstall && \
 sudo update-rc.d dphys-swapfile remove
 ```
 
-## Kubernetes cluster configuration
+## K3s installation
+
+1. On master node:
+
+```console
+curl -sfL https://get.k3s.io | sh -
+```
+
+then get the token with: 
+
+```console
+cat /var/lib/rancher/k3s/server/node-token
+```
+
+2. On worker node:
+
+```console
+curl -sfL https://get.k3s.io | K3S_URL=https://<master_url>:6443 K3S_TOKEN=<token> sh -
+```
+
+## K8s instalation
+
+### Kubernetes cluster configuration 
 
 - Pre-pull K8s master images: 
 ```console
@@ -83,23 +100,29 @@ kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl versio
 sudo kubeadm join --token <token> <master-node-ip>:6443 --discovery-token-ca-cert-hash sha256:<sha256>
 ```
 
-## Cross-compiling Docker for ARM Architecture
+### Cross-compiling Docker for ARM Architecture
 
-To run Raspberry Pi docker images (architected natively for ARM32), need to copy the QEMU interpreter to the container: add this to the Dockerfile:
+To cross-compile ARM docker on x86:
 
+1. enable Docker BuildX
 ```console
-COPY qemu-arm-static /usr/bin
+export DOCKER_CLI_EXPERIMENTAL=enabled \
+&& docker buildx --help \
+&& docker run --rm --privileged docker/binfmt:820fdd95a9972a5308930a2bdfb8573dd4447ad3 \
+&& cat /proc/sys/fs/binfmt_misc/qemu-aarch64 \
 ```
 
-Second, on the x86 host run:
-
+2. cross-compile
 ```console
-docker run --rm --privileged multiarch/qemu-user-static:register      
+docker buildx create --name mybuilder
+docker buildx use mybuilder
+docker buildx inspect --bootstrap
+docker buildx build --platform linux/arm,linux/arm64,linux/amd64 -t timtsai2018/hello . --push
 ```
 
-This is used on CircleCI pipeline to build Raspberry docker images on executors. 
+## Services
 
-## Load Balancing
+### Load Balancing
 
 By default, the applications deployed to a Kubernetes cluster are only reachable from within the cluster (default service type is ClusterIP). To make them reachable from outside the cluster you can either configure the service with the type NodePort, which exposes the service on each node's IP at a static port, or you can use a load balancer.
 
@@ -117,7 +140,7 @@ The kubernetes/load-balancer folder contains the configMaps for MetalLB.
 
 Source: https://blog.boogiesoftware.com/2019/03/building-light-weight-kubernetes.html
 
-## CircleCI Continuous Integration 
+### CircleCI Continuous Integration 
 
 Actually CircleCI will be triggered on each commit on master branch.
 
@@ -125,22 +148,11 @@ It will build docker images with each new change and will push those changes on 
 
 TODO: enable the build step which do the rollout of the kubernetes resources on the cluster. 
 
-## Monitoring 
+### Monitoring 
 
-The cluster uses a custom cript to retrieve temperature and CPU usage of each node.
+Intall Ptometheus-Operatoer (thanks to [carlosedp/cluster-monitoring](https://github.com/carlosedp/cluster-monitoring))
 
-Also, a Glances server run on each nodes and pushes information on the cluster on TPC port 61208.
-
-For Glances installation steps see: https://linuxconfig.org/building-a-raspberry-pi-cluster-part-iv-monitoring
-
-To start Glances at boot:
-
-append this into /etc/rc.local (or add to cronjobs with @reboot):
-
-```console
-nohup glances -w &
-```
-## Container Monitoring 
+### Container Monitoring 
 
 Install Portainer: (see: https://blog.hypriot.com/post/new-docker-ui-portainer/)
 
@@ -150,9 +162,21 @@ docker run -it --restart=unless-stopped -v /var/run/docker.sock:/var/run/docker.
 
 and open port 9000 on Raspberry master node to enable containers monitoring page. 
 
-## Installation
+### Nodered
 
-### Control Panel installation with Kubernetes 
+```console
+kubectl apply -f kubernetes/nodered/deployment.yaml
+kubectl expose deployment nodered --type=LoadBalancer --name=nodered --port 1880
+```
+
+### Mosquitto
+
+```console
+kubectl apply -f kubernetes/mosquitto/deployment.yaml
+kubectl expose deployment mosquitto --type=LoadBalancer --name=mosquitto --port 1883
+```
+
+### PHP Control Panel 
 
 Note: for each change upload image in pannello-server\startbootstrap-shop-item-gh-pages first with:
 ```console
@@ -179,16 +203,18 @@ helm install panel pannello-server/kubernetes/lamp/charts/control-panel
 
 to install with helm package manager.
 
-### Control Panel installation with Docker
+#### Control Panel installation with Docker
 
 0) install docker-ce and vcgencmd on local machine
 
 1) install MySQL with Kubernetes: (note, MySQL volume will be put on the node named "rapberrypi")
 
 ```console
+mkdir /media/pi/extHD1/mysql/
+
 ./pannello-server/kubernetes/mysql/build.sh
 
-kubectl expose deployment rpi-mosquitto --type=LoadBalancer --name=rpi-mosquitto
+kubectl expose deployment mysql --type=LoadBalancer --name=mysql --port 3306
 
 kubectl exec -it <mysql-pod-name> bash
 
@@ -250,35 +276,7 @@ inside the container to create certificate and key when expired.
 
 **TODO: disable non-https connections**
 
-### Control Panel local installation (without docker or K8s)
-
-**NOTE: for the local installation must first uncomment the 33° row in index.php**
-
-local installation: 
-
-* move the pannello_controllo/ folder under: /var/www/html
-
-Note:
-The PHP script uses some Linux commands to retrieve temperature and memory usage of the machine.
-For those who face the "VCHI Initialization failed" error 
-(showed in /temp/temperatura.txt file after opening index.php from client browser) the correct way to fixis is to 
-add user www-data to video group. Below is the command:
-
-* sudo usermod -G video www-data
-
-* restart web server. (if you are trying to display this error on a php based webpage.
-
-Default port for "motion" web stream display is 8081
-
-Default port for "minidlna" web UI is 8200
-
-Dlna server used is "Minidlna" (must be instaled)
-
-To enable the "Server Shutdown and Reboot" buttons it is necessary to use a cron job that 
-shuts down or reboots the machine if it find the file writen by the PHP script (that cannot 
-reboot the machine directly).
-
-## Private Key Authentication
+### Private Key Authentication
 
 To enable SSH login through private key:
 
@@ -309,7 +307,7 @@ sudo service ssh restart
 
 6) Open port 22 on router
 
-## Install Jupyter Notebook 
+### Jupyter Notebook 
 ```console
 sudo su - \
 && apt-get update \
@@ -348,7 +346,7 @@ cd && mkdir jupyter_keys && cd ~/jupyter_keys/ \
 && chmod 600 ~/jupyter_keys/* 
 ```
 
-## Minidlna Server
+### Minidlna Server
 Using docker:
 
 ```console
@@ -364,7 +362,7 @@ Using docker:
 ```
 Based on: https://github.com/djdefi/rpi-docker-minidlna
 
-## REST API Server
+### REST API Server
 
 It is used to control Raspberry Pi features
 
@@ -385,6 +383,34 @@ Then add the following cronjob:
 ```
 
 optional: open route on <raspberry_ip>:5002
+
+## Control Panel local installation (without docker or K8s)
+
+**NOTE: for the local installation must first uncomment the 33° row in index.php**
+
+local installation: 
+
+* move the pannello_controllo/ folder under: /var/www/html
+
+Note:
+The PHP script uses some Linux commands to retrieve temperature and memory usage of the machine.
+For those who face the "VCHI Initialization failed" error 
+(showed in /temp/temperatura.txt file after opening index.php from client browser) the correct way to fixis is to 
+add user www-data to video group. Below is the command:
+
+* sudo usermod -G video www-data
+
+* restart web server. (if you are trying to display this error on a php based webpage.
+
+Default port for "motion" web stream display is 8081
+
+Default port for "minidlna" web UI is 8200
+
+Dlna server used is "Minidlna" (must be instaled)
+
+To enable the "Server Shutdown and Reboot" buttons it is necessary to use a cron job that 
+shuts down or reboots the machine if it find the file writen by the PHP script (that cannot 
+reboot the machine directly).
 
 ## Python Deep Learing & Machine Learning Develop Environment 
 

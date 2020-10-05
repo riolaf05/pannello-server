@@ -1,0 +1,25 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: mosquitto-volume
+  labels:
+    #type: local
+    app: mosquitto
+spec:
+  storageClassName: local-storage
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/media/pi/extHD1/mosquitto/"
+  nodeAffinity: #PersistentVolume nodeAffinity is required when using local volumes.
+                #It enables the Kubernetes scheduler to correctly schedule Pods using local volumes to the correct node.
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - raspberrypi

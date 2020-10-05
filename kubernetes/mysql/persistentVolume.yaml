@@ -22,8 +22,8 @@ spec:
   volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce
-  local:
-    path: "/home/pi/volume/mysql"
+  hostPath:
+    path: "/media/pi/extHD1/mysql/"
   nodeAffinity: #PersistentVolume nodeAffinity is required when using local volumes.
                 #It enables the Kubernetes scheduler to correctly schedule Pods using local volumes to the correct node.
     required:
