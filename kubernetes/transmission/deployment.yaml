@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transmission
+  labels:
+    rioiotplatform: transmission
+spec:
+  replicas: 1
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: transmission
+  template:
+    metadata:
+      labels:
+        app: transmission
+    spec:
+      containers:
+      - image: ###
+        imagePullPolicy: Always
+        name: transmission
+        resources:
+            limits:
+                memory: "1Gi"
+                cpu: "1"
+            requests:
+                cpu: "100m"
+                memory: "30Mi"
+        ports:
+        - containerPort: 9091
+        #volumeMounts: #TODO: ADD
+        #- mountPath: /mosquitto/data
+        #  name: mosquitto-volume
+      restartPolicy: Always
+      #volumes:
+      #- name: mosquitto-volume
+      #  persistentVolumeClaim:
+      #    claimName: mosquitto-claim
