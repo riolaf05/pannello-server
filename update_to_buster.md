@@ -1,3 +1,5 @@
+### Update Raspbian Stretch to Buster
+
 1. update all the currently installed packages
 
 ```console
@@ -44,3 +46,7 @@ sudo apt purge timidity lxmusic gnome-disk-utility deluge-gtk evince wicd wicd-g
 sudo apt autoremove -y && sudo apt autoclean 
 sudo reboot 
 ```
+
+### References 
+
+* [Update Raspbian Stretch to Buster](https://pimylifeup.com/upgrade-raspbian-stretch-to-raspbian-buster/)
