@@ -17,10 +17,7 @@ Index:
 
 ## Prerequisites
 
-- Install Ansible 2.0+
-- Install Raspbian Stretch on each Raspberry and enable SSH and Camera (throught sudo raspi-config)
-- Use the playbook in /ansible folder to configure each Raspberry Pi node.
-- Change Raspberry Pi hostnames and update ansible/hosts, then put hostnames on Ansible hosts file:
+- Install Ansible 2.0+ (only for K8s installation)
 
 ```console
 echo ansible/hosts >> /etc/ansible/hosts
@@ -30,6 +27,17 @@ echo ansible/hosts >> /etc/ansible/hosts
 ```console
 /media/pi/extHD/FOTO), bind the main storage in /media/pi/extHD/ etc.
 ```
+
+- Install Raspbian Buster on each Raspberry and enable SSH and Camera (throught sudo raspi-config)
+- Use the playbook in /ansible folder to configure each Raspberry Pi node (only for K8s installation).
+- Change Raspberry Pi hostnames and update ansible/hosts, then put hostnames on Ansible hosts file:
+
+```console
+echo -e "192.168.1.9\traspberrypi1" | sudo tee -a /etc/hosts
+echo -e "192.168.0.10\traspberrypi" | sudo tee -a /etc/hosts
+echo -e "192.168.0.12\traspberrypitest" | sudo tee -a /etc/hosts
+```
+
 - Disable WiFi nd Bluetooth Driver by adding the following line to /etc/modprobe.d/raspi-blacklist.conf
 
 ```console
@@ -67,6 +75,10 @@ cat /var/lib/rancher/k3s/server/node-token
 ```console
 curl -sfL https://get.k3s.io | K3S_URL=https://<master_url>:6443 K3S_TOKEN=<token> sh -
 ```
+
+## Add users
+
+Follow [istructions](https://github.com/riolaf05/pannello-server/blob/develop/context_creation.md).
 
 ## K8s instalation
 

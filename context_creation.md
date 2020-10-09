@@ -44,7 +44,7 @@ kubectl config  set-credentials developer --client-certificate=external_usr.crt 
 kubectl config set-context gateway_context --cluster=default --namespace=default --user=external_usr
 ```
 
-4. Set context (or use (K9S)[https://www.google.com/search?q=k9s&rlz=1C1GCEU_itIT832IT832&oq=k9s&aqs=chrome..69i57j46j69i59j0j46j69i60l3.1617j0j7&sourceid=chrome&ie=UTF-8])
+4. Set context (or use [K9S](https://www.google.com/search?q=k9s&rlz=1C1GCEU_itIT832IT832&oq=k9s&aqs=chrome..69i57j46j69i59j0j46j69i60l3.1617j0j7&sourceid=chrome&ie=UTF-8))
 
 ```console
 kubectl config  use-context gateway_context
