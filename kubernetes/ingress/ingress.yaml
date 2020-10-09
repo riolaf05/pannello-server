@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: edge-gateway-ingress
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /mosquitto
+        backend:
+          serviceName: mosquitto
+          servicePort: 1883
+      - path: /nodered
+        backend:
+          serviceName: nodered
+          servicePort: 1880
+      - path: /mysql
+        backend:
+          serviceName: mysql
+          servicePort: 3306
+      - path: /mlflowui
+        backend:
+          serviceName: mlflowui
+          servicePort: 5000
