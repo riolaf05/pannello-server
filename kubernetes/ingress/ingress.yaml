@@ -10,17 +10,17 @@ spec:
       paths:
       - path: /mosquitto
         backend:
-          serviceName: mosquitto
+          serviceName: mosquitto-service
           servicePort: 1883
       - path: /nodered
         backend:
-          serviceName: nodered
+          serviceName: nodered-service
           servicePort: 1880
       - path: /mysql
         backend:
-          serviceName: mysql
+          serviceName: mysql-service
           servicePort: 3306
       - path: /mlflowui
         backend:
-          serviceName: mlflowui
+          serviceName: mlflowui-service
           servicePort: 5000
