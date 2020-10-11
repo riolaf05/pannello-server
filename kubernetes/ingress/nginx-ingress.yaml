@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: edge-gateway-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - host: localhost
+    http:
+      paths:
+      - path: /mosquitto
+        backend:
+          serviceName: mosquitto-service
+          servicePort: 1883
+      - path: /nodered
+        backend:
+          serviceName: nodered-service
+          servicePort: 1880
+      - path: /mysql
+        backend:
+          serviceName: mysql-service
+          servicePort: 3306
+      - path: /mlflowui
+        backend:
+          serviceName: mlflowui-service
+          servicePort: 5000
