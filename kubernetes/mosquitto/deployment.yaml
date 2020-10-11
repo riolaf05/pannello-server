@@ -15,6 +15,7 @@ spec:
       labels:
         app: mosquitto
     spec:
+      nodeName: raspberrypi
       containers:
       - image: eclipse-mosquitto
         imagePullPolicy: Always
