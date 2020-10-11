@@ -21,7 +21,7 @@ spec:
     spec:
       nodeName: raspberrypi
       containers:
-      - image: nodered/node-red:1.0.2-10-arm32v7
+      - image: nodered/node-red-docker:rpi
         imagePullPolicy: Always
         name: nodered
         resources:
