@@ -61,7 +61,9 @@ sudo update-rc.d dphys-swapfile remove
 1. On master node:
 
 ```console
-curl -sfL https://get.k3s.io | sh -
+export K3S_KUBECONFIG_MODE="644" \
+&& export INSTALL_K3S_EXEC="--no-deploy traefik" \
+&& curl -sfL https://get.k3s.io | sh -
 ```
 
 then get the token with: 
@@ -133,6 +135,14 @@ docker buildx build --platform linux/arm,linux/arm64,linux/amd64 -t timtsai2018/
 ```
 
 ## Services
+
+### Traefik Ingress Controller
+
+Not the built-in Traefik install to install with a custom configuration:
+
+```console
+./kubernetes/ingress/install.sh
+```
 
 ### Load Balancing
 
