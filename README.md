@@ -155,7 +155,8 @@ For these reasons, we decided to deploy [MetalLB](https://metallb.universe.tf), 
 To deploy the load balancer use: 
 
 ```console
-kubectl apply -f https://raw.githubusercontent.com/google/metallb/v0.7.3/manifests/metallb.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
 ```
 
 The kubernetes/load-balancer folder contains the configMaps for MetalLB. 
