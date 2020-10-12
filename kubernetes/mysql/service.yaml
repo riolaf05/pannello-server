@@ -4,7 +4,7 @@ metadata:
   name: mysql-service
 spec:
   selector:
-    app: mysql
+    k8s-app: mysql
   ports:
     - protocol: TCP
       port: 3306

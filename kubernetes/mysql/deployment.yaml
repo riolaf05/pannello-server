@@ -7,17 +7,17 @@ kind: Deployment
 metadata:
   name: mysql
   labels:
-    rioiotplatform: mysql
+    k8s-app: mysql
 spec:
   replicas: 1
   revisionHistoryLimit: 5
   selector:
     matchLabels:
-      app: mysql
+      k8s-app: mysql
   template:
     metadata:
       labels:
-        app: mysql
+        k8s-app: mysql
     spec:
       nodeName: raspberrypi1
       containers:
