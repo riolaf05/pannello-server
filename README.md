@@ -173,7 +173,15 @@ TODO: enable the build step which do the rollout of the kubernetes resources on 
 
 ### Monitoring 
 
-Intall Ptometheus-Operatoer (thanks to [carlosedp/cluster-monitoring](https://github.com/carlosedp/cluster-monitoring))
+Intall **Prometheus-Operator** (thanks to [carlosedp/cluster-monitoring](https://github.com/carlosedp/cluster-monitoring))
+
+Also, for K8s cluster monitoring install **Octant**:
+
+```console
+wget https://github.com/vmware-tanzu/octant/releases/download/v0.16.1/octant_0.16.1_Linux-ARM.deb
+sudo dpkg -i ./octant_0.16.1_Linux-ARM.deb
+nohup bash -c "OCTANT_LISTENER_ADDR=0.0.0.0:8900 octant &"
+```
 
 ### Container Monitoring 
 
