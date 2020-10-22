@@ -6,10 +6,10 @@ metadata:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-  tls:
-    - hosts:
-        - myedgegateway.com #don't forget to set it in your /etc/hosts
-      secretName: ssl-cert-secret
+  #tls:
+  #  - hosts:
+  #      - myedgegateway.com #don't forget to set it in your /etc/hosts
+  #    secretName: ssl-cert-secret
   rules:
   - host: myedgegateway.com
     http:
@@ -18,15 +18,19 @@ spec:
           serviceName: mosquitto-service
           servicePort: 1883
         path: /mosquitto
+        pathType: Exact
       - backend:
           serviceName: mlflowui-service
           servicePort: 5000
         path: /mlflowui
+        pathType: Exact
       - backend:
           serviceName: nodered-service
           servicePort: 1880
         path: /nodered
+        pathType: Exact
       - backend:
           serviceName: mysql-service
           servicePort: 3306
         path: /mysql
+        pathType: Exact
