@@ -7,19 +7,19 @@ kind: Deployment
 metadata:
   name: mysql
   labels:
-    rioiotplatform: mysql
+    k8s-app: mysql
 spec:
   replicas: 1
   revisionHistoryLimit: 5
   selector:
     matchLabels:
-      app: mysql
+      k8s-app: mysql
   template:
     metadata:
       labels:
-        app: mysql
+        k8s-app: mysql
     spec:
-      nodeName: raspberrypi
+      nodeName: raspberrypi1
       containers:
       - image: hypriot/rpi-mysql
         imagePullPolicy: Always
@@ -38,7 +38,7 @@ spec:
         - containerPort: 3306
         volumeMounts:
         - mountPath: /var/lib/mysql
-          name: mysql-volume
+          name: mysql-volume        
       restartPolicy: Always
       volumes:
       - name: mysql-volume

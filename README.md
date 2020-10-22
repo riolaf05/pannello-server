@@ -17,10 +17,7 @@ Index:
 
 ## Prerequisites
 
-- Install Ansible 2.0+
-- Install Raspbian Stretch on each Raspberry and enable SSH and Camera (throught sudo raspi-config)
-- Use the playbook in /ansible folder to configure each Raspberry Pi node.
-- Change Raspberry Pi hostnames and update ansible/hosts, then put hostnames on Ansible hosts file:
+- Install Ansible 2.0+ (only for K8s installation)
 
 ```console
 echo ansible/hosts >> /etc/ansible/hosts
@@ -30,6 +27,17 @@ echo ansible/hosts >> /etc/ansible/hosts
 ```console
 /media/pi/extHD/FOTO), bind the main storage in /media/pi/extHD/ etc.
 ```
+
+- Install Raspbian Buster on each Raspberry and enable SSH and Camera (throught sudo raspi-config)
+- Use the playbook in /ansible folder to configure each Raspberry Pi node (only for K8s installation).
+- Change Raspberry Pi hostnames and update ansible/hosts, then put hostnames on Ansible hosts file:
+
+```console
+echo -e "192.168.1.9\traspberrypi1" | sudo tee -a /etc/hosts
+echo -e "192.168.0.10\traspberrypi" | sudo tee -a /etc/hosts
+echo -e "192.168.0.12\traspberrypitest" | sudo tee -a /etc/hosts
+```
+
 - Disable WiFi nd Bluetooth Driver by adding the following line to /etc/modprobe.d/raspi-blacklist.conf
 
 ```console
@@ -53,7 +61,9 @@ sudo update-rc.d dphys-swapfile remove
 1. On master node:
 
 ```console
-curl -sfL https://get.k3s.io | sh -
+export K3S_KUBECONFIG_MODE="644" \
+&& export INSTALL_K3S_EXEC="--no-deploy traefik" \
+&& curl -sfL https://get.k3s.io | sh -
 ```
 
 then get the token with: 
@@ -67,6 +77,10 @@ cat /var/lib/rancher/k3s/server/node-token
 ```console
 curl -sfL https://get.k3s.io | K3S_URL=https://<master_url>:6443 K3S_TOKEN=<token> sh -
 ```
+
+## Add users
+
+Follow [istructions](https://github.com/riolaf05/pannello-server/blob/develop/context_creation.md).
 
 ## K8s instalation
 
@@ -122,6 +136,48 @@ docker buildx build --platform linux/arm,linux/arm64,linux/amd64 -t timtsai2018/
 
 ## Services
 
+### Nginx Ingress Controller
+
+1. Deploy ingress controller with Helm3
+
+```console
+helm install -n kube-system \
+nginx-ingress stable/nginx-ingress \
+--set rbac.create=true \
+--set controller.service.type=NodePort \
+--set controller.service.nodePorts.http=32080 \
+--set controller.service.nodePorts.https=32443 \
+--set defaultBackend.enabled=false
+```
+
+2. Update image for arm:
+
+```console
+kubectl set image deployment/nginx-ingress-controller nginx-ingress-controller=quay.io/kubernetes-ingress-controller/nginx-ingress-controller-arm:0.26.1
+```
+
+3. Generate SSL key using the provided script:
+
+```console
+./kubernetes/nginx/create_cert.sh ssl-cert ssl-cert-secret default myedgegateway.com
+```
+
+4. Launch ingress:
+
+```console
+kubectl apply -f kubernetes/ingress/nginx-ingress.yaml
+```
+
+5. Add `myedgegateway.com` to `/etc/hosts` using the IP address found in `kubectl get ingress edge-gateway-ingress`.
+
+### Traefik Ingress Controller
+
+Not the built-in Traefik install to install with a custom configuration:
+
+```console
+./kubernetes/ingress/install.sh
+```
+
 ### Load Balancing
 
 By default, the applications deployed to a Kubernetes cluster are only reachable from within the cluster (default service type is ClusterIP). To make them reachable from outside the cluster you can either configure the service with the type NodePort, which exposes the service on each node's IP at a static port, or you can use a load balancer.
@@ -133,7 +189,8 @@ For these reasons, we decided to deploy [MetalLB](https://metallb.universe.tf), 
 To deploy the load balancer use: 
 
 ```console
-kubectl apply -f https://raw.githubusercontent.com/google/metallb/v0.7.3/manifests/metallb.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
 ```
 
 The kubernetes/load-balancer folder contains the configMaps for MetalLB. 
@@ -150,7 +207,15 @@ TODO: enable the build step which do the rollout of the kubernetes resources on 
 
 ### Monitoring 
 
-Intall Ptometheus-Operatoer (thanks to [carlosedp/cluster-monitoring](https://github.com/carlosedp/cluster-monitoring))
+Intall **Prometheus-Operator** (thanks to [carlosedp/cluster-monitoring](https://github.com/carlosedp/cluster-monitoring))
+
+Also, for K8s cluster monitoring install **Octant**:
+
+```console
+wget https://github.com/vmware-tanzu/octant/releases/download/v0.16.1/octant_0.16.1_Linux-ARM.deb
+sudo dpkg -i ./octant_0.16.1_Linux-ARM.deb
+nohup bash -c "OCTANT_LISTENER_ADDR=0.0.0.0:8900 octant &"
+```
 
 ### Container Monitoring 
 

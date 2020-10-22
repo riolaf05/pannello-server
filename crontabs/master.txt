@@ -9,3 +9,6 @@
 
 #Restart Ngrok
 /home/pi/Codice/ngrok tcp 22 --log=stdout > /home/pi/Codice/ngrok.log &
+
+#Octant
+@reboot nohup bash -c "OCTANT_LISTENER_ADDR=0.0.0.0:8900 octant &"
