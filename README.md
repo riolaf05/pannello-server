@@ -136,6 +136,38 @@ docker buildx build --platform linux/arm,linux/arm64,linux/amd64 -t timtsai2018/
 
 ## Services
 
+### Nginx Ingress Controller
+
+1. Deploy ingress controller with Helm3
+
+```console
+helm install -n kube-system \
+nginx-ingress stable/nginx-ingress \
+--set rbac.create=true \
+--set controller.service.type=NodePort \
+--set controller.service.nodePorts.http=32080 \
+--set controller.service.nodePorts.https=32443 \
+--set defaultBackend.enabled=false
+```
+
+2. Update image for arm:
+
+```console
+kubectl set image deployment/nginx-ingress-controller nginx-ingress-controller=quay.io/kubernetes-ingress-controller/nginx-ingress-controller-arm:0.26.1
+```
+
+3. Generate SSL key using the provided script:
+
+```console
+./kubernetes/nginx/create_cert.sh ssl-cert ssl-cert-secret default myedgegateway.com
+```
+
+4. Launch ingress:
+
+```console
+kubectl apply -f kubernetes/ingress/nginx-ingress.yaml
+```
+
 ### Traefik Ingress Controller
 
 Not the built-in Traefik install to install with a custom configuration:
