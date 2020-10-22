@@ -168,7 +168,7 @@ kubectl set image deployment/nginx-ingress-controller nginx-ingress-controller=q
 kubectl apply -f kubernetes/ingress/nginx-ingress.yaml
 ```
 
-5. Add `myedgegateway.com` to `/etc/hosts`
+5. Add `myedgegateway.com` to `/etc/hosts` using the IP address found in `kubectl get ingress edge-gateway-ingress`.
 
 ### Traefik Ingress Controller
 
