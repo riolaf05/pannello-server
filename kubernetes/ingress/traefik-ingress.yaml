@@ -4,24 +4,27 @@ metadata:
   name: edge-gateway-ingress
   annotations:
     kubernetes.io/ingress.class: traefik
-    traefik.frontend.rule.type: PathPrefixStrip
 spec:
   rules:
-  - http:
+  - host: myedgegateway.com
+    http:
       paths:
-      - path: /mosquitto
-        backend:
+      - backend:
           serviceName: mosquitto-service
           servicePort: 1883
-      - path: /nodered
-        backend:
+        path: /mosquitto
+        pathType: ImplementationSpecific
+      - backend:
           serviceName: nodered-service
           servicePort: 1880
-      - path: /mysql
-        backend:
+        path: /nodered
+        pathType: ImplementationSpecific
+      - backend:
           serviceName: mysql-service
           servicePort: 3306
-      - path: /mlflowui
-        backend:
+        path: /mysql
+        pathType: ImplementationSpecific
+      - backend:
           serviceName: mlflowui-service
           servicePort: 5000
+        path: /mlflowui
