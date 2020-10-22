@@ -168,6 +168,8 @@ kubectl set image deployment/nginx-ingress-controller nginx-ingress-controller=q
 kubectl apply -f kubernetes/ingress/nginx-ingress.yaml
 ```
 
+5. Add `myedgegateway.com` to `/etc/hosts`
+
 ### Traefik Ingress Controller
 
 Not the built-in Traefik install to install with a custom configuration:
