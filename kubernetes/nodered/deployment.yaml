@@ -19,7 +19,7 @@ spec:
       labels:
         app: nodered
     spec:
-      nodeName: raspberrypi
+      nodeName: raspberrypi1
       containers:
       - image: nodered/node-red:1.2.0-10-arm32v7
         imagePullPolicy: Always
