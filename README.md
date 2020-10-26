@@ -148,6 +148,7 @@ nginx-ingress stable/nginx-ingress \
 --set controller.service.nodePorts.http=32080 \
 --set controller.service.nodePorts.https=32443 \
 --set defaultBackend.enabled=false
+--set controller.publishService.enabled=true
 ```
 
 2. Update image for arm:
@@ -186,16 +187,18 @@ NodePort services are, however, quite limited: they use their own dedicated port
 
 For these reasons, we decided to deploy [MetalLB](https://metallb.universe.tf), a load-balancer implementation that is intended for bare metal clusters.
 
-To deploy the load balancer use: 
+To deploy the load balancer use Helm3: 
 
 ```console
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
+helm install metallb stable/metallb --namespace kube-system \
+  --set configInline.address-pools[0].name=default \
+  --set configInline.address-pools[0].protocol=layer2 \
+  --set configInline.address-pools[0].addresses[0]=192.168.1.240-192.168.1.250
 ```
 
 The kubernetes/load-balancer folder contains the configMaps for MetalLB. 
 
-Source: https://blog.boogiesoftware.com/2019/03/building-light-weight-kubernetes.html
+[Source](https://kauri.io/38-install-and-configure-a-kubernetes-cluster-with/418b3bc1e0544fbc955a4bbba6fff8a9/a)
 
 ### CircleCI Continuous Integration 
 
