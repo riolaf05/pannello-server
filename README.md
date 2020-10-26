@@ -200,6 +200,54 @@ The kubernetes/load-balancer folder contains the configMaps for MetalLB.
 
 [Source](https://kauri.io/38-install-and-configure-a-kubernetes-cluster-with/418b3bc1e0544fbc955a4bbba6fff8a9/a)
 
+### Cert-manager
+
+Cert Manager is a set of Kubernetes tools used to automatically deliver and manage x509 certificates against the ingress and consequently secure via SSL all the HTTP routes with almost no configuration.
+
+1. Install the CustomResourceDefinition resources:
+
+```console
+kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.16.0/cert-manager.crds.yaml
+```
+
+2. Install with Helm3
+
+```console
+helm repo add jetstack https://charts.jetstack.io && helm repo update
+helm install cert-manager jetstack/cert-manager --namespace kube-system  --version v0.16.0
+```
+
+3. Configure the certificate issuers
+
+The Certificate issuers are resources from which signed x509 certificates can be obtained, such as **Let’s Encrypt**:
+
+Run the following commands (change <EMAIL> by your email):
+
+```console
+cat <<EOF | kubectl apply -f -
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-gateway
+spec:
+  acme:
+    email: <EMAIL>
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-gateway
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+EOF
+```
+
+4. Launch Ingress:
+
+```console
+kubectl apply -f  kubernetes/ingress/nginx-ingress-ssl.yaml
+```
+
 ### CircleCI Continuous Integration 
 
 Actually CircleCI will be triggered on each commit on master branch.
