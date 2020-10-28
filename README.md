@@ -141,14 +141,10 @@ docker buildx build --platform linux/arm,linux/arm64,linux/amd64 -t timtsai2018/
 1. Deploy ingress controller with Helm3
 
 ```console
-helm install -n kube-system \
-nginx-ingress stable/nginx-ingress \
---set rbac.create=true \
---set controller.service.type=NodePort \
---set controller.service.nodePorts.http=32080 \
---set controller.service.nodePorts.https=32443 \
---set defaultBackend.enabled=false
---set controller.publishService.enabled=true
+helm install nginx-ingress stable/nginx-ingress --namespace kube-system \
+    --set rbac.create=true \
+    --set defaultBackend.enabled=false \
+    --set controller.publishService.enabled=true
 ```
 
 2. Update image for arm:
