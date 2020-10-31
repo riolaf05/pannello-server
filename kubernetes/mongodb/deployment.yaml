@@ -21,7 +21,7 @@ spec:
     spec:
       nodeName: raspberrypi1
       containers:
-      - image: mongo:bionic
+      - image: andresvidal/rpi3-mongodb3
         imagePullPolicy: Always
         name: mongo
         resources:
