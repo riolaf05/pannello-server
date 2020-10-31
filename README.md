@@ -288,6 +288,15 @@ kubectl apply -f kubernetes/mosquitto/deployment.yaml
 kubectl expose deployment mosquitto --type=LoadBalancer --name=mosquitto --port 1883
 ```
 
+### MongoDB
+
+```console
+kubectl apply -f kubernetes/mongodb/persistentVolume.yaml
+kubectl apply -f kubernetes/mongodb/persistentVolumeClaim.yaml
+kubectl apply -f kubernetes/mongodb/deployment.yaml
+kubectl expose deployment mongo --type=LoadBalancer --name=mongo-service --port 27017
+```
+
 ### PHP Control Panel 
 
 Note: for each change upload image in pannello-server\startbootstrap-shop-item-gh-pages first with:
