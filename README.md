@@ -297,6 +297,31 @@ kubectl apply -f kubernetes/mongodb/deployment.yaml
 kubectl expose deployment mongo --type=LoadBalancer --name=mongo-service --port 27017
 ```
 
+To log in the first time:
+
+1. `kubectl exec -it <pod-name> mongo admin`
+
+2. Replace `[username]` and `[password]`
+
+```console
+db.createUser({ user: "[username]", pwd: "[password]", roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] })
+```
+
+3. Creating a Database and add a User with permissions:
+
+```console
+kubectl exec -it <pod-name> mongo admin
+> db.auth("admin", "adminpassword")
+
+> use yourdatabase
+> db.createUser({ user: "youruser", pwd: "yourpassword", roles: [{ role: "dbOwner", db: "yourdatabase" }] })
+
+> db.auth("youruser", "yourpassword")
+> show collections
+```
+
+[Reference](https://hub.docker.com/r/andresvidal/rpi3-mongodb3/)
+
 ### PHP Control Panel 
 
 Note: for each change upload image in pannello-server\startbootstrap-shop-item-gh-pages first with:
