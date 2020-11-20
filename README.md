@@ -136,7 +136,29 @@ docker buildx build --platform linux/arm,linux/arm64,linux/amd64 -t timtsai2018/
 
 ## Services
 
-### Nginx Ingress Controller
+### 1. Load Balancing
+
+By default, the applications deployed to a Kubernetes cluster are only reachable from within the cluster (default service type is ClusterIP). To make them reachable from outside the cluster you can either configure the service with the type NodePort, which exposes the service on each node's IP at a static port, or you can use a load balancer.
+
+NodePort services are, however, quite limited: they use their own dedicated port range and we can only differentiate apps by their port number. 
+
+For these reasons, we decided to deploy [MetalLB](https://metallb.universe.tf), a load-balancer implementation that is intended for bare metal clusters.
+
+To deploy the load balancer use Helm3: 
+
+```console
+helm install metallb stable/metallb --namespace kube-system \
+  --set configInline.address-pools[0].name=default \
+  --set configInline.address-pools[0].protocol=layer2 \
+  --set configInline.address-pools[0].addresses[0]=192.168.1.240-192.168.1.250
+```
+
+The kubernetes/load-balancer folder contains the configMaps for MetalLB. 
+
+[Source](https://kauri.io/38-install-and-configure-a-kubernetes-cluster-with/418b3bc1e0544fbc955a4bbba6fff8a9/a)
+
+### 2. Ingress Controller
+#### Nginx
 
 1. Deploy ingress controller with Helm3
 
@@ -167,7 +189,7 @@ kubectl apply -f kubernetes/ingress/nginx-ingress.yaml
 
 5. Add `myedgegateway.com` to `/etc/hosts` using the IP address found in `kubectl get ingress edge-gateway-ingress`.
 
-### Traefik Ingress Controller
+#### Traefik Ingress Controller
 
 Not the built-in Traefik install to install with a custom configuration:
 
@@ -175,28 +197,7 @@ Not the built-in Traefik install to install with a custom configuration:
 ./kubernetes/ingress/install.sh
 ```
 
-### Load Balancing
-
-By default, the applications deployed to a Kubernetes cluster are only reachable from within the cluster (default service type is ClusterIP). To make them reachable from outside the cluster you can either configure the service with the type NodePort, which exposes the service on each node's IP at a static port, or you can use a load balancer.
-
-NodePort services are, however, quite limited: they use their own dedicated port range and we can only differentiate apps by their port number. 
-
-For these reasons, we decided to deploy [MetalLB](https://metallb.universe.tf), a load-balancer implementation that is intended for bare metal clusters.
-
-To deploy the load balancer use Helm3: 
-
-```console
-helm install metallb stable/metallb --namespace kube-system \
-  --set configInline.address-pools[0].name=default \
-  --set configInline.address-pools[0].protocol=layer2 \
-  --set configInline.address-pools[0].addresses[0]=192.168.1.240-192.168.1.250
-```
-
-The kubernetes/load-balancer folder contains the configMaps for MetalLB. 
-
-[Source](https://kauri.io/38-install-and-configure-a-kubernetes-cluster-with/418b3bc1e0544fbc955a4bbba6fff8a9/a)
-
-### Cert-manager
+### 3. Cert-manager
 
 Cert Manager is a set of Kubernetes tools used to automatically deliver and manage x509 certificates against the ingress and consequently secure via SSL all the HTTP routes with almost no configuration.
 
@@ -243,16 +244,7 @@ EOF
 ```console
 kubectl apply -f  kubernetes/ingress/nginx-ingress-ssl.yaml
 ```
-
-### CircleCI Continuous Integration 
-
-Actually CircleCI will be triggered on each commit on master branch.
-
-It will build docker images with each new change and will push those changes on Docker Hub.
-
-TODO: enable the build step which do the rollout of the kubernetes resources on the cluster. 
-
-### Monitoring 
+### 4. Monitoring 
 
 Intall **Prometheus-Operator** (thanks to [carlosedp/cluster-monitoring](https://github.com/carlosedp/cluster-monitoring))
 
@@ -264,31 +256,25 @@ sudo dpkg -i ./octant_0.16.1_Linux-ARM.deb
 nohup bash -c "OCTANT_LISTENER_ADDR=0.0.0.0:8900 octant &"
 ```
 
-### Container Monitoring 
+### 5. CDCD
 
-Install Portainer: (see: https://blog.hypriot.com/post/new-docker-ui-portainer/)
+WIP
 
-```console
-docker run -it --restart=unless-stopped -v /var/run/docker.sock:/var/run/docker.sock -p 9000:9000 hypriot/rpi-dockerui
-```
-
-and open port 9000 on Raspberry master node to enable containers monitoring page. 
-
-### Nodered
+### 6. Nodered
 
 ```console
 kubectl apply -f kubernetes/nodered/deployment.yaml
 kubectl expose deployment nodered --type=LoadBalancer --name=nodered --port 1880
 ```
 
-### Mosquitto
+### 7. Mosquitto
 
 ```console
 kubectl apply -f kubernetes/mosquitto/deployment.yaml
 kubectl expose deployment mosquitto --type=LoadBalancer --name=mosquitto --port 1883
 ```
 
-### MongoDB
+### 8. MongoDB
 
 ```console
 kubectl apply -f kubernetes/mongodb/persistentVolume.yaml
@@ -322,7 +308,17 @@ kubectl exec -it <pod-name> mongo admin
 
 [Reference](https://hub.docker.com/r/andresvidal/rpi3-mongodb3/)
 
-### PHP Control Panel 
+### 9. Container Monitoring 
+
+Install Portainer: (see: https://blog.hypriot.com/post/new-docker-ui-portainer/)
+
+```console
+docker run -it --restart=unless-stopped -v /var/run/docker.sock:/var/run/docker.sock -p 9000:9000 hypriot/rpi-dockerui
+```
+
+and open port 9000 on Raspberry master node to enable containers monitoring page. 
+
+### 10. PHP Control Panel 
 
 Note: for each change upload image in pannello-server\startbootstrap-shop-item-gh-pages first with:
 ```console
@@ -422,7 +418,7 @@ inside the container to create certificate and key when expired.
 
 **TODO: disable non-https connections**
 
-### Private Key Authentication
+### 10. Private Key Authentication
 
 To enable SSH login through private key:
 
@@ -453,7 +449,7 @@ sudo service ssh restart
 
 6) Open port 22 on router
 
-### Jupyter Notebook 
+### 11. Jupyter Notebook 
 ```console
 sudo su - \
 && apt-get update \
@@ -492,7 +488,7 @@ cd && mkdir jupyter_keys && cd ~/jupyter_keys/ \
 && chmod 600 ~/jupyter_keys/* 
 ```
 
-### Minidlna Server
+### 12. Minidlna Server
 Using docker:
 
 ```console
@@ -508,7 +504,7 @@ Using docker:
 ```
 Based on: https://github.com/djdefi/rpi-docker-minidlna
 
-### REST API Server
+### 13. REST API Server
 
 It is used to control Raspberry Pi features
 
