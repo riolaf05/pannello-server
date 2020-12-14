@@ -40,7 +40,7 @@ spec:
         ports:
         - containerPort: 9000
         volumeMounts:
-        - mountPath: /export
+        - mountPath: /objects
           name: minio-volume        
       restartPolicy: Always
       volumes:
