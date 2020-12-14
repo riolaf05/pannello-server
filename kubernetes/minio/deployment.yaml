@@ -24,7 +24,6 @@ spec:
       - image: alexellis2/minio-armhf:latest
         imagePullPolicy: Always
         name: minio
-        #command: ["server", "/export"]
         resources:
             limits:
                 memory: "1Gi"
