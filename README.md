@@ -308,7 +308,15 @@ kubectl exec -it <pod-name> mongo admin
 
 [Reference](https://hub.docker.com/r/andresvidal/rpi3-mongodb3/)
 
-### 9. Container Monitoring 
+### 9. MinIO
+
+```console
+cd kubernetes/minio/
+```
+
+Apply all items.
+
+### 10. Container Monitoring 
 
 Install Portainer: (see: https://blog.hypriot.com/post/new-docker-ui-portainer/)
 
@@ -318,7 +326,7 @@ docker run -it --restart=unless-stopped -v /var/run/docker.sock:/var/run/docker.
 
 and open port 9000 on Raspberry master node to enable containers monitoring page. 
 
-### 10. PHP Control Panel 
+## PHP Control Panel 
 
 Note: for each change upload image in pannello-server\startbootstrap-shop-item-gh-pages first with:
 ```console
@@ -345,7 +353,7 @@ helm install panel pannello-server/kubernetes/lamp/charts/control-panel
 
 to install with helm package manager.
 
-#### Control Panel installation with Docker
+## Control Panel installation with Docker
 
 0) install docker-ce and vcgencmd on local machine
 
