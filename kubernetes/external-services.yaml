@@ -1,0 +1,44 @@
+cat <<EOF | sudo kubectl apply -f -
+apiVersion: v1
+kind: Service
+metadata:
+  name: mlflowui-service
+spec:
+  loadBalancerIP: 192.168.1.9
+  ports:
+  - port: 5000
+    targetPort: 5000
+  selector:
+    k8s-app: mlflowui
+  type: LoadBalancer
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio-service
+spec:
+  loadBalancerIP: 192.168.1.10
+  ports:
+  - port: 9000
+    targetPort: 9000
+  selector:
+    k8s-app: minio
+  type: LoadBalancer
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodered-service
+spec:
+  loadBalancerIP: 192.168.1.10
+  ports:
+  - port: 1880
+    targetPort: 1880
+  selector:
+    k8s-app: nodered
+  type: LoadBalancer
+EOF
