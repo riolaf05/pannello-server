@@ -1,0 +1,50 @@
+cat <<EOF | sudo kubectl apply -f -
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+  annotations:
+    metallb.universe.tf/address-pool: production-public-ips
+spec:
+  loadBalancerIP: 192.168.1.240
+  ports:
+  - port: 3306
+    targetPort: 3306
+  selector:
+    app: mysql
+  type: LoadBalancer
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio-service
+  annotations:
+    metallb.universe.tf/address-pool: production-public-ips
+spec:
+  loadBalancerIP: 192.168.1.240
+  ports:
+  - port: 9000
+    targetPort: 9000
+  selector:
+    app: minio
+  type: LoadBalancer
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mosquitto-service
+  annotations:
+    metallb.universe.tf/address-pool: production-public-ips
+spec:
+  loadBalancerIP: 192.168.1.240
+  ports:
+  - port: 1883
+    targetPort: 1883
+  selector:
+    app: mosquitto
+  type: LoadBalancer
+EOF
