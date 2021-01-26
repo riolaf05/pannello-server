@@ -19,7 +19,7 @@ spec:
       labels:
         k8s-app: mlflow
     spec:
-      nodeName: raspberrypi1
+      nodeName: raspberrypitest
       containers:
       - image: rio05docker/continuos_learning_ui:latest
         imagePullPolicy: Always
