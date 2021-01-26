@@ -275,13 +275,17 @@ WIP
 ### 6. Nodered
 
 ```console
+kubectl apply -f kubernetes/nodered/persistentVolume.yaml
+kubectl apply -f kubernetes/nodered/persistentVolumeClaim.yaml
 kubectl apply -f kubernetes/nodered/deployment.yaml
-kubectl expose deployment nodered --type=LoadBalancer --name=nodered --port 1880
+kubectl expose deployment nodered --type=NodePort --name=nodered-svc --port 1880
 ```
 
 ### 7. Mosquitto
 
 ```console
+kubectl apply -f kubernetes/nodered/persistentVolume.yaml
+kubectl apply -f kubernetes/nodered/persistentVolumeClaim.yaml
 kubectl apply -f kubernetes/mosquitto/deployment.yaml
 kubectl expose deployment mosquitto --type=LoadBalancer --name=mosquitto --port 1883
 ```
@@ -323,7 +327,9 @@ kubectl exec -it <pod-name> mongo admin
 ### 9. MinIO
 
 ```console
-cd kubernetes/minio/
+kubectl apply -f kubernetes/nodered/persistentVolume.yaml
+kubectl apply -f kubernetes/nodered/persistentVolumeClaim.yaml
+kubectl apply -f kubernetes/nodered/deployment.yaml
 ```
 
 Apply all items.
