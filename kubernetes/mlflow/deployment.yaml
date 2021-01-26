@@ -36,6 +36,12 @@ spec:
             value: C.UTF-8
           - name: LC_ALL
             value: C.UTF-8
+          - name: MLFLOW_S3_ENDPOINT_URL
+            value: http://192.168.1.9:32590
+          - name: AWS_ACCESS_KEY_ID
+            value: minio
+          - name: AWS_SECRET_ACCESS_KEY
+            value: minio123
         ports:
         - containerPort: 5000
         volumeMounts:
