@@ -13,13 +13,4 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/home/pi/volume/nodered"
-  nodeAffinity: #PersistentVolume nodeAffinity is required when using local volumes.
-                #It enables the Kubernetes scheduler to correctly schedule Pods using local volumes to the correct node.
-    required:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - raspberrypi1
+    path: "/volumes/nodered"
