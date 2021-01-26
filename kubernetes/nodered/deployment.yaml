@@ -19,7 +19,7 @@ spec:
       labels:
         app: nodered
     spec:
-      nodeName: raspberrypi1
+      nodeName: raspberrypitest
       containers:
       - image: nodered/node-red:1.2.0-10-arm32v7
         imagePullPolicy: Always
@@ -33,11 +33,11 @@ spec:
                 memory: "30Mi"
         ports:
         - containerPort: 1880
-        volumeMounts:
-        - mountPath: /data
-          name: nodered-volume
+        #volumeMounts:
+        #- mountPath: /data
+        #  name: nodered-volume
       restartPolicy: Always
-      volumes:
-      - name: nodered-volume
-        persistentVolumeClaim:
-          claimName: nodered-claim
+      #volumes:
+      #- name: nodered-volume
+      #  persistentVolumeClaim:
+      #    claimName: nodered-claim

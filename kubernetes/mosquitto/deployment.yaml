@@ -15,7 +15,7 @@ spec:
       labels:
         app: mosquitto
     spec:
-      nodeName: raspberrypi
+      nodeName: raspberrypitest
       containers:
       - image: eclipse-mosquitto
         imagePullPolicy: Always
@@ -29,11 +29,11 @@ spec:
                 memory: "30Mi"
         ports:
         - containerPort: 1883
-        volumeMounts:
-        - mountPath: /mosquitto/data
-          name: mosquitto-volume
+        #volumeMounts:
+        #- mountPath: /mosquitto/data
+        #  name: mosquitto-volume
       restartPolicy: Always
-      volumes:
-      - name: mosquitto-volume
-        persistentVolumeClaim:
-          claimName: mosquitto-claim
+      #volumes:
+      #- name: mosquitto-volume
+      #  persistentVolumeClaim:
+      #    claimName: mosquitto-claim
