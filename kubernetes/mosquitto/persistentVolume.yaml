@@ -13,13 +13,5 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/media/pi/extHD1/mosquitto/"
-  nodeAffinity: #PersistentVolume nodeAffinity is required when using local volumes.
-                #It enables the Kubernetes scheduler to correctly schedule Pods using local volumes to the correct node.
-    required:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - raspberrypi
+    path: "/volumes/mosquitto/"
+ 
