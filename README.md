@@ -134,6 +134,16 @@ docker buildx inspect --bootstrap
 docker buildx build --platform linux/arm,linux/arm64,linux/amd64 -t timtsai2018/hello . --push
 ```
 
+## Install Helm on Raspberry Pi
+
+```console
+wget https://get.helm.sh/helm-v3.5.0-linux-arm.tar.gz
+tar -zxvf helm-v3.5.0-linux-arm.tar.gz 
+rm helm-v3.5.0-linux-arm.tar.gz
+sudo mv linux-arm/helm /usr/local/bin/helm
+helm repo add stable "https://charts.helm.sh/stable
+helm repo update
+```
 ## Services
 
 ### 1. Load Balancing
