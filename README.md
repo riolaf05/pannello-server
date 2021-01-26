@@ -141,8 +141,10 @@ wget https://get.helm.sh/helm-v3.5.0-linux-arm.tar.gz
 tar -zxvf helm-v3.5.0-linux-arm.tar.gz 
 rm helm-v3.5.0-linux-arm.tar.gz
 sudo mv linux-arm/helm /usr/local/bin/helm
+sudo rm -r linux-arm/
 helm repo add stable "https://charts.helm.sh/stable
 helm repo update
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 ```
 ## Services
 
