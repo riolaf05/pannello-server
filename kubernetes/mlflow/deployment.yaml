@@ -22,7 +22,7 @@ spec:
       nodeName: raspberrypi1
       containers:
       - image: rio05docker/mlflow_arm:latest
-        imagePullPolicy: mlflow
+        imagePullPolicy: Always
         name: mlflow
         resources:
             limits:
