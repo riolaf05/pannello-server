@@ -1,0 +1,48 @@
+#Pod’s configuration file specifies a PersistentVolumeClaim,
+#but it does not specify a PersistentVolume.
+#From the Pod’s point of view, the claim is a volume.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mlflow
+  labels:
+    k8s-app: mlflow
+spec:
+  replicas: 1
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      k8s-app: mlflow
+  template:
+    metadata:
+      labels:
+        k8s-app: mlflow
+    spec:
+      nodeName: raspberrypi1
+      containers:
+      - image: mlflowui
+        imagePullPolicy: mlflow
+        name: mlflow
+        resources:
+            limits:
+                memory: "1Gi"
+                cpu: "1"
+            requests:
+                cpu: "100m"
+                memory: "30Mi"
+        env:
+          - name: LANG
+            value: C.UTF-8
+          - name: LC_ALL
+            value: C.UTF-8
+        ports:
+        - containerPort: 5000
+        volumeMounts:
+        - mountPath: /tmp/mlflowruns
+          name: mlflow-volume        
+      restartPolicy: Always
+      volumes:
+      - name: mlflow-volume
+        persistentVolumeClaim:
+          claimName: mlflow-claim
