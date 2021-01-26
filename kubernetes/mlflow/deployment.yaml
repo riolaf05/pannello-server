@@ -21,7 +21,7 @@ spec:
     spec:
       nodeName: raspberrypi1
       containers:
-      - image: mlflowui
+      - image: rio05docker/mlflow_arm:latest
         imagePullPolicy: mlflow
         name: mlflow
         resources:
