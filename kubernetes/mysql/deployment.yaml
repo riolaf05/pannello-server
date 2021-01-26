@@ -19,7 +19,7 @@ spec:
       labels:
         k8s-app: mysql
     spec:
-      nodeName: raspberrypi1
+      nodeName: raspberrypitest
       containers:
       - image: hypriot/rpi-mysql
         imagePullPolicy: Always
