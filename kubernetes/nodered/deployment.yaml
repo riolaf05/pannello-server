@@ -33,11 +33,11 @@ spec:
                 memory: "30Mi"
         ports:
         - containerPort: 1880
-        #volumeMounts:
-        #- mountPath: /data
-        #  name: nodered-volume
+        volumeMounts:
+        - mountPath: /data
+          name: nodered-volume
       restartPolicy: Always
-      #volumes:
-      #- name: nodered-volume
-      #  persistentVolumeClaim:
-      #    claimName: nodered-claim
+      volumes:
+      - name: nodered-volume
+        persistentVolumeClaim:
+          claimName: nodered-claim
