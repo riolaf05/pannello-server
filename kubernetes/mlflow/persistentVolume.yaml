@@ -11,10 +11,10 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: mysql-volume
+  name: mlflow-volume
   labels:
     #type: local
-    app: mysql
+    app: mlflow
 spec:
   storageClassName: local-storage
   capacity:
@@ -23,7 +23,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/volumes/mysql/"
+    path: "/media/pi/extHD1/mlflow/"
   nodeAffinity: #PersistentVolume nodeAffinity is required when using local volumes.
                 #It enables the Kubernetes scheduler to correctly schedule Pods using local volumes to the correct node.
     required:
@@ -32,4 +32,4 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - raspberrypitest
+          - raspberrypi1

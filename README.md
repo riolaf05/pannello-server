@@ -134,20 +134,51 @@ docker buildx inspect --bootstrap
 docker buildx build --platform linux/arm,linux/arm64,linux/amd64 -t timtsai2018/hello . --push
 ```
 
+## Install Helm on Raspberry Pi
+
+```console
+wget https://get.helm.sh/helm-v3.5.0-linux-arm.tar.gz
+tar -zxvf helm-v3.5.0-linux-arm.tar.gz 
+rm helm-v3.5.0-linux-arm.tar.gz
+sudo mv linux-arm/helm /usr/local/bin/helm
+sudo rm -r linux-arm/
+helm repo add stable "https://charts.helm.sh/stable
+helm repo update
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+```
 ## Services
 
-### Nginx Ingress Controller
+### 1. Load Balancing
+
+By default, the applications deployed to a Kubernetes cluster are only reachable from within the cluster (default service type is ClusterIP). To make them reachable from outside the cluster you can either configure the service with the type NodePort, which exposes the service on each node's IP at a static port, or you can use a load balancer.
+
+NodePort services are, however, quite limited: they use their own dedicated port range and we can only differentiate apps by their port number. 
+
+For these reasons, we decided to deploy [MetalLB](https://metallb.universe.tf), a load-balancer implementation that is intended for bare metal clusters.
+
+To deploy the load balancer use Helm3: 
+
+```console
+helm install metallb stable/metallb --namespace kube-system \
+  --set configInline.address-pools[0].name=default \
+  --set configInline.address-pools[0].protocol=layer2 \
+  --set configInline.address-pools[0].addresses[0]=192.168.1.240-192.168.1.250
+```
+
+The kubernetes/load-balancer folder contains the configMaps for MetalLB. 
+
+[Source](https://kauri.io/38-install-and-configure-a-kubernetes-cluster-with/418b3bc1e0544fbc955a4bbba6fff8a9/a)
+
+### 2. Ingress Controller
+#### Nginx
 
 1. Deploy ingress controller with Helm3
 
 ```console
-helm install -n kube-system \
-nginx-ingress stable/nginx-ingress \
---set rbac.create=true \
---set controller.service.type=NodePort \
---set controller.service.nodePorts.http=32080 \
---set controller.service.nodePorts.https=32443 \
---set defaultBackend.enabled=false
+helm install nginx-ingress stable/nginx-ingress --namespace kube-system \
+    --set rbac.create=true \
+    --set defaultBackend.enabled=false \
+    --set controller.publishService.enabled=true
 ```
 
 2. Update image for arm:
@@ -170,7 +201,7 @@ kubectl apply -f kubernetes/ingress/nginx-ingress.yaml
 
 5. Add `myedgegateway.com` to `/etc/hosts` using the IP address found in `kubectl get ingress edge-gateway-ingress`.
 
-### Traefik Ingress Controller
+#### Traefik Ingress Controller
 
 Not the built-in Traefik install to install with a custom configuration:
 
@@ -178,34 +209,54 @@ Not the built-in Traefik install to install with a custom configuration:
 ./kubernetes/ingress/install.sh
 ```
 
-### Load Balancing
+### 3. Cert-manager
 
-By default, the applications deployed to a Kubernetes cluster are only reachable from within the cluster (default service type is ClusterIP). To make them reachable from outside the cluster you can either configure the service with the type NodePort, which exposes the service on each node's IP at a static port, or you can use a load balancer.
+Cert Manager is a set of Kubernetes tools used to automatically deliver and manage x509 certificates against the ingress and consequently secure via SSL all the HTTP routes with almost no configuration.
 
-NodePort services are, however, quite limited: they use their own dedicated port range and we can only differentiate apps by their port number. 
-
-For these reasons, we decided to deploy [MetalLB](https://metallb.universe.tf), a load-balancer implementation that is intended for bare metal clusters.
-
-To deploy the load balancer use: 
+1. Install the CustomResourceDefinition resources:
 
 ```console
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
+kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.16.0/cert-manager.crds.yaml
 ```
 
-The kubernetes/load-balancer folder contains the configMaps for MetalLB. 
+2. Install with Helm3
 
-Source: https://blog.boogiesoftware.com/2019/03/building-light-weight-kubernetes.html
+```console
+helm repo add jetstack https://charts.jetstack.io && helm repo update
+helm install cert-manager jetstack/cert-manager --namespace kube-system  --version v0.16.0
+```
 
-### CircleCI Continuous Integration 
+3. Configure the certificate issuers
 
-Actually CircleCI will be triggered on each commit on master branch.
+The Certificate issuers are resources from which signed x509 certificates can be obtained, such as **Let’s Encrypt**:
 
-It will build docker images with each new change and will push those changes on Docker Hub.
+Run the following commands (change <EMAIL> by your email):
 
-TODO: enable the build step which do the rollout of the kubernetes resources on the cluster. 
+```console
+cat <<EOF | kubectl apply -f -
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-gateway
+spec:
+  acme:
+    email: <EMAIL>
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-gateway
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+EOF
+```
 
-### Monitoring 
+4. Launch Ingress:
+
+```console
+kubectl apply -f  kubernetes/ingress/nginx-ingress-ssl.yaml
+```
+### 4. Monitoring 
 
 Intall **Prometheus-Operator** (thanks to [carlosedp/cluster-monitoring](https://github.com/carlosedp/cluster-monitoring))
 
@@ -217,7 +268,73 @@ sudo dpkg -i ./octant_0.16.1_Linux-ARM.deb
 nohup bash -c "OCTANT_LISTENER_ADDR=0.0.0.0:8900 octant &"
 ```
 
-### Container Monitoring 
+### 5. CDCD
+
+WIP
+
+### 6. Nodered
+
+```console
+kubectl apply -f kubernetes/nodered/persistentVolume.yaml
+kubectl apply -f kubernetes/nodered/persistentVolumeClaim.yaml
+kubectl apply -f kubernetes/nodered/deployment.yaml
+kubectl expose deployment nodered --type=NodePort --name=nodered-svc --port 1880
+```
+
+### 7. Mosquitto
+
+```console
+kubectl apply -f kubernetes/nodered/persistentVolume.yaml
+kubectl apply -f kubernetes/nodered/persistentVolumeClaim.yaml
+kubectl apply -f kubernetes/mosquitto/deployment.yaml
+kubectl expose deployment mosquitto --type=LoadBalancer --name=mosquitto --port 1883
+```
+
+### 8. MongoDB
+
+```console
+kubectl apply -f kubernetes/mongodb/persistentVolume.yaml
+kubectl apply -f kubernetes/mongodb/persistentVolumeClaim.yaml
+kubectl apply -f kubernetes/mongodb/deployment.yaml
+kubectl expose deployment mongo --type=LoadBalancer --name=mongo-service --port 27017
+```
+
+To log in the first time:
+
+1. `kubectl exec -it <pod-name> mongo admin`
+
+2. Replace `[username]` and `[password]`
+
+```console
+db.createUser({ user: "[username]", pwd: "[password]", roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] })
+```
+
+3. Creating a Database and add a User with permissions:
+
+```console
+kubectl exec -it <pod-name> mongo admin
+> db.auth("admin", "adminpassword")
+
+> use yourdatabase
+> db.createUser({ user: "youruser", pwd: "yourpassword", roles: [{ role: "dbOwner", db: "yourdatabase" }] })
+
+> db.auth("youruser", "yourpassword")
+> show collections
+```
+
+[Reference](https://hub.docker.com/r/andresvidal/rpi3-mongodb3/)
+
+### 9. MinIO
+
+```console
+kubectl apply -f kubernetes/nodered/persistentVolume.yaml
+kubectl apply -f kubernetes/nodered/persistentVolumeClaim.yaml
+kubectl apply -f kubernetes/nodered/deployment.yaml
+```
+
+Apply all items.
+
+### 10. Container Monitoring 
 
 Install Portainer: (see: https://blog.hypriot.com/post/new-docker-ui-portainer/)
 
@@ -227,21 +344,7 @@ docker run -it --restart=unless-stopped -v /var/run/docker.sock:/var/run/docker.
 
 and open port 9000 on Raspberry master node to enable containers monitoring page. 
 
-### Nodered
-
-```console
-kubectl apply -f kubernetes/nodered/deployment.yaml
-kubectl expose deployment nodered --type=LoadBalancer --name=nodered --port 1880
-```
-
-### Mosquitto
-
-```console
-kubectl apply -f kubernetes/mosquitto/deployment.yaml
-kubectl expose deployment mosquitto --type=LoadBalancer --name=mosquitto --port 1883
-```
-
-### PHP Control Panel 
+## PHP Control Panel 
 
 Note: for each change upload image in pannello-server\startbootstrap-shop-item-gh-pages first with:
 ```console
@@ -268,7 +371,7 @@ helm install panel pannello-server/kubernetes/lamp/charts/control-panel
 
 to install with helm package manager.
 
-#### Control Panel installation with Docker
+## Control Panel installation with Docker
 
 0) install docker-ce and vcgencmd on local machine
 
@@ -341,7 +444,7 @@ inside the container to create certificate and key when expired.
 
 **TODO: disable non-https connections**
 
-### Private Key Authentication
+### 10. Private Key Authentication
 
 To enable SSH login through private key:
 
@@ -372,7 +475,7 @@ sudo service ssh restart
 
 6) Open port 22 on router
 
-### Jupyter Notebook 
+### 11. Jupyter Notebook 
 ```console
 sudo su - \
 && apt-get update \
@@ -411,7 +514,7 @@ cd && mkdir jupyter_keys && cd ~/jupyter_keys/ \
 && chmod 600 ~/jupyter_keys/* 
 ```
 
-### Minidlna Server
+### 12. Minidlna Server
 Using docker:
 
 ```console
@@ -427,7 +530,7 @@ Using docker:
 ```
 Based on: https://github.com/djdefi/rpi-docker-minidlna
 
-### REST API Server
+### 13. REST API Server
 
 It is used to control Raspberry Pi features
 

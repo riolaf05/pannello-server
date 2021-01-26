@@ -5,25 +5,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nodered
+  name: mongo
   labels:
-    rioiotplatform: nodered
+    k8s-app: mongo
 spec:
   replicas: 1
   revisionHistoryLimit: 5
   selector:
     matchLabels:
-      app: nodered
+      k8s-app: mongo
   template:
     metadata:
       labels:
-        app: nodered
+        k8s-app: mongo
     spec:
-      nodeName: raspberrypitest
+      nodeName: raspberrypi1
       containers:
-      - image: nodered/node-red:1.2.0-10-arm32v7
+      - image: andresvidal/rpi3-mongodb3
         imagePullPolicy: Always
-        name: nodered
+        name: mongo
         resources:
             limits:
                 memory: "1Gi"
@@ -31,13 +31,16 @@ spec:
             requests:
                 cpu: "100m"
                 memory: "30Mi"
+        #env:
+        #- name: 
+        #  value: 
         ports:
-        - containerPort: 1880
-        #volumeMounts:
-        #- mountPath: /data
-        #  name: nodered-volume
+        - containerPort: 27017
+        volumeMounts:
+        - mountPath: /data/db
+          name: mongo-volume        
       restartPolicy: Always
-      #volumes:
-      #- name: nodered-volume
-      #  persistentVolumeClaim:
-      #    claimName: nodered-claim
+      volumes:
+      - name: mongo-volume
+        persistentVolumeClaim:
+          claimName: mongo-claim

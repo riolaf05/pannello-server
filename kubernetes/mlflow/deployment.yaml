@@ -5,25 +5,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nodered
+  name: mlflow
   labels:
-    rioiotplatform: nodered
+    k8s-app: mlflow
 spec:
   replicas: 1
   revisionHistoryLimit: 5
   selector:
     matchLabels:
-      app: nodered
+      k8s-app: mlflow
   template:
     metadata:
       labels:
-        app: nodered
+        k8s-app: mlflow
     spec:
-      nodeName: raspberrypitest
+      nodeName: raspberrypi1
       containers:
-      - image: nodered/node-red:1.2.0-10-arm32v7
+      - image: rio05docker/mlflow_arm:latest
         imagePullPolicy: Always
-        name: nodered
+        name: mlflow
         resources:
             limits:
                 memory: "1Gi"
@@ -31,13 +31,18 @@ spec:
             requests:
                 cpu: "100m"
                 memory: "30Mi"
+        env:
+          - name: LANG
+            value: C.UTF-8
+          - name: LC_ALL
+            value: C.UTF-8
         ports:
-        - containerPort: 1880
-        #volumeMounts:
-        #- mountPath: /data
-        #  name: nodered-volume
+        - containerPort: 5000
+        volumeMounts:
+        - mountPath: /tmp/mlflowruns
+          name: mlflow-volume        
       restartPolicy: Always
-      #volumes:
-      #- name: nodered-volume
-      #  persistentVolumeClaim:
-      #    claimName: nodered-claim
+      volumes:
+      - name: mlflow-volume
+        persistentVolumeClaim:
+          claimName: mlflow-claim

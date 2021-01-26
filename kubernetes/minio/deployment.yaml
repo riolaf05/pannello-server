@@ -5,25 +5,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nodered
+  name: minio
   labels:
-    rioiotplatform: nodered
+    k8s-app: minio
 spec:
   replicas: 1
   revisionHistoryLimit: 5
   selector:
     matchLabels:
-      app: nodered
+      k8s-app: minio
   template:
     metadata:
       labels:
-        app: nodered
+        k8s-app: minio
     spec:
-      nodeName: raspberrypitest
+      nodeName: raspberrypi1
       containers:
-      - image: nodered/node-red:1.2.0-10-arm32v7
+      - image: alexellis2/minio-armhf:latest
         imagePullPolicy: Always
-        name: nodered
+        name: minio
         resources:
             limits:
                 memory: "1Gi"
@@ -31,13 +31,18 @@ spec:
             requests:
                 cpu: "100m"
                 memory: "30Mi"
+        env:
+        - name: MINIO_ACCESS_KEY
+          value: minio
+        - name: MINIO_SECRET_KEY
+          value: minio123
         ports:
-        - containerPort: 1880
-        #volumeMounts:
-        #- mountPath: /data
-        #  name: nodered-volume
+        - containerPort: 9000
+        volumeMounts:
+        - mountPath: /objects
+          name: minio-volume        
       restartPolicy: Always
-      #volumes:
-      #- name: nodered-volume
-      #  persistentVolumeClaim:
-      #    claimName: nodered-claim
+      volumes:
+      - name: minio-volume
+        persistentVolumeClaim:
+          claimName: minio-claim
